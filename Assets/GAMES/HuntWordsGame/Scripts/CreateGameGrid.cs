@@ -72,10 +72,9 @@ public class CreateGameGrid : MonoBehaviour
             cachedTextComponentFromcolumHeaderTextBox.fontSize = currentWordsGrid.boxConfiguration.fontSize;
 
             RectTransform cachedRectTransformFromcolumHeaderTextBox = columHeaderTextBox.GetComponent<RectTransform>();
-            cachedRectTransformFromcolumHeaderTextBox.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, currentWordsGrid.gameGridConfiguration.cellSize.x);
-            cachedRectTransformFromcolumHeaderTextBox.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, currentWordsGrid.gameGridConfiguration.cellSize.y);
+            cachedRectTransformFromcolumHeaderTextBox.anchorMin = Vector2.zero;
+            cachedRectTransformFromcolumHeaderTextBox.anchorMax = Vector2.one;
             cachedRectTransformFromcolumHeaderTextBox.SetParent(columHeaderImageBox.transform);
-
 
             columHeaderImageBox.GetComponent<RectTransform>().SetParent(gameObjectParent);
             columHeaderImageBox.SetActive(true);

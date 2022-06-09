@@ -49,6 +49,9 @@ public class HuntWordsBoardCustomEditor : Editor
         EditorGUILayout.Space(2);
 
         EditorGUILayout.PropertyField(serializedObject.FindProperty("boxConfiguration"), true);
+        EditorGUILayout.Space(2);
+
+        EditorGUILayout.PropertyField(serializedObject.FindProperty("wordsToSearchTipsGridConfiguration"), true);
         serializedObject.ApplyModifiedProperties();
     }
 

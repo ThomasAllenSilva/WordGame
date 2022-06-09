@@ -12,7 +12,7 @@ public class HuntWordsSO : ScriptableObject
     public Colum[] columns;
     public GridConfiguration gameGridConfiguration = new GridConfiguration();
     public BoxConfiguration boxConfiguration = new BoxConfiguration();
-
+    public WordsToSearchTipsGridConfiguration wordsToSearchTipsGridConfiguration = new WordsToSearchTipsGridConfiguration();
 
 
     [System.Serializable]
@@ -62,6 +62,16 @@ public class HuntWordsSO : ScriptableObject
         public int fontSize;
         public Color32[] completedColor = new Color32[10];
     }
+
+    [System.Serializable]
+    public class WordsToSearchTipsGridConfiguration
+    {
+        public int paddingLeft;
+        public int paddingTop;
+        public Vector2 cellSize;
+        public Vector2 spacing;
+    }
+
 
     public void CreateNewColum()
     {

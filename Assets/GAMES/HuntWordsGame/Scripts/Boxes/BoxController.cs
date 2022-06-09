@@ -8,11 +8,11 @@ public class BoxController : MonoBehaviour
 
     protected Image boxImage;
 
-    protected Box[] boxesThatCanBeChecked = new Box[8];
+    [SerializeField] protected Box[] boxesThatCanBeChecked;
 
     protected bool thisBoxIsChecked;
     
-    protected bool canThisBoxBeSelected;
+    [SerializeField] protected bool canThisBoxBeSelected;
 
     public bool isLetterCompleted;
 
@@ -29,7 +29,7 @@ public class BoxController : MonoBehaviour
         boxChildText = GetComponentInChildren<Text>();
         boxImage = GetComponent<Image>();
 
-        PlayerTouchController.TouchUp += ResetAllBoxValues;
+        PlayerTouchController.Instance.TouchUp += ResetAllBoxValues;
     }
 
     protected void ChangeBoxColor(Color newColor)
@@ -119,5 +119,10 @@ public class BoxController : MonoBehaviour
         {
             allCurrentBoxesThatAreChecked[i] = null;
         }
+    }
+
+    private void OnDestroy()
+    {
+        PlayerTouchController.Instance.TouchUp -= ResetAllBoxValues;
     }
 }

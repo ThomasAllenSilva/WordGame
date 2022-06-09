@@ -13,51 +13,51 @@ MonoBehaviour:
   m_Name: HuntWordBoard
   m_EditorClassIdentifier: 
   wordsToSearchInThisLevel:
-  - "LE\xC3O"
   - "R\xC3"
   - TIGRE
+  - "LE\xC3O"
   - MACACO
-  - BOI
   - ZEBRA
+  - BOI
   numberOfColumns: 6
   numberOfLines: 5
   columns:
   - letterOnThisColum:
-    - O
-    - B
-    - C
-    - A
-    - C
-  - letterOnThisColum:
-    - I
-    - M
-    - A
-    - A
-    - O
-  - letterOnThisColum:
-    - E
-    - Z
-    - "\xC3"
-    - R
-    - P
-  - letterOnThisColum:
-    - B
-    - R
-    - P
-    - E
+    - V
     - L
-  - letterOnThisColum:
-    - J
     - A
+    - R
+    - B
+  - letterOnThisColum:
+    - A
+    - M
     - O
-    - "\xC3"
-    - Q
+    - Z
+    - E
+  - letterOnThisColum:
+    - C
+    - A
+    - C
+    - K
+    - R
   - letterOnThisColum:
     - T
     - I
     - G
+    - T
+    - "\xC3"
+  - letterOnThisColum:
+    - N
+    - B
     - R
+    - "\xC3"
     - E
+  - letterOnThisColum:
+    - I
+    - O
+    - E
+    - O
+    - L
   gameGridConfiguration:
     paddingLeft: 130
     paddingTop: 1600
@@ -79,3 +79,8 @@ MonoBehaviour:
       rgba: 4283644003
     - serializedVersion: 2
       rgba: 4284974179
+  wordsToSearchTipsGridConfiguration:
+    paddingLeft: 132
+    paddingTop: 2600
+    cellSize: {x: 365, y: 110}
+    spacing: {x: 270, y: 200}

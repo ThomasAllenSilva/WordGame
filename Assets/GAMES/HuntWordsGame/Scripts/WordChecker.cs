@@ -52,6 +52,7 @@ public class WordChecker : MonoBehaviour
             if(wordToFill == wordsToSearch[i])
             {
                 SetAllCurrentBoxesCheckedAsComplete();
+                WordToSearchFieldsController.SetWordUIFieldComplete(i);
                 currentColorIndex += 1;
             }
         }

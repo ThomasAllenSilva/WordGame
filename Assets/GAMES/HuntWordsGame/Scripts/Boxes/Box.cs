@@ -15,7 +15,7 @@ public class Box : BoxController, IPointerDownHandler, IPointerEnterHandler
     {
         if (!isLetterCompleted)
         {
-            PlayerTouch.Instance.isTouchingTheScreen = true;
+            PlayerTouchController.Instance.isTouchingTheScreen = true;
             WordChecker.Instance.AddLetterToWordToFill(boxChildText.text);
             theFirstBoxChecked = this;
             SetThisBoxChecked();
@@ -43,49 +43,71 @@ public class Box : BoxController, IPointerDownHandler, IPointerEnterHandler
 
     private bool IsNotCheckedAndCanSelectThisBox()
     {
-        return PlayerTouch.Instance.isTouchingTheScreen && canThisBoxBeSelected && !isLetterCompleted && !thisBoxIsChecked && amountOfBoxesThatAreChecked < 9;
+        return PlayerTouchController.Instance.isTouchingTheScreen && canThisBoxBeSelected && !isLetterCompleted && !thisBoxIsChecked && amountOfBoxesThatAreChecked < 9;
     }
 
     private bool IsCheckedAndCanSelectThisBox()
     {
-        return PlayerTouch.Instance.isTouchingTheScreen && canThisBoxBeSelected && !isLetterCompleted && thisBoxIsChecked && this == allCurrentBoxesThatAreChecked[amountOfBoxesThatAreChecked - 1];
+        return PlayerTouchController.Instance.isTouchingTheScreen && canThisBoxBeSelected && !isLetterCompleted && thisBoxIsChecked && this == allCurrentBoxesThatAreChecked[amountOfBoxesThatAreChecked - 1];
     }
 
     private IEnumerator GetDirectionalBoxes()
     {
-
+        
         yield return new WaitForEndOfFrame();
 
         yield return new WaitForEndOfFrame();
 
-        yield return new WaitForEndOfFrame();
-
-        RaycastHit2D[] hit = new RaycastHit2D[8];
-        float rayXDistance = 75f;
-        float rayYDistance = 75f;
+        RaycastHit2D[] hit = new RaycastHit2D[4];
+        float rayXDistance = 100f;
+        float rayYDistance = 100f;
 
 
-        hit[4] = Physics2D.Raycast(transform.position + new Vector3(100f, 0f), new Vector2(rayXDistance, 0f));
-        hit[5] = Physics2D.Raycast(transform.position + new Vector3(-100f, 0f), new Vector2(-rayXDistance, 0f));
+        hit[0] = Physics2D.Raycast(transform.position, new Vector2(rayXDistance, 0f));
+        hit[1] = Physics2D.Raycast(transform.position, new Vector2(-rayXDistance, 0f));
 
-        hit[6] = Physics2D.Raycast(transform.position + new Vector3(0f, 100f), new Vector2(0f, rayYDistance));
-        hit[7] = Physics2D.Raycast(transform.position + new Vector3(0f, -100f), new Vector2(0f, -rayYDistance));
+        hit[2] = Physics2D.Raycast(transform.position, new Vector2(0f, rayYDistance));
+        hit[3] = Physics2D.Raycast(transform.position, new Vector2(0f, -rayYDistance));
 
+        boxesThatCanBeChecked = new Box[hit.Length];
 
         for (int i = 0; i < hit.Length; i++)
         {
-            if (hit[i].collider != null && this != BoxController.currentPrincipalBoxChecked)
+         
+
+            if (hit[i].collider != null)
             {
                 boxesThatCanBeChecked[i] = hit[i].collider.GetComponent<Box>();
-                hit[i].collider.GetComponent<Box>().canThisBoxBeSelected = false;
+
+                if (this != BoxController.currentPrincipalBoxChecked)
+                {
+                    boxesThatCanBeChecked[i] = hit[i].collider.GetComponent<Box>();
+                    hit[i].collider.GetComponent<Box>().canThisBoxBeSelected = false;
+                }
+
+                else if (this == BoxController.currentPrincipalBoxChecked)
+                {
+                    boxesThatCanBeChecked[i] = hit[i].collider.GetComponent<Box>();
+                    hit[i].collider.GetComponent<Box>().canThisBoxBeSelected = true;
+                }
             }
 
-            else if (hit[i].collider != null && this == BoxController.currentPrincipalBoxChecked)
-            {
-                boxesThatCanBeChecked[i] = hit[i].collider.GetComponent<Box>();
-                hit[i].collider.GetComponent<Box>().canThisBoxBeSelected = true;
-            }
+
         }
+
+    }
+
+    private void OnDrawGizmos()
+    {
+        float rayXDistance = 100f;
+        float rayYDistance = 100f;
+
+        Gizmos.DrawRay(transform.position, new Vector2(rayXDistance, 0f));
+        Gizmos.DrawRay(transform.position, new Vector2(-rayXDistance, 0f));
+
+
+        Gizmos.DrawRay(transform.position, new Vector2(0f, rayYDistance));
+        Gizmos.DrawRay(transform.position, new Vector2(0f, -rayYDistance));
 
     }
 }
