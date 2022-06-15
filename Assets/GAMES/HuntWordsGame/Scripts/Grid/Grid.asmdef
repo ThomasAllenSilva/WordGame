@@ -1,8 +1,8 @@
 {
-    "name": "HuntWordsGameDefinition",
+    "name": "Grid",
     "rootNamespace": "",
     "references": [
-        "GUID:75469ad4d38634e559750d17036d5f7c"
+        "GUID:fc0c5d8988fa3764ab64d2fe0a1a9cd7"
     ],
     "includePlatforms": [
         "Android",

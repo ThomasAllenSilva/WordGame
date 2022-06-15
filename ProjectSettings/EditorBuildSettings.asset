@@ -8,7 +8,4 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/GAMES/HuntWordsGame/Scenes/HuntWords.unity
     guid: a8583d82a2a0b0e4e945ef8e620d2bd5
-  - enabled: 1
-    path: Assets/GAMES/TypeWordsGame/Scenes/TypeWords.unity
-    guid: e623cd6ba34702247bd72ea4ea7212a7
   m_configObjects: {}

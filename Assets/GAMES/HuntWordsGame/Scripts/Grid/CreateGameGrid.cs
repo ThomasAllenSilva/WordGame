@@ -1,42 +1,27 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class CreateGameGrid : MonoBehaviour
+public class CreateGameGrid : GameGrid
 {
-
-    [SerializeField] private HuntWordsSO currentWordsGrid;
-
-    [SerializeField] private Font wordsFont;
-
     private int currentLineIndex = 0;
-
-    private Transform gameObjectParent;
-
-    private GridLayoutGroup gridLayoutGroup;
 
     int amountOfBox = 0;
 
-    private void Awake()
+    protected override void Awake()
     {
-        gridLayoutGroup = GetComponent<GridLayoutGroup>();
+        base.Awake();
 
-        gameObjectParent = this.gameObject.transform;
-
-        SetGridLaoutGroupValues();
-
-        CreateGameObjects(currentWordsGrid.numberOfColumns, currentWordsGrid.numberOfLines);
-
-        Destroy(gridLayoutGroup, 1f);
+        CreateGameObjects(currentHuntWordsLevel.numberOfColumns, currentHuntWordsLevel.numberOfLines);
 
         Destroy(this, 1f);
     }
 
-    private void SetGridLaoutGroupValues()
+    protected override void SetGridLaoutGroupValues()
     {
-        gridLayoutGroup.padding.left = currentWordsGrid.gameGridConfiguration.paddingLeft;
-        gridLayoutGroup.padding.top = currentWordsGrid.gameGridConfiguration.paddingTop;
-        gridLayoutGroup.cellSize = currentWordsGrid.gameGridConfiguration.cellSize;
-        gridLayoutGroup.spacing = currentWordsGrid.gameGridConfiguration.spacing;
+        gridLayoutGroup.padding.left = currentHuntWordsLevel.gameGridConfiguration.paddingLeft;
+        gridLayoutGroup.padding.top = currentHuntWordsLevel.gameGridConfiguration.paddingTop;
+        gridLayoutGroup.cellSize = currentHuntWordsLevel.gameGridConfiguration.cellSize;
+        gridLayoutGroup.spacing = currentHuntWordsLevel.gameGridConfiguration.spacing;
     }
 
     private void CreateGameObjects(int amountOfColumns, int amountOfLines)
@@ -50,8 +35,8 @@ public class CreateGameGrid : MonoBehaviour
             columHeaderImageBox.AddComponent<BoxCollider2D>().size = new Vector2(140f, 140f);
             columHeaderImageBox.GetComponent<BoxCollider2D>().isTrigger = true;
             columHeaderImageBox.AddComponent<Image>().color = Color.gray;
-            columHeaderImageBox.GetComponent<Image>().sprite = currentWordsGrid.boxConfiguration.boxSprite;
-            columHeaderImageBox.AddComponent<Box>();       
+            columHeaderImageBox.GetComponent<Image>().sprite = currentHuntWordsLevel.boxConfiguration.boxSprite;
+            columHeaderImageBox.AddComponent<Box>();
             columHeaderImageBox.name = "box" + amountOfBox;
 
             if (BoxController.currentPrincipalBoxChecked == null)
@@ -67,9 +52,9 @@ public class CreateGameGrid : MonoBehaviour
             Text cachedTextComponentFromcolumHeaderTextBox = columHeaderTextBox.GetComponent<Text>();
             cachedTextComponentFromcolumHeaderTextBox.color = new Color(100f, 100f, 100f, 255f);
             cachedTextComponentFromcolumHeaderTextBox.raycastTarget = false;
-            cachedTextComponentFromcolumHeaderTextBox.text = currentWordsGrid.columns[i].letterOnThisColum[currentLineIndex];
+            cachedTextComponentFromcolumHeaderTextBox.text = currentHuntWordsLevel.columns[i].letterOnThisColum[currentLineIndex];
             cachedTextComponentFromcolumHeaderTextBox.font = wordsFont;
-            cachedTextComponentFromcolumHeaderTextBox.fontSize = currentWordsGrid.boxConfiguration.fontSize;
+            cachedTextComponentFromcolumHeaderTextBox.fontSize = currentHuntWordsLevel.boxConfiguration.fontSize;
 
             RectTransform cachedRectTransformFromcolumHeaderTextBox = columHeaderTextBox.GetComponent<RectTransform>();
             cachedRectTransformFromcolumHeaderTextBox.anchorMin = Vector2.zero;
@@ -87,7 +72,7 @@ public class CreateGameGrid : MonoBehaviour
 
         if (currentLineIndex < amountOfLines)
         {
-            CreateGameObjects(currentWordsGrid.numberOfColumns, currentWordsGrid.numberOfLines);
+            CreateGameObjects(currentHuntWordsLevel.numberOfColumns, currentHuntWordsLevel.numberOfLines);
         }
     }
 }

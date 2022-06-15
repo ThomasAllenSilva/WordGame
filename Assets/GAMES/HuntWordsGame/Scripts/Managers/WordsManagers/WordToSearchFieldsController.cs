@@ -3,10 +3,9 @@ using UnityEngine.UI;
 
 public class WordToSearchFieldsController : MonoBehaviour
 {
-    private static Image[] wordsUIFields;
+    private Image[] wordsUIFields;
 
-    private static Color32 completedImageColor = new Color32(69, 212, 93, 255);
-
+    private Color32 completedImageColor = new Color32(69, 212, 93, 255);
 
     private void Start()
     {
@@ -18,7 +17,7 @@ public class WordToSearchFieldsController : MonoBehaviour
         }
     }
 
-    public static void SetWordUIFieldComplete(int fieldIndex)
+    public void SetWordUIFieldComplete(int fieldIndex)
     {
         wordsUIFields[fieldIndex].color = completedImageColor;
     }

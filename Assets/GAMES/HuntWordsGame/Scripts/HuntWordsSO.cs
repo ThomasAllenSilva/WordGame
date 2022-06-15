@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 
-[CreateAssetMenu(fileName = "HuntWordBoard", menuName = "Create NewHuntWordsList")]
+[CreateAssetMenu(fileName = "New HuntWord Level", menuName = "New HuntWords Level")]
 public class HuntWordsSO : ScriptableObject
 {
-    private const string ALPHABET = "AÃBCDEFGHIJKLMNOPQRSTUVWXYZ";
+    private const string ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     public string[] wordsToSearchInThisLevel;
 
     public int numberOfColumns;

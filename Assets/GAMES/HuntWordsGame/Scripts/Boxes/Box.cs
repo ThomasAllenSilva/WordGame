@@ -1,25 +1,24 @@
 ﻿using System.Collections;
 using UnityEngine;
-using UnityEngine.EventSystems; 
+using UnityEngine.EventSystems;
+using UnityEngine.InputSystem.EnhancedTouch;
+using Touch = UnityEngine.InputSystem.EnhancedTouch.Touch;
 
 public class Box : BoxController, IPointerDownHandler, IPointerEnterHandler
 {
-
     protected override void Start()
     {
         base.Start();
-        StartCoroutine(GetDirectionalBoxes());
+        StartCoroutine(GetAllBoxesThatCanBeSelectedByThisBox());
     }
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        if (!isLetterCompleted)
+        if (!isThisBoxCompleted && Touch.activeTouches.Count <= 1)
         {
-            PlayerTouchController.Instance.isTouchingTheScreen = true;
-            WordChecker.Instance.AddLetterToWordToFill(boxChildText.text);
+            GameManager.Instance.PlayerTouchControllerInfo().PlayerIsTouchingTheScreen();
             theFirstBoxChecked = this;
             SetThisBoxChecked();
-            NewBoxChecked(this);
         }
     }
 
@@ -28,30 +27,31 @@ public class Box : BoxController, IPointerDownHandler, IPointerEnterHandler
         if(IsNotCheckedAndCanSelectThisBox())
         {
             SetThisBoxChecked();
-            NewBoxChecked(this);
-            WordChecker.Instance.AddLetterToWordToFill(boxChildText.text);
         }
 
         else if (IsCheckedAndCanSelectThisBox())
         {
-            WordChecker.Instance.RemoveTheLastLetterFromWordToFill();
-            currentPrincipalBoxChecked.ResetBoxValues();
+            currentPrincipalBoxChecked.ResetThisBoxValues();
             SetThisBoxChecked();
-            RemoveNewBoxChecked();
         }
     }
 
     private bool IsNotCheckedAndCanSelectThisBox()
     {
-        return PlayerTouchController.Instance.isTouchingTheScreen && canThisBoxBeSelected && !isLetterCompleted && !thisBoxIsChecked && amountOfBoxesThatAreChecked < 9;
+        return CanSelectThisBox() && !thisBoxIsChecked && indexOfAmountOfBoxesThatAreCurrentChecked < 9;
     }
 
     private bool IsCheckedAndCanSelectThisBox()
     {
-        return PlayerTouchController.Instance.isTouchingTheScreen && canThisBoxBeSelected && !isLetterCompleted && thisBoxIsChecked && this == allCurrentBoxesThatAreChecked[amountOfBoxesThatAreChecked - 1];
+        return CanSelectThisBox() && thisBoxIsChecked && this == currentBoxesThatAreChecked[indexOfAmountOfBoxesThatAreCurrentChecked - 1];
     }
 
-    private IEnumerator GetDirectionalBoxes()
+    private bool CanSelectThisBox()
+    {
+        return GameManager.Instance.PlayerTouchControllerInfo().IsTouchingTheScreen && canThisBoxBeSelected && !isThisBoxCompleted && Touch.activeTouches.Count <= 1;
+    }
+
+    private IEnumerator GetAllBoxesThatCanBeSelectedByThisBox()
     {
         
         yield return new WaitForEndOfFrame();
@@ -73,8 +73,6 @@ public class Box : BoxController, IPointerDownHandler, IPointerEnterHandler
 
         for (int i = 0; i < hit.Length; i++)
         {
-         
-
             if (hit[i].collider != null)
             {
                 boxesThatCanBeChecked[i] = hit[i].collider.GetComponent<Box>();
@@ -91,23 +89,13 @@ public class Box : BoxController, IPointerDownHandler, IPointerEnterHandler
                     hit[i].collider.GetComponent<Box>().canThisBoxBeSelected = true;
                 }
             }
-
-
         }
 
     }
 
-    private void OnDrawGizmos()
+    private void OnEnable()
     {
-        float rayXDistance = 100f;
-        float rayYDistance = 100f;
-
-        Gizmos.DrawRay(transform.position, new Vector2(rayXDistance, 0f));
-        Gizmos.DrawRay(transform.position, new Vector2(-rayXDistance, 0f));
-
-
-        Gizmos.DrawRay(transform.position, new Vector2(0f, rayYDistance));
-        Gizmos.DrawRay(transform.position, new Vector2(0f, -rayYDistance));
-
+        EnhancedTouchSupport.Enable();
     }
+
 }

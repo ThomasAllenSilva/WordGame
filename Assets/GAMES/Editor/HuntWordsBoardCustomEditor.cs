@@ -15,12 +15,13 @@ public class HuntWordsBoardCustomEditor : Editor
 
     public override void OnInspectorGUI()
     {
-        BoardValues();
+        SetGameGridValues();
 
         if (HuntWordsTarget.columns != null && HuntWordsTarget.numberOfColumns > 0 && HuntWordsTarget.numberOfLines > 0)
         {
-            DrawBoard();
+            DrawGameGrid();
         }
+
 
         EditorGUILayout.Space(8);
 
@@ -55,7 +56,7 @@ public class HuntWordsBoardCustomEditor : Editor
         serializedObject.ApplyModifiedProperties();
     }
 
-    private void BoardValues()
+    private void SetGameGridValues()
     {
         int numberOfColumns = HuntWordsTarget.numberOfColumns;
         int numberOfLines = HuntWordsTarget.numberOfLines;
@@ -67,7 +68,7 @@ public class HuntWordsBoardCustomEditor : Editor
             HuntWordsTarget.CreateNewColum();
     }
 
-    private void DrawBoard()
+    private void DrawGameGrid()
     {
 
         var tableStyle = new GUIStyle("Box");
@@ -99,12 +100,15 @@ public class HuntWordsBoardCustomEditor : Editor
             for (int j = 0; j < HuntWordsTarget.numberOfLines; j++)
             {
                 EditorGUILayout.BeginHorizontal(rowStyle);
+
                 HuntWordsTarget.columns[i].letterOnThisColum[j] = EditorGUILayout.TextArea(HuntWordsTarget.columns[i].letterOnThisColum[j], textStyle);
+
                 if (HuntWordsTarget.columns[i].letterOnThisColum[j] != null && HuntWordsTarget.columns[i].letterOnThisColum[j].Length > 0) 
                 {
                    var letter = HuntWordsTarget.columns[i].letterOnThisColum[j].Substring(0, 1);
                    HuntWordsTarget.columns[i].letterOnThisColum[j] = letter.ToUpper();
                 }
+
                 EditorGUILayout.EndHorizontal();
             }
             EditorGUILayout.EndVertical();

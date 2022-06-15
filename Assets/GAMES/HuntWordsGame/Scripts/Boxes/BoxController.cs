@@ -4,75 +4,80 @@ using UnityEngine.UI;
 
 public class BoxController : MonoBehaviour
 {
-    protected Text boxChildText;
+    protected Text letterTextFromThisBox;
 
-    protected Image boxImage;
+    protected Image imageFromThisBox;
 
-    [SerializeField] protected Box[] boxesThatCanBeChecked;
+    protected Box[] boxesThatCanBeChecked;
 
     protected bool thisBoxIsChecked;
     
-    [SerializeField] protected bool canThisBoxBeSelected;
+    protected bool canThisBoxBeSelected;
 
-    public bool isLetterCompleted;
+    protected bool isThisBoxCompleted;
 
-    public static int amountOfBoxesThatAreChecked = 0;
+    protected static Box theFirstBoxChecked;
 
     public static Box currentPrincipalBoxChecked;
 
-    public static Box theFirstBoxChecked;
+    public static Box[] currentBoxesThatAreChecked = new Box[10];
 
-    public static Box[] allCurrentBoxesThatAreChecked = new Box[10];
+    public static int indexOfAmountOfBoxesThatAreCurrentChecked = 0;
 
     protected virtual void Start()
     {
-        boxChildText = GetComponentInChildren<Text>();
-        boxImage = GetComponent<Image>();
+        letterTextFromThisBox = GetComponentInChildren<Text>();
+        imageFromThisBox = GetComponent<Image>();
 
-        PlayerTouchController.Instance.TouchUp += ResetAllBoxValues;
+        GameManager.Instance.PlayerTouchControllerInfo().TouchUpEvent += ResetAllBoxValues;
     }
 
-    protected void ChangeBoxColor(Color newColor)
+    protected void ChangeTheImageColorFromThisBox(Color32 newColor)
     {
-        boxImage.color = newColor;
+        imageFromThisBox.color = newColor;
     }
 
     protected void SetThisBoxChecked()
     {
-        OverrideCurrentPrincialBoxChecked();
-        ChangeBoxColor(new Color32(7, 204, 195, 255));
-        thisBoxIsChecked = true;
-    }
+        OverrideCurrentPrincipalBoxChecked();
 
-    public void SetThisLetterAsCompleted(Color32 anyColorIndexFromCurrentWordGrid)
-    {
-        isLetterCompleted = true;
-        ChangeBoxColor(anyColorIndexFromCurrentWordGrid);
-    }
-
-    protected static void NewBoxChecked(Box newBox)
-    {
-        amountOfBoxesThatAreChecked += 1;
-
-        if (amountOfBoxesThatAreChecked >= 9) amountOfBoxesThatAreChecked = 9;
-
-
-        if (amountOfBoxesThatAreChecked < allCurrentBoxesThatAreChecked.Length)
+        if (!thisBoxIsChecked)
         {
-            allCurrentBoxesThatAreChecked[amountOfBoxesThatAreChecked] = newBox;
+            GameManager.Instance.WordCheckerInfo().AddNewLetterToWordToFill(letterTextFromThisBox.text);
+            ChangeTheImageColorFromThisBox(new Color32(7, 204, 195, 255));
+            thisBoxIsChecked = true;
+            AddNewBoxToAllCurrentBoxThatAreCheckedList(this.GetComponent<Box>());
+        }
+
+        else
+        {
+            GameManager.Instance.WordCheckerInfo().RemoveTheLastLetterAddedToWordToFill();
+            RemoveTheLastBoxAddedToAllCurrentBoxThatAreCheckedList();
         }
     }
 
-    protected static void RemoveNewBoxChecked()
+    public void SetThisBoxAsCompleted(Color32 anyColorIndexFromCurrentWordGrid)
     {
-        allCurrentBoxesThatAreChecked[amountOfBoxesThatAreChecked] = null;
-
-        amountOfBoxesThatAreChecked -= 1;
-
-        if (amountOfBoxesThatAreChecked <= 0) amountOfBoxesThatAreChecked = 0;
+        isThisBoxCompleted = true;
+        ChangeTheImageColorFromThisBox(anyColorIndexFromCurrentWordGrid);
     }
 
-    protected void OverrideCurrentPrincialBoxChecked()
+    protected static void AddNewBoxToAllCurrentBoxThatAreCheckedList(Box newBox)
+    {
+        if (indexOfAmountOfBoxesThatAreCurrentChecked < 9) indexOfAmountOfBoxesThatAreCurrentChecked += 1;
+
+        currentBoxesThatAreChecked[indexOfAmountOfBoxesThatAreCurrentChecked] = newBox;
+        
+    }
+
+    protected static void RemoveTheLastBoxAddedToAllCurrentBoxThatAreCheckedList()
+    {
+        currentBoxesThatAreChecked[indexOfAmountOfBoxesThatAreCurrentChecked] = null;
+
+        if (indexOfAmountOfBoxesThatAreCurrentChecked > 0) indexOfAmountOfBoxesThatAreCurrentChecked -= 1;
+    }
+
+    protected void OverrideCurrentPrincipalBoxChecked()
     {
         if (currentPrincipalBoxChecked != null)
         {
@@ -97,12 +102,12 @@ public class BoxController : MonoBehaviour
 
     }
 
-    protected void ResetBoxValues()
+    protected void ResetThisBoxValues()
     {
-        if (thisBoxIsChecked && !isLetterCompleted)
+        if (thisBoxIsChecked && !isThisBoxCompleted)
         {
             thisBoxIsChecked = false;
-            boxImage.color = Color.gray;
+            imageFromThisBox.color = Color.gray;
             canThisBoxBeSelected = false;
         }
     }
@@ -111,18 +116,14 @@ public class BoxController : MonoBehaviour
     {
         currentPrincipalBoxChecked = null;
         theFirstBoxChecked = null;
-        ResetBoxValues();
+        ResetThisBoxValues();
         canThisBoxBeSelected = false;
-        amountOfBoxesThatAreChecked = 0;
-
-        for (int i = 0; i < allCurrentBoxesThatAreChecked.Length; i++)
-        {
-            allCurrentBoxesThatAreChecked[i] = null;
-        }
+        indexOfAmountOfBoxesThatAreCurrentChecked = 0;
+        currentBoxesThatAreChecked = new Box[10];
     }
 
     private void OnDestroy()
     {
-        PlayerTouchController.Instance.TouchUp -= ResetAllBoxValues;
+        GameManager.Instance.PlayerTouchControllerInfo().TouchUpEvent -= ResetAllBoxValues;
     }
 }
