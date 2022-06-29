@@ -6,6 +6,7 @@ public class HuntWordsBoardCustomEditor : Editor
 {
     private HuntWordsSO HuntWordsTarget = null;
 
+    
     private void OnEnable()
     {
         HuntWordsTarget = (HuntWordsSO)target;
@@ -44,15 +45,18 @@ public class HuntWordsBoardCustomEditor : Editor
 
         serializedObject.Update();
         EditorGUILayout.PropertyField(serializedObject.FindProperty("wordsToSearchInThisLevel"), true);
-        EditorGUILayout.Space(2);
+        EditorGUILayout.Space(10);
 
         EditorGUILayout.PropertyField(serializedObject.FindProperty("gameGridConfiguration"), true);
-        EditorGUILayout.Space(2);
-
-        EditorGUILayout.PropertyField(serializedObject.FindProperty("boxConfiguration"), true);
-        EditorGUILayout.Space(2);
+        EditorGUILayout.Space(10);
 
         EditorGUILayout.PropertyField(serializedObject.FindProperty("wordsToSearchTipsGridConfiguration"), true);
+        EditorGUILayout.Space(10);
+
+
+        EditorGUILayout.PropertyField(serializedObject.FindProperty("completedThisLevel"), true);
+        EditorGUILayout.Space(10);
+
         serializedObject.ApplyModifiedProperties();
     }
 
@@ -95,7 +99,6 @@ public class HuntWordsBoardCustomEditor : Editor
         EditorGUILayout.BeginHorizontal(tableStyle);
         for (int i = 0; i < HuntWordsTarget.numberOfColumns; i++)
         {
-
             EditorGUILayout.BeginVertical(columStyle);
             for (int j = 0; j < HuntWordsTarget.numberOfLines; j++)
             {

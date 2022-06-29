@@ -10,55 +10,37 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4f1d953737ab93f49956c0017c7b0973, type: 3}
-  m_Name: AnimalsEasy - 1
+  m_Name: AnimalsEasy - 2
   m_EditorClassIdentifier: 
   wordsToSearchInThisLevel:
-  - CACHORRO
-  - MACACO
-  - RATO
-  - BOI
-  - GATO
+  - TESTE
+  - ETSET
   numberOfColumns: 5
-  numberOfLines: 5
+  numberOfLines: 2
   columns:
   - letterOnThisColum:
-    - O
     - T
-    - A
-    - R
-    - I
+    - E
   - letterOnThisColum:
-    - C
+    - E
     - T
-    - A
-    - B
-    - O
   - letterOnThisColum:
-    - A
-    - O
-    - G
-    - M
-    - O
+    - S
+    - S
   - letterOnThisColum:
-    - C
-    - H
-    - O
-    - A
-    - C
+    - T
+    - E
   - letterOnThisColum:
-    - O
-    - R
-    - R
-    - C
-    - A
+    - E
+    - T
   gameGridConfiguration:
-    paddingLeft: 170
-    paddingTop: 1600
-    cellSize: {x: 200, y: 170}
-    spacing: {x: 200, y: 220}
+    paddingLeft: 130
+    paddingTop: 2100
+    cellSize: {x: 170, y: 170}
+    spacing: {x: 250, y: 220}
   wordsToSearchTipsGridConfiguration:
-    paddingLeft: 160
+    paddingLeft: 500
     paddingTop: 2600
     cellSize: {x: 300, y: 105}
     spacing: {x: 350, y: 200}
-  completedThisLevel: 1
+  completedThisLevel: 0

@@ -21,7 +21,6 @@ public class PlayerTouchController : MonoBehaviour
     private void PlayerStoppedTouchingTheScreen()
     {
         IsTouchingTheScreen = false;
-        GameManager.Instance.WordCheckerInfo().CheckIfTheWordToFillIsEqualsToAnyWordToSearchInThisLevel();
     }
 
     public void PlayerIsTouchingTheScreen()

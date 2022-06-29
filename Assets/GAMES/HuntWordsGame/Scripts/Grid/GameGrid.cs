@@ -5,21 +5,34 @@ public class GameGrid : MonoBehaviour
 {
     protected GridLayoutGroup gridLayoutGroup;
 
-    protected Transform gameObjectParent;
+    protected HuntWordsSO currentLevel;
 
-    [SerializeField] protected HuntWordsSO currentHuntWordsLevel;
+    protected Font wordsFont;
 
-    [SerializeField] protected Font wordsFont;
+    protected ObjectPool objectPooler;
 
+    private GameManager gameManager;
     protected virtual void Awake()
     {
+        gameManager = GameManager.Instance;
+
+        objectPooler = gameManager.GetComponent<ObjectPool>();
+
         gridLayoutGroup = GetComponent<GridLayoutGroup>();
 
-        gameObjectParent = this.gameObject.transform;
+        currentLevel = gameManager.currentLevel;
+
+        wordsFont = gameManager.fontStyle;
 
         SetGridLaoutGroupValues();
+    }
 
-        Destroy(gridLayoutGroup, 1f);
+
+    protected virtual void OnEnable()
+    {
+        currentLevel = gameManager.currentLevel;
+
+        SetGridLaoutGroupValues();
     }
 
 
@@ -27,4 +40,5 @@ public class GameGrid : MonoBehaviour
     {
 
     }
+
 }

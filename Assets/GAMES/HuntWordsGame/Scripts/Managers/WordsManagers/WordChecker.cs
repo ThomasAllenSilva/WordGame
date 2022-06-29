@@ -1,64 +1,109 @@
 using UnityEngine;
 using UnityEngine.UI;
+using System.Text;
+using System.Collections.Generic;
+using System.Collections;
 
 public class WordChecker : MonoBehaviour
 {
-    [SerializeField] private HuntWordsSO currentHuntWordsLevel;
+    [SerializeField] private WordToSearchFieldsController wordsToSearchUI;
 
     [SerializeField] private Text wordField;
 
-    [SerializeField] private string wordToFill;
+    [SerializeField] private Color32[] completedColor;
+
+    private StringBuilder wordToFill = new StringBuilder();
 
     private int currentColorIndex = 0;
 
-    private WordToSearchFieldsController wordsToSearchUI;
+    private HuntWordsSO currentLevel;
+
+    private GameManager gameManager;
 
     private void Awake()
     {
-        wordsToSearchUI = GameObject.FindGameObjectWithTag("WordsToSearchUI").GetComponent<WordToSearchFieldsController>();
+        gameManager = GameManager.Instance;
+        currentLevel = gameManager.currentLevel;
+        gameManager.PlayerTouchControllerInfo().TouchUpEvent += CheckIfTheWordToFillIsEqualsToAnyWordToSearchInThisLevel;
     }
 
-    public void AddNewLetterToWordToFill(string letterToAdd)
-    {
-       wordField.text = wordToFill += letterToAdd;
-    }
+    public void AddNewLetterToWordToFill(string letterToAdd) => wordField.text = wordToFill.Append(letterToAdd).ToString();
 
-    public void RemoveTheLastLetterAddedToWordToFill()
-    {
-       wordField.text = wordToFill = wordToFill.Remove(wordToFill.LastIndexOf(wordToFill.Substring(wordToFill.Length)), 1);
-    }
+    public void RemoveTheLastLetterAddedToWordToFill() => wordField.text = wordToFill.Remove(wordToFill.Length - 1, 1).ToString();
 
     public void CheckIfTheWordToFillIsEqualsToAnyWordToSearchInThisLevel()
     {
-        for (int i = 0; i < currentHuntWordsLevel.wordsToSearchInThisLevel.Length; i++)
+        if (wordToFill.Length > 1)
         {
-            if (wordToFill == currentHuntWordsLevel.wordsToSearchInThisLevel[i])
+            string filledWord = wordToFill.ToString();
+
+            string wordCompleted = BinarySearchString(currentLevel.wordsToSearchInThisLevel, filledWord, out int wordIndex);
+
+            if (filledWord == wordCompleted)
             {
                 SetAllCurrentBoxesCheckedAsComplete();
-                wordsToSearchUI.SetWordUIFieldComplete(i);
+                wordsToSearchUI.SetWordUIFieldComplete(wordIndex);
                 currentColorIndex += 1;
             }
         }
 
         SetToWordToFillAndWordFieldVariablesEmptyValues();
-
     }
 
     private void SetToWordToFillAndWordFieldVariablesEmptyValues()
     {
-        wordField.text = wordToFill = "";
+        wordToFill.Clear();
+        wordField.text = "";
     }
 
     private void SetAllCurrentBoxesCheckedAsComplete()
     {
-        for (int i = 0; i < BoxController.currentBoxesThatAreChecked.Length; i++)
+        foreach (Box box in Box.currentBoxesThatAreChecked)
         {
-            if (BoxController.currentBoxesThatAreChecked[i] != null)
+            box.SetThisBoxAsCompleted(completedColor[currentColorIndex]);
+        }
+
+        Box.indexOfAmountOfBoxesThatAreCurrentChecked = 0;
+        Box.currentBoxesThatAreChecked.Clear();
+    }
+
+
+    private string BinarySearchString(List<string> listToLoop, string stringToSearch, out int index)
+    {
+        int startIndex = 0;
+
+        int lastIndex = listToLoop.Count - 1;
+
+        int indexToFind = listToLoop.IndexOf(stringToSearch);
+
+        index = indexToFind;
+
+        while (startIndex <= lastIndex)
+        {
+            int middleIndex = (startIndex + lastIndex) / 2;
+
+            if (middleIndex == indexToFind)
+            { 
+                return listToLoop[middleIndex];
+            }
+
+            else if (middleIndex > indexToFind)
             {
-                BoxController.currentBoxesThatAreChecked[i].SetThisBoxAsCompleted(currentHuntWordsLevel.boxConfiguration.completedColor[currentColorIndex]);
+                lastIndex = middleIndex - 1;
+            }
+
+            else
+            {
+                startIndex = middleIndex + 1;
             }
         }
 
-        BoxController.indexOfAmountOfBoxesThatAreCurrentChecked = 0;
+        return null;
+    }
+
+    public void OnChangedLevel()
+    {
+        currentLevel = gameManager.currentLevel;
+        currentColorIndex = 0;
     }
 }

@@ -1,19 +1,21 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
 
 [CreateAssetMenu(fileName = "New HuntWord Level", menuName = "New HuntWords Level")]
 public class HuntWordsSO : ScriptableObject
 {
-    private const string ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    public string[] wordsToSearchInThisLevel;
+    private const string ALPHABET = "AÃBCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+    public List<string> wordsToSearchInThisLevel;
 
     public int numberOfColumns;
     public int numberOfLines;
 
-    public Colum[] columns;
+    public List<Colum> columns;
     public GridConfiguration gameGridConfiguration = new GridConfiguration();
-    public BoxConfiguration boxConfiguration = new BoxConfiguration();
     public WordsToSearchTipsGridConfiguration wordsToSearchTipsGridConfiguration = new WordsToSearchTipsGridConfiguration();
 
+    public bool completedThisLevel;
 
     [System.Serializable]
     public class Colum
@@ -56,14 +58,6 @@ public class HuntWordsSO : ScriptableObject
     }
 
     [System.Serializable]
-    public class BoxConfiguration 
-    {
-        public Sprite boxSprite;
-        public int fontSize;
-        public Color32[] completedColor = new Color32[10];
-    }
-
-    [System.Serializable]
     public class WordsToSearchTipsGridConfiguration
     {
         public int paddingLeft;
@@ -75,17 +69,17 @@ public class HuntWordsSO : ScriptableObject
 
     public void CreateNewColum()
     {
-        columns = new Colum[numberOfColumns];
+        columns = new List<Colum>(numberOfColumns);
 
-        for (int i = 0; i < columns.Length; i++)
+        for (int i = 0; i < columns.Capacity; i++)
         {
-            columns[i] = new Colum(numberOfLines);
+            columns.Add(new Colum(numberOfLines));
         }
     }
 
     public void FillAllEmptyBoxesWithRandomLetters()
     {
-        for (int i = 0; i < columns.Length; i++)
+        for (int i = 0; i < columns.Count; i++)
         {
             columns[i].FillAllEmptyBoxesInThisColumWithRandomLetters();
         }
@@ -93,7 +87,7 @@ public class HuntWordsSO : ScriptableObject
 
     public void DeleteAllLetters()
     {
-        for (int i = 0; i < columns.Length; i++)
+        for (int i = 0; i < columns.Count; i++)
         {
             columns[i].DeleteAllLettersInThisColum();
         }

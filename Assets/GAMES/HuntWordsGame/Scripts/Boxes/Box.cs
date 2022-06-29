@@ -1,101 +1,222 @@
-﻿using System.Collections;
+﻿using System.Threading.Tasks;
+using System.Collections.Generic;
+
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.EventSystems;
+
 using UnityEngine.InputSystem.EnhancedTouch;
 using Touch = UnityEngine.InputSystem.EnhancedTouch.Touch;
 
-public class Box : BoxController, IPointerDownHandler, IPointerEnterHandler
+public class Box : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler
 {
-    protected override void Start()
+    private Text letterTextFromThisBox;
+
+    private Image imageFromThisBox;
+
+    private GameManager gameManager;
+
+    private LinkedList<Box> boxesThatCanBeChecked = new LinkedList<Box>();
+
+    private bool thisBoxIsChecked;
+
+    private bool canThisBoxBeSelected;
+
+    private bool isThisBoxCompleted;
+
+    public static Box currentPrincipalBoxChecked;
+
+    public static List<Box> currentBoxesThatAreChecked = new List<Box>();
+
+    public static int indexOfAmountOfBoxesThatAreCurrentChecked = 0;
+
+    private void Awake()
     {
-        base.Start();
-        StartCoroutine(GetAllBoxesThatCanBeSelectedByThisBox());
+        letterTextFromThisBox = GetComponentInChildren<Text>();
+        imageFromThisBox = GetComponent<Image>();
+        gameManager = GameManager.Instance;
+    }
+
+    private void Start()
+    {
+        gameManager.PlayerTouchControllerInfo().TouchUpEvent += ResetAllBoxValues;
     }
 
     public void OnPointerDown(PointerEventData eventData)
     {
         if (!isThisBoxCompleted && Touch.activeTouches.Count <= 1)
         {
-            GameManager.Instance.PlayerTouchControllerInfo().PlayerIsTouchingTheScreen();
-            theFirstBoxChecked = this;
+            gameManager.PlayerTouchControllerInfo().PlayerIsTouchingTheScreen();
             SetThisBoxChecked();
         }
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if(IsNotCheckedAndCanSelectThisBox())
+        if (CanSelectThisBox())
         {
-            SetThisBoxChecked();
-        }
+           
+            if (IsNotChecked())
+            {
+                SetThisBoxChecked();
+            }
 
-        else if (IsCheckedAndCanSelectThisBox())
-        {
-            currentPrincipalBoxChecked.ResetThisBoxValues();
-            SetThisBoxChecked();
+            else if (IsChecked())
+            {
+                currentPrincipalBoxChecked.ResetThisBoxValues();
+                SetThisBoxChecked();
+            }
         }
     }
 
-    private bool IsNotCheckedAndCanSelectThisBox()
+    private bool IsNotChecked()
     {
-        return CanSelectThisBox() && !thisBoxIsChecked && indexOfAmountOfBoxesThatAreCurrentChecked < 9;
+        return !thisBoxIsChecked && indexOfAmountOfBoxesThatAreCurrentChecked < 9;
     }
 
-    private bool IsCheckedAndCanSelectThisBox()
+    private bool IsChecked()
     {
-        return CanSelectThisBox() && thisBoxIsChecked && this == currentBoxesThatAreChecked[indexOfAmountOfBoxesThatAreCurrentChecked - 1];
+        return thisBoxIsChecked && currentBoxesThatAreChecked[indexOfAmountOfBoxesThatAreCurrentChecked - 2] == this;
     }
 
     private bool CanSelectThisBox()
     {
-        return GameManager.Instance.PlayerTouchControllerInfo().IsTouchingTheScreen && canThisBoxBeSelected && !isThisBoxCompleted && Touch.activeTouches.Count <= 1;
+        return gameManager.PlayerTouchControllerInfo().IsTouchingTheScreen && canThisBoxBeSelected && !isThisBoxCompleted && Touch.activeTouches.Count <= 1;
     }
 
-    private IEnumerator GetAllBoxesThatCanBeSelectedByThisBox()
+    private void SetThisBoxChecked()
     {
-        
-        yield return new WaitForEndOfFrame();
+        OverrideCurrentPrincipalBoxChecked();
 
-        yield return new WaitForEndOfFrame();
+        if (!thisBoxIsChecked)
+        {
+            gameManager.WordCheckerInfo().AddNewLetterToWordToFill(letterTextFromThisBox.text);
+            ChangeTheImageColorFromThisBox(new Color32(7, 204, 195, 255));
+            thisBoxIsChecked = true;
+            AddNewBoxToAllCurrentBoxThatAreCheckedList(this);
+        }
 
-        RaycastHit2D[] hit = new RaycastHit2D[4];
-        float rayXDistance = 100f;
-        float rayYDistance = 100f;
+        else
+        {
+            gameManager.WordCheckerInfo().RemoveTheLastLetterAddedToWordToFill();
+            RemoveTheLastBoxAddedToAllCurrentBoxThatAreCheckedList();
+        }
+    }
+
+    private void OverrideCurrentPrincipalBoxChecked()
+    {
+        if (currentPrincipalBoxChecked != null)
+        {
+            foreach (Box box in currentPrincipalBoxChecked.boxesThatCanBeChecked)
+            {
+                box.canThisBoxBeSelected = false;
+            }
+        }
+
+        currentPrincipalBoxChecked = this;
+
+        foreach (Box box in currentPrincipalBoxChecked.boxesThatCanBeChecked)
+        {
+            box.canThisBoxBeSelected = true;
+        }
+    }
+
+    private void AddNewBoxToAllCurrentBoxThatAreCheckedList(Box boxToAdd)
+    {
+        currentBoxesThatAreChecked.Add(boxToAdd);
+        if (indexOfAmountOfBoxesThatAreCurrentChecked < 9) indexOfAmountOfBoxesThatAreCurrentChecked += 1;
+    }
+
+    private void RemoveTheLastBoxAddedToAllCurrentBoxThatAreCheckedList()
+    {
+        currentBoxesThatAreChecked.RemoveAt(indexOfAmountOfBoxesThatAreCurrentChecked - 1);
+
+        if (indexOfAmountOfBoxesThatAreCurrentChecked > 0) indexOfAmountOfBoxesThatAreCurrentChecked -= 1;
+    }
+
+    public void SetThisBoxAsCompleted(Color32 anyColorIndexFromCurrentWordGrid)
+    {
+        isThisBoxCompleted = true;
+        ChangeTheImageColorFromThisBox(anyColorIndexFromCurrentWordGrid);
+    }
+
+    private void ChangeTheImageColorFromThisBox(Color32 newColor) => imageFromThisBox.color = newColor;
+
+    private async void GetAllBoxesThatCanBeSelectedByThisBox()
+    {
+        await Task.Delay(1);
+        await Task.Delay(1);
+        await Task.Delay(1);
+
+        List<RaycastHit2D> hit = new List<RaycastHit2D>();
+        float rayXDistance = 200f;
+        float rayYDistance = 200f;
 
 
-        hit[0] = Physics2D.Raycast(transform.position, new Vector2(rayXDistance, 0f));
-        hit[1] = Physics2D.Raycast(transform.position, new Vector2(-rayXDistance, 0f));
+        hit.Add(Physics2D.Raycast(transform.position, new Vector2(rayXDistance, 0f)));
+        hit.Add(Physics2D.Raycast(transform.position, new Vector2(-rayXDistance, 0f)));
 
-        hit[2] = Physics2D.Raycast(transform.position, new Vector2(0f, rayYDistance));
-        hit[3] = Physics2D.Raycast(transform.position, new Vector2(0f, -rayYDistance));
+        hit.Add(Physics2D.Raycast(transform.position, new Vector2(0f, rayYDistance)));
+        hit.Add(Physics2D.Raycast(transform.position, new Vector2(0f, -rayYDistance)));
 
-        boxesThatCanBeChecked = new Box[hit.Length];
 
-        for (int i = 0; i < hit.Length; i++)
+        for (int i = 0; i < hit.Count; i++)
         {
             if (hit[i].collider != null)
             {
-                boxesThatCanBeChecked[i] = hit[i].collider.GetComponent<Box>();
-
-                if (this != BoxController.currentPrincipalBoxChecked)
+                if (this != currentPrincipalBoxChecked)
                 {
-                    boxesThatCanBeChecked[i] = hit[i].collider.GetComponent<Box>();
+                    boxesThatCanBeChecked.AddLast(hit[i].collider.GetComponent<Box>());
                     hit[i].collider.GetComponent<Box>().canThisBoxBeSelected = false;
                 }
 
-                else if (this == BoxController.currentPrincipalBoxChecked)
+                else if (this == currentPrincipalBoxChecked)
                 {
-                    boxesThatCanBeChecked[i] = hit[i].collider.GetComponent<Box>();
+                    boxesThatCanBeChecked.AddLast(hit[i].collider.GetComponent<Box>());
                     hit[i].collider.GetComponent<Box>().canThisBoxBeSelected = true;
                 }
             }
         }
+    }
 
+    private void ResetAllBoxValues()
+    {
+        ResetThisBoxValues();
+        currentPrincipalBoxChecked = null;
+        indexOfAmountOfBoxesThatAreCurrentChecked = 0;
+        currentBoxesThatAreChecked.Clear();
+    }
+
+    protected void ResetThisBoxValues()
+    {
+        if (!isThisBoxCompleted)
+        {
+            thisBoxIsChecked = false;
+            imageFromThisBox.color = Color.gray;
+            canThisBoxBeSelected = false;
+        }
+    }
+
+    private void ResetGame()
+    {
+        thisBoxIsChecked = false;
+        isThisBoxCompleted = false;
+        canThisBoxBeSelected = false;
+        currentPrincipalBoxChecked = null;
+        indexOfAmountOfBoxesThatAreCurrentChecked = 0;
+        currentBoxesThatAreChecked.Clear();
+        boxesThatCanBeChecked.Clear();
+        imageFromThisBox.color = Color.gray;
+        print("a");
     }
 
     private void OnEnable()
     {
         EnhancedTouchSupport.Enable();
+        GetAllBoxesThatCanBeSelectedByThisBox();
     }
 
+    private void OnDisable() => ResetGame();
+
+    private void OnDestroy() => GameManager.Instance.PlayerTouchControllerInfo().TouchUpEvent -= ResetAllBoxValues;
 }

@@ -7,7 +7,7 @@ public class WordToSearchFieldsController : MonoBehaviour
 
     private Color32 completedImageColor = new Color32(69, 212, 93, 255);
 
-    private void Start()
+    private void Awake()
     {
         wordsUIFields = new Image[transform.childCount];
 
@@ -17,8 +17,16 @@ public class WordToSearchFieldsController : MonoBehaviour
         }
     }
 
-    public void SetWordUIFieldComplete(int fieldIndex)
+    public void SetWordUIFieldComplete(int fieldToSetAsCompleted)
     {
-        wordsUIFields[fieldIndex].color = completedImageColor;
+        wordsUIFields[fieldToSetAsCompleted].color = completedImageColor;
+    }
+
+    private void OnDisable()
+    {
+        for (int i = 0; i < wordsUIFields.Length; i++)
+        {
+            wordsUIFields[i].color = Color.white;
+        }
     }
 }
