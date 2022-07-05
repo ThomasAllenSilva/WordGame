@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/GAMES/HuntWordsGame/Scenes/HuntWords.unity
+    path: Assets/GAME/Scenes/HuntWords.unity
     guid: a8583d82a2a0b0e4e945ef8e620d2bd5
+  - enabled: 1
+    path: Assets/GAME/Scenes/MainMenu.unity
+    guid: 46577c0ea3549a949a4fd0890c643aa1
   m_configObjects: {}

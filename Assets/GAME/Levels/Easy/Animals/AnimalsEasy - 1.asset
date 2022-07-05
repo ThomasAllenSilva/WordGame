@@ -1,0 +1,65 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f1d953737ab93f49956c0017c7b0973, type: 3}
+  m_Name: AnimalsEasy - 1
+  m_EditorClassIdentifier: 
+  wordsToSearchInThisLevel:
+  - CACHORRO
+  - MACACO
+  - RATO
+  - BOI
+  - GATO
+  tipsFromThisLevel:
+  - Melhor amigo do homem
+  - "Nome comum aos mam\xEDferos primatas"
+  - "Mam\xEDfero roedor de origem asi\xE1tica"
+  - "Mam\xEDfero muito usado na produ\xE7\xE3o de carne"
+  - "Pequeno mam\xEDfero muito popular como animal de estima\xE7\xE3o"
+  columns:
+  - letterOnThisColum:
+    - O
+    - T
+    - A
+    - R
+    - I
+  - letterOnThisColum:
+    - C
+    - T
+    - A
+    - B
+    - O
+  - letterOnThisColum:
+    - A
+    - O
+    - G
+    - M
+    - O
+  - letterOnThisColum:
+    - C
+    - H
+    - O
+    - A
+    - C
+  - letterOnThisColum:
+    - O
+    - R
+    - R
+    - C
+    - A
+  numberOfColumns: 5
+  numberOfLines: 5
+  gameGridConfiguration:
+    paddingLeft: 170
+    paddingTop: 1600
+    cellSize: {x: 200, y: 170}
+    spacing: {x: 200, y: 220}
+  completedThisLevel: 0
