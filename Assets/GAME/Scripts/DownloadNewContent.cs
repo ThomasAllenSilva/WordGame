@@ -1,13 +1,12 @@
 using UnityEngine;
 using UnityEngine.Networking;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEditor;
-using System.IO;
+
 public class DownloadNewContent : MonoBehaviour
 {
     [SerializeField] private string contentURL;
-
+    int currentLineIndexFromLevelInfo = 0;
     private IEnumerator Start()
     {
         UnityWebRequest www = UnityWebRequestAssetBundle.GetAssetBundle(contentURL);
@@ -18,105 +17,87 @@ public class DownloadNewContent : MonoBehaviour
         {
             Debug.Log(www.error);
         }
+
         else
         {
             AssetBundle bundle = DownloadHandlerAssetBundle.GetContent(www);
 
-            TextAsset levelAsset = bundle.LoadAsset("Level2.txt") as TextAsset;
-
+            TextAsset levelAsset = bundle.LoadAsset("Level-1.txt") as TextAsset;
 
             CreateNewLevel(levelAsset);
-
         }
     }
 
     private void CreateNewLevel(TextAsset levelAsset)
     {
-        HuntWordsSO newLevel = HuntWordsSO.CreateInstance<HuntWordsSO>();
+        HuntWordsSO newLevel = ScriptableObject.CreateInstance<HuntWordsSO>();
 
-        string contents = levelAsset.ToString();
+        string[] levelInfo = levelAsset.text.Split("\n");
 
-        string[] levelInfo = contents.Split("\n");
 
-        int currentLineIndex = 0;
 
-        newLevel.numberOfColumns = int.Parse(levelInfo[currentLineIndex]);
-        currentLineIndex++;
+        newLevel.numberOfColumns = int.Parse(levelInfo[currentLineIndexFromLevelInfo]);
+        currentLineIndexFromLevelInfo++;
 
-        newLevel.numberOfLines = int.Parse(levelInfo[currentLineIndex]);
-        currentLineIndex++;
+        newLevel.numberOfLines = int.Parse(levelInfo[currentLineIndexFromLevelInfo]);
+        currentLineIndexFromLevelInfo++;
 
-        string[] words = new string[newLevel.numberOfColumns * newLevel.numberOfLines];
         newLevel.CreateNewColum();
 
-        for (int i = 3; i < 10 + 3; i++)
+        string[] wordsFromTheGrid = new string[newLevel.numberOfColumns * newLevel.numberOfLines];
+
+        for (int i = currentLineIndexFromLevelInfo; i < wordsFromTheGrid.Length + 2; i++)
         {
-            words[i - 3] = levelInfo[i];
-            currentLineIndex++;
+            wordsFromTheGrid[i - 2] = levelInfo[i].ToString().Replace("\r", "");
+            currentLineIndexFromLevelInfo++;
         }
 
-
-
-
-        currentLineIndex++;
         int currentLine = 0;
-   
+
         for (int i = 0; i < newLevel.numberOfColumns; i++)
         {
             for (int j = 0; j < newLevel.numberOfLines; j++)
             {
-                newLevel.columns[i].letterOnThisColum[j] = words[currentLine];
+                newLevel.columns[i].letterOnThisColum[j] = wordsFromTheGrid[currentLine];
                 currentLine++;
             }
         }
 
+        InitializeWordsToSearchInThisLevel(levelInfo, newLevel);
 
 
+        int tempCurrentLineIndexFromLevelInfo = ++currentLineIndexFromLevelInfo;
 
-
-
-
-
-        newLevel.wordsToSearchInThisLevel = new List<string>();
-
-        currentLineIndex++;
-
-        for (int i = currentLineIndex; i < int.Parse(levelInfo[currentLineIndex - 1]) + currentLineIndex; i++)
+        for (int i = currentLineIndexFromLevelInfo; i < int.Parse(levelInfo[tempCurrentLineIndexFromLevelInfo]) + tempCurrentLineIndexFromLevelInfo; i++)
         {
-            newLevel.wordsToSearchInThisLevel.Add(levelInfo[i].ToString());
-
+            currentLineIndexFromLevelInfo++;
+            newLevel.tipsFromThisLevel.Add(levelInfo[currentLineIndexFromLevelInfo].ToString());
         }
 
-        for (int i = 0; i < newLevel.wordsToSearchInThisLevel.Count; i++)
+        InitializeLevelGridValues(levelInfo, newLevel);
+
+        GameManager.Instance.CurrentLevel = newLevel;
+    }
+    private void InitializeWordsToSearchInThisLevel(string[] infoToLoad, HuntWordsSO levelToInitializeWordsToSearch)
+    {
+        int tempCurrentLineIndexFromLevelInfo = currentLineIndexFromLevelInfo;
+
+        for (int i = currentLineIndexFromLevelInfo; i < int.Parse(infoToLoad[tempCurrentLineIndexFromLevelInfo]) + tempCurrentLineIndexFromLevelInfo; i++)
         {
-            currentLineIndex++;
-            print(newLevel.wordsToSearchInThisLevel[i]);
+            currentLineIndexFromLevelInfo++;
+            levelToInitializeWordsToSearch.wordsToSearchInThisLevel.Add(infoToLoad[currentLineIndexFromLevelInfo].ToString().Replace("\r", ""));
         }
+    }
 
-        newLevel.tipsFromThisLevel = new List<string>(int.Parse(levelInfo[currentLineIndex]));
-        currentLineIndex++;
-        for (int i = currentLineIndex; i < int.Parse(levelInfo[currentLineIndex - 1]) + currentLineIndex; i++)
-        {
-            newLevel.tipsFromThisLevel.Add(levelInfo[i].ToString());
-        }
+    private void InitializeLevelGridValues(string[] infoToLoad, HuntWordsSO levelToInitializeGridValues)
+    {
+        levelToInitializeGridValues.gameGridConfiguration.paddingLeft = int.Parse(infoToLoad[++currentLineIndexFromLevelInfo]);
+        levelToInitializeGridValues.gameGridConfiguration.paddingTop = int.Parse(infoToLoad[++currentLineIndexFromLevelInfo]);
 
-        for (int i = 0; i < newLevel.tipsFromThisLevel.Count; i++)
-        {
-            currentLineIndex++;
-        }
+        levelToInitializeGridValues.gameGridConfiguration.cellSize.x = int.Parse(infoToLoad[++currentLineIndexFromLevelInfo]);
+        levelToInitializeGridValues.gameGridConfiguration.cellSize.y = int.Parse(infoToLoad[++currentLineIndexFromLevelInfo]);
 
-        newLevel.gameGridConfiguration.paddingLeft = int.Parse(levelInfo[currentLineIndex++]);
-
-        newLevel.gameGridConfiguration.paddingTop = int.Parse(levelInfo[currentLineIndex++]);
-
-
-        newLevel.gameGridConfiguration.cellSize.x = int.Parse(levelInfo[currentLineIndex++]);
-        newLevel.gameGridConfiguration.cellSize.y = int.Parse(levelInfo[currentLineIndex++]);
-
-        newLevel.gameGridConfiguration.spacing.x = int.Parse(levelInfo[currentLineIndex++]);
-        newLevel.gameGridConfiguration.spacing.y = int.Parse(levelInfo[currentLineIndex++]);
-        AssetDatabase.CreateAsset(newLevel, "Assets/GAME/Levels/NewLevel.asset");
-        AssetDatabase.SaveAssets();
-        AssetDatabase.Refresh();
+        levelToInitializeGridValues.gameGridConfiguration.spacing.x = int.Parse(infoToLoad[++currentLineIndexFromLevelInfo]);
+        levelToInitializeGridValues.gameGridConfiguration.spacing.y = int.Parse(infoToLoad[++currentLineIndexFromLevelInfo]);
     }
 }

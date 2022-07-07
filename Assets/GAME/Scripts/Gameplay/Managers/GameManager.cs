@@ -3,15 +3,13 @@ using System;
 
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] private HuntWordsSO currentLevel;
-
     public event Action OnEnterNewLevel;
 
     public event Action OnLeaveCurrentLevel;
 
     public static GameManager Instance { get; private set; }
 
-    public HuntWordsSO CurrentLevel { get { return currentLevel; } private set { currentLevel = value; } }
+    public HuntWordsSO CurrentLevel;
     
     public PlayerTouchController PlayerTouchController { get; private set; }
 

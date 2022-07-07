@@ -42,8 +42,9 @@ public class Box : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler
         gameManager = GameManager.Instance;
     }
 
-    private void Start()
+    private System.Collections.IEnumerator Start()
     {
+        yield return new WaitForSeconds(4f);
         gameManager.PlayerTouchController.TouchUpEvent += ResetAllBoxValues;
     }
 

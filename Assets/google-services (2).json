@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "65751198015",
+    "firebase_url": "https://huntwordslevels-default-rtdb.firebaseio.com",
+    "project_id": "huntwordslevels",
+    "storage_bucket": "huntwordslevels.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:65751198015:android:ca6909f441c09fcac24b8a",
+        "android_client_info": {
+          "package_name": "br.com.ThomasAllen.HuntWordsLevels"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "65751198015-4f4nf6jmcu96guts9ltpc5mi3f2ifakk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBXvEuKXETGmuGohEMBMEEtiBxbwmHdDkY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "65751198015-4f4nf6jmcu96guts9ltpc5mi3f2ifakk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

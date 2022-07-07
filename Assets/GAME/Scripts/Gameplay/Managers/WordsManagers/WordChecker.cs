@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Text;
 using System.Collections.Generic;
-
+using System.Collections;
 public class WordChecker : MonoBehaviour
 {
     [SerializeField] private WordToSearchFieldsController wordsToSearchUI;
@@ -15,20 +15,16 @@ public class WordChecker : MonoBehaviour
 
     private int currentColorIndex = 0;
 
-    private HuntWordsSO currentLevel;
+    [SerializeField] private HuntWordsSO currentLevel;
 
     private GameManager gameManager;
 
-    public List<string> teste = new List<string>(10);
-    private void Awake()
+    private IEnumerator Start()
     {
+        yield return new WaitForSeconds(3f);
         gameManager = GameManager.Instance;
         gameManager.PlayerTouchController.TouchUpEvent += CheckIfTheWordToFillIsEqualsToAnyWordToSearchInThisLevel;
         currentLevel = gameManager.CurrentLevel;
-        for (int i = 0; i < currentLevel.wordsToSearchInThisLevel.Count; i++)
-        {
-            teste.Add(currentLevel.wordsToSearchInThisLevel[i]);
-        }
     }
 
     public void AddNewLetterToWordToFill(string letterToAdd) => wordField.text = wordToFill.Append(letterToAdd).ToString();

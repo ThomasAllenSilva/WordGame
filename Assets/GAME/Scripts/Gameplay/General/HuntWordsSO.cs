@@ -7,9 +7,9 @@ public class HuntWordsSO : ScriptableObject
     private const string ALPHABET = "AÃBCDEFGHIJKLMNOPQRSTUVWXYZ";
 
 
-    public List<string> wordsToSearchInThisLevel;
+    public List<string> wordsToSearchInThisLevel = new List<string>();
 
-    public List<string> tipsFromThisLevel;
+    public List<string> tipsFromThisLevel = new List<string>();
 
     public List<Colum> columns;
 
