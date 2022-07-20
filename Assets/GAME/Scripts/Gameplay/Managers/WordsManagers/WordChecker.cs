@@ -15,13 +15,12 @@ public class WordChecker : MonoBehaviour
 
     private int currentColorIndex = 0;
 
-    [SerializeField] private HuntWordsSO currentLevel;
+    private HuntWordsSO currentLevel;
 
     private GameManager gameManager;
 
-    private IEnumerator Start()
+    private void Awake()
     {
-        yield return new WaitForSeconds(3f);
         gameManager = GameManager.Instance;
         gameManager.PlayerTouchController.TouchUpEvent += CheckIfTheWordToFillIsEqualsToAnyWordToSearchInThisLevel;
         currentLevel = gameManager.CurrentLevel;

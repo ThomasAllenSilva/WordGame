@@ -10,19 +10,22 @@ using Touch = UnityEngine.InputSystem.EnhancedTouch.Touch;
 
 [RequireComponent(typeof(BoxCollider2D))]
 [RequireComponent(typeof(Image))]
+
 public class Box : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler
 {
     private Text letterFromThisBox;
 
     private Image imageFromThisBox;
 
+    private Animator boxAnimator;
+
     private GameManager gameManager;
 
-    private LinkedList<Box> boxesThatCanBeChecked = new LinkedList<Box>();
+    [SerializeField] private LinkedList<Box> boxesThatCanBeChecked = new LinkedList<Box>();
 
     private bool thisBoxIsChecked;
 
-    private bool canThisBoxBeSelected;
+    [SerializeField] private bool canThisBoxBeSelected;
 
     private bool isThisBoxCompleted;
 
@@ -39,13 +42,13 @@ public class Box : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler
         EnhancedTouchSupport.Enable();
         letterFromThisBox = GetComponentInChildren<Text>();
         imageFromThisBox = GetComponent<Image>();
+        boxAnimator = GetComponent<Animator>();
         gameManager = GameManager.Instance;
     }
 
-    private System.Collections.IEnumerator Start()
+    private void Start()
     {
-        yield return new WaitForSeconds(4f);
-        gameManager.PlayerTouchController.TouchUpEvent += ResetAllBoxValues;
+        gameManager.PlayerTouchController.TouchUpEvent += ResetThisBoxValues;
     }
 
     public void OnPointerDown(PointerEventData eventData)
@@ -58,6 +61,7 @@ public class Box : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler
             ChangeTheImageColorFromThisBox(new Color32(7, 204, 195, 255));
             SetThisBoxAsChecked();
             AddNewBoxToAllCurrentBoxThatAreCheckedList(this);
+            gameObject.GetComponent<Animator>().Play("BoxSelected");
         }
     }
 
@@ -71,22 +75,26 @@ public class Box : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler
                 ChangeTheImageColorFromThisBox(new Color32(7, 204, 195, 255));
                 SetThisBoxAsChecked();
                 AddNewBoxToAllCurrentBoxThatAreCheckedList(this);
+                OverrideCurrentPrincipalBoxChecked();
+                boxAnimator.Play("BoxSelected");
             }
 
             else if (IsChecked())
             {
                 currentPrincipalBoxChecked.ResetThisBoxValues();
                 gameManager.WordChecker.RemoveTheLastLetterAddedToWordToFill();
-                RemoveTheLastBoxAddedToAllCurrentBoxThatAreCheckedList();
+                RemoveTheLastBoxAddedToAllCurrentBoxThatAreCheckedList(currentPrincipalBoxChecked);
+                OverrideCurrentPrincipalBoxChecked();
             }
 
-            OverrideCurrentPrincipalBoxChecked();
+
         }
     }
 
     private bool IsNotChecked()
     {
         return !thisBoxIsChecked && indexOfAmountOfBoxesThatAreCurrentChecked < 9;
+        
     }
 
     private bool IsChecked()
@@ -96,7 +104,7 @@ public class Box : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler
 
     private bool CanSelectThisBox()
     {
-        return canThisBoxBeSelected && !isThisBoxCompleted && Touch.activeTouches.Count <= 1 && this != theFirstBoxCheked;
+        return canThisBoxBeSelected && !isThisBoxCompleted && Touch.activeTouches.Count <= 1;
     }
 
     private void SetThisBoxAsChecked()
@@ -108,6 +116,7 @@ public class Box : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler
     {
         if (currentPrincipalBoxChecked != null)
         {
+
             foreach (Box box in currentPrincipalBoxChecked.boxesThatCanBeChecked)
             {
                 box.canThisBoxBeSelected = false;
@@ -128,10 +137,10 @@ public class Box : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler
         if (indexOfAmountOfBoxesThatAreCurrentChecked < 9) indexOfAmountOfBoxesThatAreCurrentChecked += 1;
     }
 
-    private void RemoveTheLastBoxAddedToAllCurrentBoxThatAreCheckedList()
+    private void RemoveTheLastBoxAddedToAllCurrentBoxThatAreCheckedList(Box boxToRemove)
     {
-        currentBoxesThatAreChecked.RemoveAt(indexOfAmountOfBoxesThatAreCurrentChecked - 1);
-
+        currentBoxesThatAreChecked.Remove(boxToRemove);
+        boxToRemove.boxAnimator.Play("BoxDeselect");
         if (indexOfAmountOfBoxesThatAreCurrentChecked > 0) indexOfAmountOfBoxesThatAreCurrentChecked -= 1;
     }
 
@@ -148,8 +157,8 @@ public class Box : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler
         await Task.Delay(1000);
 
         List<RaycastHit2D> hit = new List<RaycastHit2D>();
-        float rayXDistance = 200f;
-        float rayYDistance = 200f;
+        float rayXDistance = 700f;
+        float rayYDistance = 700f;
 
 
         hit.Add(Physics2D.Raycast(transform.position, new Vector2(rayXDistance, 0f)));
@@ -177,15 +186,15 @@ public class Box : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler
         }
     }
 
-    private void ResetAllBoxValues()
+    public static void ResetAllBoxValues()
     {
-        ResetThisBoxValues();
         currentPrincipalBoxChecked = null;
         theFirstBoxCheked = null;
         indexOfAmountOfBoxesThatAreCurrentChecked = 0;
         currentBoxesThatAreChecked.Clear();
     }
 
+  
     private void ResetThisBoxValues()
     {
         if (!isThisBoxCompleted)
@@ -193,6 +202,7 @@ public class Box : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler
             thisBoxIsChecked = false;
             imageFromThisBox.color = Color.gray;
             canThisBoxBeSelected = false;
+            boxAnimator.Play("BoxDeselect");
         }
     }
 
@@ -207,11 +217,13 @@ public class Box : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler
         currentBoxesThatAreChecked.Clear();
         boxesThatCanBeChecked.Clear();
         imageFromThisBox.color = Color.gray;
+        boxAnimator.Play("BoxDeselect");
     }
 
     private void OnEnable()
     {
         GetAllBoxesThatCanBeSelectedByThisBox();
+        boxAnimator.Play("BoxFadeIn");
     }
 
     private void OnDisable() => ResetGame();

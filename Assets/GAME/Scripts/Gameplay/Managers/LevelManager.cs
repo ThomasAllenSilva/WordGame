@@ -3,11 +3,12 @@ using UnityEngine;
 public class LevelManager : MonoBehaviour
 {
     [SerializeField] private GameObject[] gameObjects;
-    
-    private void Start()
+
+    private LoadNewLevel loaderController;
+
+    private void Awake()
     {
-        GameManager.Instance.OnEnterNewLevel += EnableGameObjects;
-        GameManager.Instance.OnLeaveCurrentLevel += DisableGameObjects;
+        loaderController = GetComponent<LoadNewLevel>();
     }
 
     private void EnableGameObjects()
@@ -24,11 +25,5 @@ public class LevelManager : MonoBehaviour
         {
             gameObjects[i].SetActive(false);
         }
-    }
-
-    private void OnDestroy()
-    {
-        GameManager.Instance.OnEnterNewLevel -= EnableGameObjects;
-        GameManager.Instance.OnLeaveCurrentLevel -= DisableGameObjects;
     }
 }

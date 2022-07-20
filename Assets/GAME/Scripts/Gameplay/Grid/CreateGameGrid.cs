@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
+[RequireComponent(typeof(GridLayoutGroup))]
 public class CreateGameGrid : GameGrid
 {
     private int currentLineIndex = 0;
@@ -48,14 +49,14 @@ public class CreateGameGrid : GameGrid
 
         if (currentLineIndex < amountOfLines)
         {
-            CreateGameObjects(currentLevel.numberOfColumns, currentLevel.numberOfLines);
+            CreateGameObjects(currentLevel.amountOfColumns, currentLevel.amountOfLines);
         }
     }
 
     protected override void OnEnable()
     {
         base.OnEnable();
-        CreateGameObjects(currentLevel.numberOfColumns, currentLevel.numberOfLines);
+        CreateGameObjects(currentLevel.amountOfColumns, currentLevel.amountOfLines);
     }
 
     private void OnDisable()

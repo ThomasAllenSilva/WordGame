@@ -12,6 +12,7 @@ public class PlayerTouchController : MonoBehaviour
         playerTouchActions = new PlayerTouchActions();
         playerTouchActions.Enable();
 
+        TouchUpEvent += Box.ResetAllBoxValues;
         playerTouchActions.Touch.TouchUp.canceled += _ => TouchUpEvent?.Invoke();
     }
 }

@@ -67,7 +67,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: da90db28557f93743829b469b20f94c9, type: 3}
+    m_Font: {fileID: 12800000, guid: ea19c92de84bcd145a0d5556f2d5493c, type: 3}
     m_FontSize: 100
     m_FontStyle: 1
     m_BestFit: 0
@@ -93,13 +93,14 @@ GameObject:
   - component: {fileID: 245275684217341470}
   - component: {fileID: 4510632485519925611}
   - component: {fileID: 6609280806172175551}
+  - component: {fileID: 2994424487020262369}
   m_Layer: 0
   m_Name: Box
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2532035534969523174
 RectTransform:
   m_ObjectHideFlags: 0
@@ -197,3 +198,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aee2b20a94977594c83b95f2bc94d09e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canThisBoxBeSelected: 0
+--- !u!95 &2994424487020262369
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8751458705829799935}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: e3ffbecce0b6a564ba70d717318eb9d7, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0

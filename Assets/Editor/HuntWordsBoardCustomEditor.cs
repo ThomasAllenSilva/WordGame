@@ -18,7 +18,7 @@ public class HuntWordsBoardCustomEditor : Editor
     {
         SetGameGridValues();
 
-        if (HuntWordsTarget.columns != null && HuntWordsTarget.numberOfColumns > 0 && HuntWordsTarget.numberOfLines > 0)
+        if (HuntWordsTarget.columns != null && HuntWordsTarget.amountOfColumns > 0 && HuntWordsTarget.amountOfLines > 0)
         {
             DrawGameGrid();
         }
@@ -62,13 +62,13 @@ public class HuntWordsBoardCustomEditor : Editor
 
     private void SetGameGridValues()
     {
-        int numberOfColumns = HuntWordsTarget.numberOfColumns;
-        int numberOfLines = HuntWordsTarget.numberOfLines;
+        int numberOfColumns = HuntWordsTarget.amountOfColumns;
+        int numberOfLines = HuntWordsTarget.amountOfLines;
 
-        HuntWordsTarget.numberOfColumns = EditorGUILayout.IntField("Number Of Columns", HuntWordsTarget.numberOfColumns);
-        HuntWordsTarget.numberOfLines = EditorGUILayout.IntField("Number Of Lines", HuntWordsTarget.numberOfLines);
+        HuntWordsTarget.amountOfColumns = EditorGUILayout.IntField("Number Of Columns", HuntWordsTarget.amountOfColumns);
+        HuntWordsTarget.amountOfLines = EditorGUILayout.IntField("Number Of Lines", HuntWordsTarget.amountOfLines);
 
-        if (HuntWordsTarget.numberOfColumns != numberOfColumns || HuntWordsTarget.numberOfLines != numberOfLines)
+        if (HuntWordsTarget.amountOfColumns != numberOfColumns || HuntWordsTarget.amountOfLines != numberOfLines)
             HuntWordsTarget.CreateNewColum();
     }
 
@@ -97,10 +97,10 @@ public class HuntWordsBoardCustomEditor : Editor
         textStyle.alignment = TextAnchor.MiddleCenter;
 
         EditorGUILayout.BeginHorizontal(tableStyle);
-        for (int i = 0; i < HuntWordsTarget.numberOfColumns; i++)
+        for (int i = 0; i < HuntWordsTarget.amountOfColumns; i++)
         {
             EditorGUILayout.BeginVertical(columStyle);
-            for (int j = 0; j < HuntWordsTarget.numberOfLines; j++)
+            for (int j = 0; j < HuntWordsTarget.amountOfLines; j++)
             {
                 EditorGUILayout.BeginHorizontal(rowStyle);
 

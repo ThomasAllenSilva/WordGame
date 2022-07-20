@@ -56,8 +56,13 @@ public class ObjectPool : MonoBehaviour
 
     public GameObject GetTheNextLetterBoxObjectFromListQueue()
     {
-        amountBoxes++;
-        return letterBoxes[amountBoxes - 1];
+        if (amountBoxes < letterBoxes.Count)
+        {
+            amountBoxes++;
+            return letterBoxes[amountBoxes - 1];
+        }
+
+        return null;
     }
 
     public void ResetLetterBoxListIndex()

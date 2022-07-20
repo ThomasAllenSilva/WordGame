@@ -3,10 +3,6 @@ using System;
 
 public class GameManager : MonoBehaviour
 {
-    public event Action OnEnterNewLevel;
-
-    public event Action OnLeaveCurrentLevel;
-
     public static GameManager Instance { get; private set; }
 
     public HuntWordsSO CurrentLevel;
@@ -14,6 +10,8 @@ public class GameManager : MonoBehaviour
     public PlayerTouchController PlayerTouchController { get; private set; }
 
     public WordChecker WordChecker { get; private set; }
+
+    public LoadNewLevel LoaderManager;
 
     private void Awake()
     {
@@ -29,16 +27,11 @@ public class GameManager : MonoBehaviour
 
         PlayerTouchController = transform.GetComponentInChildren<PlayerTouchController>();
         WordChecker = transform.GetComponentInChildren<WordChecker>();
+        LoaderManager = transform.GetComponentInChildren<LoadNewLevel>();    
     }
 
-    public void ChangeLevel(HuntWordsSO nextLevel)
+    private void Start()
     {
-        CurrentLevel = nextLevel;
-        OnEnterNewLevel?.Invoke();
-    }
-
-    public void LeaveCurrentLevel()
-    {
-        OnLeaveCurrentLevel?.Invoke();
+        LoaderManager.LoadLevel(0);
     }
 }
