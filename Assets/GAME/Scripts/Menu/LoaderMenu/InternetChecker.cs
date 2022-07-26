@@ -5,33 +5,23 @@ public class InternetChecker : MonoBehaviour
     private const bool allowCarrierDataNetwork = false;
     private const string pingAddress = "8.8.8.8"; // Google Public DNS server
     private const float waitingTime = 2.5f;
-    public bool InternetConnectBool { get; private set; }
-    private Ping ping;
+
     private float pingStartTime;
 
-    public static InternetChecker Instance;
+    private Ping ping;
 
-    private void Awake()
+    private DownloadManager downloadManager;
+
+    public bool InternetConnectBool { get; private set; }
+
+    private void Start()
     {
-        if(Instance == null)
-        {
-            Instance = this;
-        }
-
-        else
-        {
-            Destroy(gameObject);
-        }
+        downloadManager = LoaderMenuManager.Instance.DownloadManager;
+        InvokeRepeating(nameof(InternetCheck), 0.5f, 0.7f);
     }
-    public void Start()
-    {
-        InternetCheck();
-    }
-    public void InternetCheck()
-    {
 
-        Invoke("InternetCheck", 1f);
-
+    private void InternetCheck()
+    {
         bool internetPossiblyAvailable;
 
         switch (Application.internetReachability)
@@ -39,10 +29,11 @@ public class InternetChecker : MonoBehaviour
             case NetworkReachability.ReachableViaLocalAreaNetwork:
                 internetPossiblyAvailable = true;
                 break;
+
             case NetworkReachability.ReachableViaCarrierDataNetwork:
-                //internetPossiblyAvailable = allowCarrierDataNetwork;
                 internetPossiblyAvailable = true;
                 break;
+
             default:
                 internetPossiblyAvailable = false;
                 break;
@@ -56,32 +47,39 @@ public class InternetChecker : MonoBehaviour
 
         ping = new Ping(pingAddress);
         pingStartTime = Time.time;
-
+        
     }
 
-    public void Update()
+    private void Update()
     {
         if (ping != null)
         {
             bool stopCheck = true;
             if (ping.isDone)
                 InternetAvailable();
+
             else if (Time.time - pingStartTime < waitingTime)
                 stopCheck = false;
+
             else
                 InternetIsNotAvailable();
+
             if (stopCheck)
                 ping = null;
         }
     }
 
-    public void InternetIsNotAvailable()
+    private void InternetIsNotAvailable()
     {
         InternetConnectBool = false;
+
+        downloadManager.CancelDownload();
     }
 
-    public void InternetAvailable()
+    private void InternetAvailable()
     {
         InternetConnectBool = true;
+
+        downloadManager.ContinueDownload();
     }
 }

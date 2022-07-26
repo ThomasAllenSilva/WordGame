@@ -6,17 +6,17 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/GAME/Scenes/Tutorial.unity
-    guid: 4e0c46acf2ad0b647816b298469fb05c
-  - enabled: 1
-    path: Assets/GAME/Scenes/HuntWords.unity
-    guid: a8583d82a2a0b0e4e945ef8e620d2bd5
-  - enabled: 1
     path: Assets/GAME/Scenes/LoaderMenu.unity
     guid: 052f4c14b7a451a48b0052ca3bd31600
   - enabled: 1
     path: Assets/GAME/Scenes/MainMenu.unity
     guid: 46577c0ea3549a949a4fd0890c643aa1
+  - enabled: 1
+    path: Assets/GAME/Scenes/Tutorial.unity
+    guid: 4e0c46acf2ad0b647816b298469fb05c
+  - enabled: 1
+    path: Assets/GAME/Scenes/HuntWords.unity
+    guid: a8583d82a2a0b0e4e945ef8e620d2bd5
   m_configObjects:
     com.unity.addressableassets: {fileID: 11400000, guid: b273184075494554cbbdc3d833b3c1d0, type: 2}
     com.unity.localization.settings: {fileID: 11400000, guid: be1795bf66560f2429d758dca5b39fe4, type: 2}

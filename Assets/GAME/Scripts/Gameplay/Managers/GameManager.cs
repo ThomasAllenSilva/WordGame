@@ -32,6 +32,6 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        LoaderManager.LoadLevel(0);
+        LoaderManager.LoadNextLevel();
     }
 }

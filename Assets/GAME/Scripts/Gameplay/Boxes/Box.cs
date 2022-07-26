@@ -21,11 +21,11 @@ public class Box : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler
 
     private GameManager gameManager;
 
-    [SerializeField] private LinkedList<Box> boxesThatCanBeChecked = new LinkedList<Box>();
+    private LinkedList<Box> boxesThatCanBeChecked = new LinkedList<Box>();
 
     private bool thisBoxIsChecked;
 
-    [SerializeField] private bool canThisBoxBeSelected;
+    private bool canThisBoxBeSelected;
 
     private bool isThisBoxCompleted;
 
