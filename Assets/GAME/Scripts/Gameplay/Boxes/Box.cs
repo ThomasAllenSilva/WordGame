@@ -152,9 +152,9 @@ public class Box : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler
 
     private void ChangeTheImageColorFromThisBox(Color32 newColor) => imageFromThisBox.color = newColor;
 
-    private async void GetAllBoxesThatCanBeSelectedByThisBox()
+    private void GetAllBoxesThatCanBeSelectedByThisBox()
     {
-        await Task.Delay(1000);
+      //  await Task.Delay(1000);
 
         List<RaycastHit2D> hit = new List<RaycastHit2D>();
         float rayXDistance = 700f;

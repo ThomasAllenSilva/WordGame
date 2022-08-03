@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.Localization.Settings;
+
 using System.Collections;
 
 public class LoaderMenuManager : MonoBehaviour
@@ -8,14 +9,14 @@ public class LoaderMenuManager : MonoBehaviour
 
     private InternetChecker internetChecker;
 
-    public InitializeFirebase DataBaseController { get; private set; }
+    public FirebaseManager DataBaseController { get; private set; }
 
     public DownloadManager DownloadManager { get; private set; }
 
-    public static LoaderMenuManager Instance;
-
     public bool HasInternetconnection { get { return internetChecker.InternetConnectBool; } private set { HasInternetconnection = value; } }
 
+
+    public static LoaderMenuManager Instance;
 
     private void Awake()
     {
@@ -31,7 +32,7 @@ public class LoaderMenuManager : MonoBehaviour
 
         systemLanguage = GetComponentInChildren<CheckSystemLanguage>();
         internetChecker = GetComponentInChildren<InternetChecker>();
-        DataBaseController = GetComponentInChildren<InitializeFirebase>(true);
+        DataBaseController = GetComponentInChildren<FirebaseManager>(true);
         DownloadManager = GetComponentInChildren<DownloadManager>();
 
         StartCoroutine(InitializeDataBase());
@@ -39,18 +40,17 @@ public class LoaderMenuManager : MonoBehaviour
 
     private void Start()
     {
-        StartCoroutine(ChangeGameLanguageToLocalSystemLanguage());
+        ChangeGameLanguageToLocalSystemLanguage();
     }
 
-    private IEnumerator ChangeGameLanguageToLocalSystemLanguage()
+    private void ChangeGameLanguageToLocalSystemLanguage()
     {
-        yield return new WaitForSecondsRealtime(2f);
         LocalizationSettings.SelectedLocale = LocalizationSettings.AvailableLocales.Locales[GetCurrentLocalSystemLanguageIndex()];
     }
 
     private IEnumerator InitializeDataBase()
     {
-        yield return new WaitForSecondsRealtime(1.5f);
+        yield return new WaitForSeconds(0.5f);
         DataBaseController.gameObject.SetActive(true);
     }
 

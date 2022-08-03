@@ -1,8 +1,9 @@
+using System.Collections;
 using UnityEngine;
 
 public class DownloadManager : MonoBehaviour
 {
-    private LoaderMenuManager menuManager;
+    private LoaderMenuManager loaderMenuManager;
 
     [SerializeField] private GameObject internetCanvas;
 
@@ -10,7 +11,7 @@ public class DownloadManager : MonoBehaviour
 
     private void Awake()
     {
-        menuManager = LoaderMenuManager.Instance;
+        loaderMenuManager = LoaderMenuManager.Instance;
     }
 
     public void CancelDownload()
@@ -24,9 +25,14 @@ public class DownloadManager : MonoBehaviour
         CanDownloadNewContent = true;
     }
 
-    public async void TryToDownloadLevels()
+    public void TryToDownloadLevelsAgain()
     {
-        await System.Threading.Tasks.Task.Delay(500);
-        menuManager.DataBaseController.InitializeDataBase();
+        StartCoroutine(InitializeFibaseAgain());
+    }
+
+    private IEnumerator InitializeFibaseAgain()
+    {
+        yield return new WaitForSeconds(0.5f);
+        loaderMenuManager.DataBaseController.InitializeFirebaseRealTimeDataBase();
     }
 }

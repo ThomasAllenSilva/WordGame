@@ -4,19 +4,17 @@ using UnityEngine;
 
 public class SaveData : MonoBehaviour
 {
-    private string fileDirectoryPath;
     private readonly string encryptionCodeWord = "mygame";
 
-    private void Awake() => fileDirectoryPath = Application.persistentDataPath;
-
-
-    public void SaveNewData(string fileName, object objectToCreateNewData)
+    public void SaveNewData(StringBuilder fileName, object objectToCreateNewData)
     {
-        string fullPath = Path.Combine(fileDirectoryPath, fileName.ToString());
+        fileName.Append(DataManager.Instance.GetCurrentGameLanguageIdentifierCode());
 
-        string newData = JsonUtility.ToJson(objectToCreateNewData);
+        string fullPath = Path.Combine(Application.persistentDataPath, fileName.ToString());
 
-        newData = EncryptData(newData);
+        string dataToSave = JsonUtility.ToJson(objectToCreateNewData);
+
+        dataToSave = EncryptData(dataToSave);
 
         Directory.CreateDirectory(Path.GetDirectoryName(fullPath));
 
@@ -24,18 +22,19 @@ public class SaveData : MonoBehaviour
         {
             using (StreamWriter writer = new StreamWriter(stream))
             {
-                writer.Write(newData);
+                writer.Write(dataToSave);
             }
         }
     }
 
-    public void SaveNewFile(string fileName, string fileData)
+    public void SaveNewData(StringBuilder fileName, string fileData)
     {
-        string fullPath = Path.Combine(fileDirectoryPath, fileName.ToString());
 
-       // string newFile = toJsonFile == true ? _ = JsonUtility.ToJson(fileData) : fileData;
+        fileName.Append(DataManager.Instance.GetCurrentGameLanguageIdentifierCode());
 
-        string newFile = EncryptData(fileData);
+        string fullPath = Path.Combine(Application.persistentDataPath, fileName.ToString());
+
+        string fileToSave = EncryptData(fileData);
 
         Directory.CreateDirectory(Path.GetDirectoryName(fullPath));
 
@@ -43,17 +42,13 @@ public class SaveData : MonoBehaviour
         {
             using (StreamWriter writer = new StreamWriter(stream))
             {
-                writer.Write(newFile);
+                writer.Write(fileToSave);
             }
         }
+
+        // string newFile = toJsonFile == true ? _ = JsonUtility.ToJson(fileData) : fileData;
     }
 
-
-    public bool CheckIfFileExists(string fileName)
-    {
-        string fullPath = Path.Combine(fileDirectoryPath, fileName.ToString());
-        return File.Exists(fullPath);
-    }
 
 
     private string EncryptData(string dataToEncrypt)
@@ -62,7 +57,7 @@ public class SaveData : MonoBehaviour
 
         for (int i = 0; i < dataToEncrypt.Length; i++)
         {
-            encryptedData.Append((char)(dataToEncrypt[i] ^ encryptionCodeWord[i % encryptionCodeWord.Length]));
+            encryptedData.Append( (char) (dataToEncrypt[i] ^ encryptionCodeWord[i % encryptionCodeWord.Length]));
         }
 
         return encryptedData.ToString();

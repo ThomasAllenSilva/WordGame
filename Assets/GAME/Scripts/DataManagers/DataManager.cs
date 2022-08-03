@@ -1,3 +1,4 @@
+using System.IO;
 using UnityEngine;
 using UnityEngine.Localization.Settings;
 
@@ -27,11 +28,18 @@ public class DataManager : MonoBehaviour
         LoadDataManager = GetComponentInChildren<LoadData>();
         GameDataManager = GetComponentInChildren<GameDataManager>();
 
-        DontDestroyOnLoad(gameObject);
+        DontDestroyOnLoad(Instance.gameObject);
+    }
+
+    public bool CheckIfFileExists(string fileName)
+    {
+        string fullPath = Path.Combine(Application.persistentDataPath, fileName.ToString());
+
+        return File.Exists(fullPath);
     }
 
 
-    public string GetCurrentGameLanguageCode()
+    public string GetCurrentGameLanguageIdentifierCode()
     {
         return LocalizationSettings.SelectedLocale.Identifier.Code;
     }

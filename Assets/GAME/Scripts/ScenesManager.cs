@@ -17,13 +17,13 @@ public class ScenesManager : MonoBehaviour
             Destroy(gameObject);
         }
 
-        DontDestroyOnLoad(this.gameObject);
+        DontDestroyOnLoad(Instance.gameObject);
     }
 
 
     public void LoadMainMenuScene()
     {
-        SceneManager.LoadSceneAsync(1);
+        SceneManager.LoadScene(1);
     }
 
     //public void LoadTutorialScene()

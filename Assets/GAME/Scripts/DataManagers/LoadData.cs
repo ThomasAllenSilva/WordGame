@@ -4,20 +4,18 @@ using UnityEngine;
 
 public class LoadData : MonoBehaviour
 {
-    private string fileDirectoryPath;
     private readonly string decryptionCodeWord = "mygame";
-
-    private void Awake() => fileDirectoryPath = Application.persistentDataPath;
 
     public string LoadFileData(string fileName)
     {
-        string fullPath = Path.Combine(fileDirectoryPath, fileName.ToString());
+        string fullPath = Path.Combine(Application.persistentDataPath, fileName.ToString());
 
         using (FileStream stream = new FileStream(fullPath, FileMode.Open))
         {
             using (StreamReader reader = new StreamReader(stream))
             {
                 string dataToLoad = reader.ReadToEnd();
+
                 return DecryptData(dataToLoad);
             }
         }
