@@ -22,16 +22,12 @@ public class HuntWordsSO : ScriptableObject
 
     public List<Colum> columns;
 
-
-
     public GridConfiguration gameGridConfiguration = new GridConfiguration();
 
-    public bool completedThisLevel;
-
-    
     public void LoadNewLevelDataInfo()
     {
         CreateNewColum();
+
         lettersFromLines = new string[amountOfColumns * amountOfLines];
 
         lettersFromLines = letters.Split(";");
@@ -88,18 +84,6 @@ public class HuntWordsSO : ScriptableObject
                 letterOnThisColum[i] = "";
             }
         }
-
-        public void FillAllEmptyBoxesInThisColumWithRandomLetters()
-        {
-            for (int i = 0; i < letterOnThisColum.Length; i++)
-            {
-                if (letterOnThisColum[i] == "")
-                {
-                    char randomChar = ALPHABET[Random.Range(0, ALPHABET.Length)];
-                    letterOnThisColum[i] = randomChar.ToString();
-                }
-            }
-        }
     }
 
     [System.Serializable]
@@ -118,14 +102,6 @@ public class HuntWordsSO : ScriptableObject
         for (int i = 0; i < columns.Capacity; i++)
         {
             columns.Add(new Colum(amountOfLines));
-        }
-    }
-
-    public void FillAllEmptyBoxesWithRandomLetters()
-    {
-        for (int i = 0; i < columns.Count; i++)
-        {
-            columns[i].FillAllEmptyBoxesInThisColumWithRandomLetters();
         }
     }
 

@@ -8,9 +8,11 @@ public class SaveData : MonoBehaviour
 
     public void SaveNewData(StringBuilder fileName, object objectToCreateNewData)
     {
-        fileName.Append(DataManager.Instance.GetCurrentGameLanguageIdentifierCode());
+        StringBuilder fileToSaveName = new StringBuilder(fileName.ToString());
 
-        string fullPath = Path.Combine(Application.persistentDataPath, fileName.ToString());
+        fileToSaveName.Append(DataManager.Instance.GetCurrentGameLanguageIdentifierCode());
+
+        string fullPath = Path.Combine(Application.persistentDataPath, fileToSaveName.ToString());
 
         string dataToSave = JsonUtility.ToJson(objectToCreateNewData);
 
@@ -32,7 +34,7 @@ public class SaveData : MonoBehaviour
 
         fileName.Append(DataManager.Instance.GetCurrentGameLanguageIdentifierCode());
 
-        string fullPath = Path.Combine(Application.persistentDataPath, fileName.ToString());
+        string fullPath = Path.Combine(Application.persistentDataPath + "/Levels", fileName.ToString());
 
         string fileToSave = EncryptData(fileData);
 
@@ -45,11 +47,26 @@ public class SaveData : MonoBehaviour
                 writer.Write(fileToSave);
             }
         }
-
-        // string newFile = toJsonFile == true ? _ = JsonUtility.ToJson(fileData) : fileData;
     }
 
+    public void SaveNewData(string fileName, object objectToCreateNewData)
+    {
+        string fullPath = Path.Combine(Application.persistentDataPath, fileName.ToString());
 
+        string dataToSave = JsonUtility.ToJson(objectToCreateNewData);
+
+        dataToSave = EncryptData(dataToSave);
+
+        Directory.CreateDirectory(Path.GetDirectoryName(fullPath));
+
+        using (FileStream stream = new FileStream(fullPath, FileMode.Create))
+        {
+            using (StreamWriter writer = new StreamWriter(stream))
+            {
+                writer.Write(dataToSave);
+            }
+        }
+    }
 
     private string EncryptData(string dataToEncrypt)
     {
@@ -57,7 +74,7 @@ public class SaveData : MonoBehaviour
 
         for (int i = 0; i < dataToEncrypt.Length; i++)
         {
-            encryptedData.Append( (char) (dataToEncrypt[i] ^ encryptionCodeWord[i % encryptionCodeWord.Length]));
+            encryptedData.Append((char)(dataToEncrypt[i] ^ encryptionCodeWord[i % encryptionCodeWord.Length]));
         }
 
         return encryptedData.ToString();

@@ -15,7 +15,7 @@ MonoBehaviour:
   amountOfColumns: 5
   amountOfLines: 5
   cellSize: 200;170
-  cellSpacing: 200;220
+  cellSpacing: 220;229
   paddingLeftBottom: 170;1600
   lettersFromLines:
   - O
@@ -95,5 +95,4 @@ MonoBehaviour:
     paddingLeft: 170
     paddingTop: 1600
     cellSize: {x: 200, y: 170}
-    spacing: {x: 200, y: 220}
-  completedThisLevel: 0
+    spacing: {x: 220, y: 229}

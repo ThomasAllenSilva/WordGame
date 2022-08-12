@@ -34,11 +34,6 @@ public class HuntWordsBoardCustomEditor : Editor
             HuntWordsTarget.DeleteAllLetters();
         }
 
-        if (GUILayout.Button("Random All Letters"))
-        {
-            HuntWordsTarget.FillAllEmptyBoxesWithRandomLetters();
-        }
-
         EditorGUILayout.EndHorizontal();
 
         EditorGUILayout.Space(20);
@@ -52,9 +47,6 @@ public class HuntWordsBoardCustomEditor : Editor
 
 
         EditorGUILayout.PropertyField(serializedObject.FindProperty("gameGridConfiguration"), true);
-        EditorGUILayout.Space(10);
-
-        EditorGUILayout.PropertyField(serializedObject.FindProperty("completedThisLevel"), true);
         EditorGUILayout.Space(10);
 
         serializedObject.ApplyModifiedProperties();

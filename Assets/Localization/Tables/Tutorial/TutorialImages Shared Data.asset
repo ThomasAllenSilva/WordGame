@@ -19,11 +19,11 @@ MonoBehaviour:
     m_Key: TutorialImage1
     m_Metadata:
       m_Items: []
-  - m_Id: 26184906924032
+  - m_Id: 7735654600630272
     m_Key: TutorialImage2
     m_Metadata:
       m_Items: []
-  - m_Id: 26995871408128
+  - m_Id: 8173090640191488
     m_Key: TutorialImage3
     m_Metadata:
       m_Items: []
@@ -47,11 +47,11 @@ MonoBehaviour:
           m_TableCodes:
           - en
           - pt
-        - m_KeyId: 26184906924032
+        - m_KeyId: 7735654600630272
           m_TableCodes:
-          - en
           - pt
-        - m_KeyId: 26995871408128
+          - en
+        - m_KeyId: 8173090640191488
           m_TableCodes:
           - en
           - pt

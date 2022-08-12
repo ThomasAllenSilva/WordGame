@@ -162,7 +162,7 @@ PlayerSettings:
   androidSupportedAspectRatio: 1
   androidMaxAspectRatio: 2.1
   applicationIdentifier:
-    Android: com.com.ThomasAllen.HuntWordsLevels.WordGame
+    Android: com.ThomasAllen.HuntWordsLevels
     Standalone: ThomasAllen.HuntWordsLevels
   buildNumber:
     Standalone: 0
@@ -770,7 +770,7 @@ PlayerSettings:
   additionalCompilerArguments: {}
   platformArchitecture: {}
   scriptingBackend:
-    Android: 1
+    Android: 0
   il2cppCompilerConfiguration: {}
   managedStrippingLevel: {}
   incrementalIl2cppBuild: {}

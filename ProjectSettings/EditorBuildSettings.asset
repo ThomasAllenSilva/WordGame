@@ -6,7 +6,7 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/GAME/Scenes/LoaderMenu.unity
+    path: Assets/GAME/Scenes/FirebaseMenu.unity
     guid: 052f4c14b7a451a48b0052ca3bd31600
   - enabled: 1
     path: Assets/GAME/Scenes/MainMenu.unity
@@ -15,7 +15,7 @@ EditorBuildSettings:
     path: Assets/GAME/Scenes/Tutorial.unity
     guid: 4e0c46acf2ad0b647816b298469fb05c
   - enabled: 1
-    path: Assets/GAME/Scenes/HuntWords.unity
+    path: Assets/GAME/Scenes/GameScene.unity
     guid: a8583d82a2a0b0e4e945ef8e620d2bd5
   m_configObjects:
     com.unity.addressableassets: {fileID: 11400000, guid: b273184075494554cbbdc3d833b3c1d0, type: 2}

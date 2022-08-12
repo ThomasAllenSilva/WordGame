@@ -8,7 +8,7 @@ public class LoadData : MonoBehaviour
 
     public string LoadFileData(string fileName)
     {
-        string fullPath = Path.Combine(Application.persistentDataPath, fileName.ToString());
+        string fullPath = Path.Combine(Application.persistentDataPath, fileName);
 
         using (FileStream stream = new FileStream(fullPath, FileMode.Open))
         {

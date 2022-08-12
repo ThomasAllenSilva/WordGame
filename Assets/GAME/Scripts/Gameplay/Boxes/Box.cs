@@ -1,4 +1,4 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections;
 using System.Collections.Generic;
 
 using UnityEngine;
@@ -8,9 +8,9 @@ using UnityEngine.EventSystems;
 using UnityEngine.InputSystem.EnhancedTouch;
 using Touch = UnityEngine.InputSystem.EnhancedTouch.Touch;
 
+
 [RequireComponent(typeof(BoxCollider2D))]
 [RequireComponent(typeof(Image))]
-
 public class Box : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler
 {
     private Text letterFromThisBox;
@@ -33,13 +33,18 @@ public class Box : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler
 
     public static List<Box> currentBoxesThatAreChecked = new List<Box>(10);
 
-    public static Box theFirstBoxCheked;
+    public static Box theFirstBoxChecked;
 
-    public static int indexOfAmountOfBoxesThatAreCurrentChecked = 0;
+    public static int amountOfBoxesThatAreCurrentChecked = 0;
+
+    private const int maxOfBoxesThatCanBeChecked = 9;
+
+    private static Color32 completedColor;
 
     private void Awake()
     {
         EnhancedTouchSupport.Enable();
+
         letterFromThisBox = GetComponentInChildren<Text>();
         imageFromThisBox = GetComponent<Image>();
         boxAnimator = GetComponent<Animator>();
@@ -49,18 +54,24 @@ public class Box : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler
     private void Start()
     {
         gameManager.PlayerTouchController.TouchUpEvent += ResetThisBoxValues;
+        gameManager.PlayerTouchController.TouchUpEvent += SetRandomColorToCompletedBoxImageColor;
+    }
+
+    public void SetRandomColorToCompletedBoxImageColor()
+    {
+        completedColor = Random.ColorHSV();
     }
 
     public void OnPointerDown(PointerEventData eventData)
     {
         if (!isThisBoxCompleted && Touch.activeTouches.Count <= 1)
         {
-            theFirstBoxCheked = this;
+            theFirstBoxChecked = this;
             OverrideCurrentPrincipalBoxChecked();
-            gameManager.WordChecker.AddNewLetterToWordToFill(letterFromThisBox.text);
+            gameManager.WordChecker.AddLetterToWordToFill(letterFromThisBox.text);
             ChangeTheImageColorFromThisBox(new Color32(7, 204, 195, 255));
             SetThisBoxAsChecked();
-            AddNewBoxToAllCurrentBoxThatAreCheckedList(this);
+            AddThisBoxToAllCurrentBoxThatAreCheckedList();
             gameObject.GetComponent<Animator>().Play("BoxSelected");
         }
     }
@@ -71,10 +82,10 @@ public class Box : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler
         { 
             if (IsNotChecked())
             {
-                gameManager.WordChecker.AddNewLetterToWordToFill(letterFromThisBox.text);
+                gameManager.WordChecker.AddLetterToWordToFill(letterFromThisBox.text);
                 ChangeTheImageColorFromThisBox(new Color32(7, 204, 195, 255));
                 SetThisBoxAsChecked();
-                AddNewBoxToAllCurrentBoxThatAreCheckedList(this);
+                AddThisBoxToAllCurrentBoxThatAreCheckedList();
                 OverrideCurrentPrincipalBoxChecked();
                 boxAnimator.Play("BoxSelected");
             }
@@ -83,23 +94,20 @@ public class Box : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler
             {
                 currentPrincipalBoxChecked.ResetThisBoxValues();
                 gameManager.WordChecker.RemoveTheLastLetterAddedToWordToFill();
-                RemoveTheLastBoxAddedToAllCurrentBoxThatAreCheckedList(currentPrincipalBoxChecked);
+                RemoveTheLastBoxAddedToAllCurrentBoxThatAreCheckedList();
                 OverrideCurrentPrincipalBoxChecked();
             }
-
-
         }
     }
 
     private bool IsNotChecked()
     {
-        return !thisBoxIsChecked && indexOfAmountOfBoxesThatAreCurrentChecked < 9;
-        
+        return !thisBoxIsChecked && amountOfBoxesThatAreCurrentChecked < maxOfBoxesThatCanBeChecked;
     }
 
     private bool IsChecked()
     {
-        return thisBoxIsChecked && currentBoxesThatAreChecked[indexOfAmountOfBoxesThatAreCurrentChecked - 2] == this;
+        return thisBoxIsChecked && currentBoxesThatAreChecked[amountOfBoxesThatAreCurrentChecked - 2] == this;
     }
 
     private bool CanSelectThisBox()
@@ -116,7 +124,6 @@ public class Box : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler
     {
         if (currentPrincipalBoxChecked != null)
         {
-
             foreach (Box box in currentPrincipalBoxChecked.boxesThatCanBeChecked)
             {
                 box.canThisBoxBeSelected = false;
@@ -131,30 +138,46 @@ public class Box : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler
         }
     }
 
-    private void AddNewBoxToAllCurrentBoxThatAreCheckedList(Box boxToAdd)
+    private void AddThisBoxToAllCurrentBoxThatAreCheckedList()
     {
-        currentBoxesThatAreChecked.Add(boxToAdd);
-        if (indexOfAmountOfBoxesThatAreCurrentChecked < 9) indexOfAmountOfBoxesThatAreCurrentChecked += 1;
+        currentBoxesThatAreChecked.Add(this);
+
+        if (amountOfBoxesThatAreCurrentChecked < maxOfBoxesThatCanBeChecked) amountOfBoxesThatAreCurrentChecked += 1;
     }
 
-    private void RemoveTheLastBoxAddedToAllCurrentBoxThatAreCheckedList(Box boxToRemove)
+    private void RemoveTheLastBoxAddedToAllCurrentBoxThatAreCheckedList()
     {
-        currentBoxesThatAreChecked.Remove(boxToRemove);
-        boxToRemove.boxAnimator.Play("BoxDeselect");
-        if (indexOfAmountOfBoxesThatAreCurrentChecked > 0) indexOfAmountOfBoxesThatAreCurrentChecked -= 1;
+        currentBoxesThatAreChecked.Remove(currentPrincipalBoxChecked);
+        currentPrincipalBoxChecked.boxAnimator.Play("BoxDeselect");
+        if (amountOfBoxesThatAreCurrentChecked > 0) amountOfBoxesThatAreCurrentChecked -= 1;
     }
 
-    public void SetThisBoxAsCompleted(Color32 anyColorIndexFromCurrentWordGrid)
+    public void SetThisBoxAsCompleted()
     {
         isThisBoxCompleted = true;
-        ChangeTheImageColorFromThisBox(anyColorIndexFromCurrentWordGrid);
+        ChangeTheImageColorFromThisBox();
     }
+
+    private void ChangeTheImageColorFromThisBox() => imageFromThisBox.color = completedColor;
 
     private void ChangeTheImageColorFromThisBox(Color32 newColor) => imageFromThisBox.color = newColor;
 
-    private void GetAllBoxesThatCanBeSelectedByThisBox()
+    public static void SetAllCurrentBoxesCheckedAsComplete()
     {
-      //  await Task.Delay(1000);
+        foreach (Box box in currentBoxesThatAreChecked)
+        {
+            box.SetThisBoxAsCompleted();
+        }
+
+        amountOfBoxesThatAreCurrentChecked = 0;
+        currentBoxesThatAreChecked.Clear();
+    }
+
+    private IEnumerator GetAllBoxesThatCanBeSelectedByThisBox()
+    {
+        yield return new WaitForEndOfFrame();
+        yield return new WaitForEndOfFrame();
+        yield return new WaitForEndOfFrame();
 
         List<RaycastHit2D> hit = new List<RaycastHit2D>();
         float rayXDistance = 700f;
@@ -182,6 +205,13 @@ public class Box : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler
                     boxesThatCanBeChecked.AddLast(hit[i].collider.GetComponent<Box>());
                     hit[i].collider.GetComponent<Box>().canThisBoxBeSelected = true;
                 }
+
+                else
+                {
+                    currentPrincipalBoxChecked = this;
+                    boxesThatCanBeChecked.AddLast(hit[i].collider.GetComponent<Box>());
+                    hit[i].collider.GetComponent<Box>().canThisBoxBeSelected = true;
+                }
             }
         }
     }
@@ -189,8 +219,8 @@ public class Box : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler
     public static void ResetAllBoxValues()
     {
         currentPrincipalBoxChecked = null;
-        theFirstBoxCheked = null;
-        indexOfAmountOfBoxesThatAreCurrentChecked = 0;
+        theFirstBoxChecked = null;
+        amountOfBoxesThatAreCurrentChecked = 0;
         currentBoxesThatAreChecked.Clear();
     }
 
@@ -212,8 +242,8 @@ public class Box : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler
         isThisBoxCompleted = false;
         canThisBoxBeSelected = false;
         currentPrincipalBoxChecked = null;
-        theFirstBoxCheked = null;
-        indexOfAmountOfBoxesThatAreCurrentChecked = 0;
+        theFirstBoxChecked = null;
+        amountOfBoxesThatAreCurrentChecked = 0;
         currentBoxesThatAreChecked.Clear();
         boxesThatCanBeChecked.Clear();
         imageFromThisBox.color = Color.gray;
@@ -222,7 +252,7 @@ public class Box : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler
 
     private void OnEnable()
     {
-        GetAllBoxesThatCanBeSelectedByThisBox();
+        StartCoroutine(GetAllBoxesThatCanBeSelectedByThisBox());
         boxAnimator.Play("BoxFadeIn");
     }
 

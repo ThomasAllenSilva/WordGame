@@ -10,6 +10,8 @@ public class DataManager : MonoBehaviour
 
     public GameDataManager GameDataManager { get; private set; }
 
+    public PlayerDataManager PlayerDataManager { get; private set; }
+
     public static DataManager Instance;
 
     private void Awake()
@@ -21,26 +23,26 @@ public class DataManager : MonoBehaviour
 
         else
         {
-            Destroy(gameObject);
+            Destroy(this.gameObject);
         }
 
         SaveDataManager = GetComponentInChildren<SaveData>();
         LoadDataManager = GetComponentInChildren<LoadData>();
         GameDataManager = GetComponentInChildren<GameDataManager>();
+        PlayerDataManager = GetComponentInChildren<PlayerDataManager>();
 
         DontDestroyOnLoad(Instance.gameObject);
     }
 
     public bool CheckIfFileExists(string fileName)
     {
-        string fullPath = Path.Combine(Application.persistentDataPath, fileName.ToString());
+        string fullPath = Path.Combine(Application.persistentDataPath, fileName);
 
         return File.Exists(fullPath);
     }
 
-
     public string GetCurrentGameLanguageIdentifierCode()
     {
-        return LocalizationSettings.SelectedLocale.Identifier.Code;
+        return GameDataManager.CurrentGameLanguageCode;
     }
 }

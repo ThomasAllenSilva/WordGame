@@ -1,0 +1,44 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b11a58205ec3474ca216360e9fa74a8, type: 3}
+  m_Name: TutorialText Shared Data
+  m_EditorClassIdentifier: 
+  m_TableCollectionName: TutorialText
+  m_TableCollectionNameGuidString: a242a49711cf4ca4b8fc94edf5d899e0
+  m_Entries:
+  - m_Id: 34784632832
+    m_Key: NextText
+    m_Metadata:
+      m_Items: []
+  - m_Id: 77033857024
+    m_Key: "\rTutorialText1"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 182096977920
+    m_Key: TutorialText2
+    m_Metadata:
+      m_Items: []
+  - m_Id: 244684382208
+    m_Key: TutorialText3
+    m_Metadata:
+      m_Items: []
+  m_Metadata:
+    m_Items: []
+  m_KeyGenerator:
+    rid: 5079180993306296321
+  references:
+    version: 2
+    RefIds:
+    - rid: 5079180993306296321
+      type: {class: DistributedUIDGenerator, ns: UnityEngine.Localization.Tables, asm: Unity.Localization}
+      data:
+        m_CustomEpoch: 1660076128700

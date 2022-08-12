@@ -1,21 +1,16 @@
-using UnityEngine;
-using UnityEngine.UI;
 using System.Text;
 using System.Collections.Generic;
-using System.Collections;
+
+using UnityEngine;
+using UnityEngine.UI;
+
 public class WordChecker : MonoBehaviour
 {
-    [SerializeField] private WordToSearchFieldsController wordsToSearchUI;
+    [SerializeField] private TipsController tipsUIManager;
 
     [SerializeField] private Text wordField;
 
-    [SerializeField] private Color32[] completedColor;
-
     [SerializeField] private StringBuilder wordToFill = new StringBuilder(11);
-
-    private int currentColorIndex = 0;
-
-    private HuntWordsSO currentLevel;
 
     private GameManager gameManager;
 
@@ -23,10 +18,9 @@ public class WordChecker : MonoBehaviour
     {
         gameManager = GameManager.Instance;
         gameManager.PlayerTouchController.TouchUpEvent += CheckIfTheWordToFillIsEqualsToAnyWordToSearchInThisLevel;
-        currentLevel = gameManager.CurrentLevel;
     }
 
-    public void AddNewLetterToWordToFill(string letterToAdd) => wordField.text = wordToFill.Append(letterToAdd).ToString();
+    public void AddLetterToWordToFill(string letterToAdd) => wordField.text = wordToFill.Append(letterToAdd).ToString();
 
     public void RemoveTheLastLetterAddedToWordToFill() => wordField.text = wordToFill.Remove(wordToFill.Length - 1, 1).ToString();
 
@@ -36,13 +30,12 @@ public class WordChecker : MonoBehaviour
         {
             string filledWord = wordToFill.ToString();
 
-            string wordCompleted = BinarySearchString(currentLevel.wordsToSearchInThisLevel, filledWord, out int wordIndex);
+            string wordCompleted = BinarySearchString(gameManager.LevelManager.CurrentLevel.wordsToSearchInThisLevel, filledWord, out int wordIndex);
 
             if (filledWord == wordCompleted)
             {
-                SetAllCurrentBoxesCheckedAsComplete();
-                wordsToSearchUI.SetWordUIFieldComplete(wordIndex);
-                currentColorIndex += 1;
+                Box.SetAllCurrentBoxesCheckedAsComplete();
+                tipsUIManager.SetTipUIFieldComplete(wordIndex);
             }
         }
 
@@ -82,26 +75,11 @@ public class WordChecker : MonoBehaviour
         return null;
     }
 
-    private void SetAllCurrentBoxesCheckedAsComplete()
-    {
-        foreach (Box box in Box.currentBoxesThatAreChecked)
-        {
-            box.SetThisBoxAsCompleted(completedColor[currentColorIndex]);
-        }
 
-        Box.indexOfAmountOfBoxesThatAreCurrentChecked = 0;
-        Box.currentBoxesThatAreChecked.Clear();
-    }
 
     private void SetToWordToFillAndWordFieldVariablesEmptyValues()
     {
         wordToFill.Clear();
         wordField.text = "";
-    }
-
-    public void OnChangedLevel()
-    {
-        currentLevel = gameManager.CurrentLevel;
-        currentColorIndex = 0;
     }
 }
