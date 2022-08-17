@@ -12,7 +12,7 @@ public class FirebaseMenuManager : MonoBehaviour
 
     public DownloadManager DownloadManager { get; private set; }
 
-    public bool HasInternetconnection { get { return internetChecker.InternetConnectBool; } private set { HasInternetconnection = value; } }
+    public bool HasInternetconnection { get { return internetChecker.InternetConnectionBool; } private set { HasInternetconnection = value; } }
 
     public static FirebaseMenuManager Instance;
 
@@ -34,19 +34,18 @@ public class FirebaseMenuManager : MonoBehaviour
         internetChecker = GetComponentInChildren<InternetChecker>();
         DataBaseController = GetComponentInChildren<FirebaseManager>(true);
         DownloadManager = GetComponentInChildren<DownloadManager>();
-
-        StartCoroutine(InitializeDataBase());
     }
 
     private IEnumerator Start()
     {
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(1f);
         LocalizationSettings.SelectedLocale = LocalizationSettings.AvailableLocales.Locales[DataManager.Instance.GameDataManager.CurrentGameLanguageIndex];
+
+        InitializeDataBase();
     }
 
-    private IEnumerator InitializeDataBase()
+    private void InitializeDataBase()
     {
-        yield return new WaitForSeconds(0.5f);
         DataBaseController.gameObject.SetActive(true);
     }
 

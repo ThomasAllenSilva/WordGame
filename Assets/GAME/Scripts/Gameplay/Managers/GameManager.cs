@@ -29,9 +29,4 @@ public class GameManager : MonoBehaviour
 
         DataManager = DataManager.Instance;
     }
-
-    private void Start()
-    {
-        LevelManager.LoadNextLevel();
-    }
 }

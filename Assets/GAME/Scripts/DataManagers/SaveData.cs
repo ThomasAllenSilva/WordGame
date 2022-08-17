@@ -34,7 +34,7 @@ public class SaveData : MonoBehaviour
 
         fileName.Append(DataManager.Instance.GetCurrentGameLanguageIdentifierCode());
 
-        string fullPath = Path.Combine(Application.persistentDataPath + "/Levels", fileName.ToString());
+        string fullPath = Path.Combine(Application.persistentDataPath, fileName.ToString());
 
         string fileToSave = EncryptData(fileData);
 

@@ -36,6 +36,7 @@ public class WordChecker : MonoBehaviour
             {
                 Box.SetAllCurrentBoxesCheckedAsComplete();
                 tipsUIManager.SetTipUIFieldComplete(wordIndex);
+                gameManager.LevelManager.FindedNewWord();
             }
         }
 
@@ -81,5 +82,10 @@ public class WordChecker : MonoBehaviour
     {
         wordToFill.Clear();
         wordField.text = "";
+    }
+
+    private void OnDestroy()
+    {
+        gameManager.PlayerTouchController.TouchUpEvent -= CheckIfTheWordToFillIsEqualsToAnyWordToSearchInThisLevel;
     }
 }

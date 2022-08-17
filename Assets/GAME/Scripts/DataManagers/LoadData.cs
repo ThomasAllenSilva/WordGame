@@ -10,15 +10,24 @@ public class LoadData : MonoBehaviour
     {
         string fullPath = Path.Combine(Application.persistentDataPath, fileName);
 
-        using (FileStream stream = new FileStream(fullPath, FileMode.Open))
+        if (DataManager.Instance.CheckIfFileExists(fileName))
         {
-            using (StreamReader reader = new StreamReader(stream))
+            using (FileStream stream = new FileStream(fullPath, FileMode.Open))
             {
-                string dataToLoad = reader.ReadToEnd();
+                using (StreamReader reader = new StreamReader(stream))
+                {
+                    string dataToLoad = reader.ReadToEnd();
 
-                return DecryptData(dataToLoad);
+                    return DecryptData(dataToLoad);
+                }
             }
         }
+
+        else
+        {
+            return null;
+        }
+      
     }
 
     private string DecryptData(string dataToDecrypt)

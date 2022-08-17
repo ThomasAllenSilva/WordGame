@@ -18,7 +18,7 @@ public class CheckSystemLanguage : MonoBehaviour
 
         else
         {
-            LocalSystemLanguageIndexCode = 0;
+            LocalSystemLanguageIndexCode = 1;
         }
     }
 }

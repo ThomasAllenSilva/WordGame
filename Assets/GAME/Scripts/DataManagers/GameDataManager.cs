@@ -13,8 +13,9 @@ public class GameDataManager : MonoBehaviour
 
     private DataManager dataManager;
 
-    private void Start()
+    private void Awake()
     {
+
         gameData = new GameData();
         dataManager = DataManager.Instance;
 
@@ -44,8 +45,6 @@ public class GameDataManager : MonoBehaviour
     {
         string dataToLoad = dataManager.LoadDataManager.LoadFileData(gameDataFileName);
 
-        GameData gameData = new GameData();
-
         JsonUtility.FromJsonOverwrite(dataToLoad, gameData);
 
         this.CurrentGameLanguageCode = gameData.currentGameLanguageCode;
@@ -63,8 +62,8 @@ public class GameDataManager : MonoBehaviour
         CurrentGameLanguageCode = newLanguageCode;
         CurrentGameLanguageIndex = newLanguageIndex;
 
-        gameData.currentGameLanguageCode = this.CurrentGameLanguageCode;
-        gameData.CurrentGameLanguageIndex = this.CurrentGameLanguageIndex;
+        gameData.currentGameLanguageCode = newLanguageCode;
+        gameData.CurrentGameLanguageIndex = newLanguageIndex;
 
         dataManager.SaveDataManager.SaveNewData(gameDataFileName, gameData);
     }

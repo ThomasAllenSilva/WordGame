@@ -1,4 +1,4 @@
-using UnityEngine.UI;
+using TMPro;
 
 public class TipsGrid : Grid
 {
@@ -8,8 +8,7 @@ public class TipsGrid : Grid
         {
             transform.GetChild(i).name = gameManager.LevelManager.CurrentLevel.wordsToSearchInThisLevel[i];
 
-           transform.GetChild(i).GetComponentInChildren<Text>().text = gameManager.LevelManager.CurrentLevel.tipsFromThisLevel[i];
-
+            transform.GetChild(i).GetComponentInChildren<TextMeshProUGUI>().text = gameManager.LevelManager.CurrentLevel.tipsFromThisLevel[i];
             transform.GetChild(i).gameObject.SetActive(true);
 
             //    wordToSearchTextField.resizeTextForBestFit = true;

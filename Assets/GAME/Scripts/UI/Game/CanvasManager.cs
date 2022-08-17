@@ -4,28 +4,28 @@ public class CanvasManager : MonoBehaviour
 {
     [SerializeField] private GameObject boxesCanvas;
     [SerializeField] private GameObject tipsScrollerCanvas;
+    [SerializeField] private GameObject finishedLevelCanvas;
 
     private void Awake()
     {
-        GameManager.Instance.LevelManager.onLevelCompleted += DisableCanvas;
-        GameManager.Instance.LevelManager.onLevelStarted += EnableCanvas;
+        GameManager.Instance.LevelManager.onLevelStarted += EnableGameCanvas;
+        GameManager.Instance.LevelManager.onLevelCompleted += EnableFinishedLevelCanvas;
     }
 
-    private void EnableCanvas()
+    private void EnableGameCanvas()
     {
         boxesCanvas.SetActive(true);
         tipsScrollerCanvas.SetActive(true);
     }
 
-    private void DisableCanvas()
+    private void EnableFinishedLevelCanvas()
     {
-        boxesCanvas.SetActive(false);
-        tipsScrollerCanvas.SetActive(false);
+        finishedLevelCanvas.SetActive(true);
     }
 
     private void OnDestroy()
     {
-        GameManager.Instance.LevelManager.onLevelCompleted += DisableCanvas;
-        GameManager.Instance.LevelManager.onLevelStarted += EnableCanvas;
+        GameManager.Instance.LevelManager.onLevelCompleted += EnableFinishedLevelCanvas;
+        GameManager.Instance.LevelManager.onLevelStarted += EnableGameCanvas;
     }
 }

@@ -1,7 +1,9 @@
-using UnityEngine.UI;
-
+using TMPro;
 public class BoxGrid : Grid
 {
+    private int currentLineIndex = 0;
+    private int currentChildBoxIndex;
+
     private void InitializeGridValues()
     {
         gridLayoutGroup.padding.left = gameManager.LevelManager.CurrentLevel.gameGridConfiguration.paddingLeft;
@@ -12,12 +14,25 @@ public class BoxGrid : Grid
 
     private void InitializeBoxes()
     {
-        int amountOfBoxes = gameManager.LevelManager.CurrentLevel.amountOfColumns * gameManager.LevelManager.CurrentLevel.amountOfLines;
 
-        for (int i = 0; i < amountOfBoxes; i++)
-        {
-            transform.GetChild(i).gameObject.SetActive(true);
+
+        for (int i = 0; i < gameManager.LevelManager.CurrentLevel.amountOfColumns; i++)
+        { 
+            TextMeshProUGUI boxText = transform.GetChild(currentChildBoxIndex).GetComponentInChildren<TextMeshProUGUI>();
+            boxText.fontSizeMax = 130f;
+            boxText.text =  gameManager.LevelManager.CurrentLevel.columns[i].letterOnThisColum[currentLineIndex];
+
+            transform.GetChild(currentChildBoxIndex).gameObject.SetActive(true);
+            currentChildBoxIndex++;
         }
+
+        if (currentLineIndex < gameManager.LevelManager.CurrentLevel.amountOfLines - 1)
+        {
+            currentLineIndex++;
+            InitializeBoxes();
+        }
+
+
     }
 
     protected void OnEnable()
@@ -25,5 +40,11 @@ public class BoxGrid : Grid
         InitializeGridValues();
 
         InitializeBoxes();
+    }
+
+    private void OnDisable()
+    {
+        currentChildBoxIndex = 0;
+        currentLineIndex = 0;
     }
 }

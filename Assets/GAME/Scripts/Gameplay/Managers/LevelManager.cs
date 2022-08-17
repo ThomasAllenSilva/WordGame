@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Text;
 using System;
 using UnityEngine;
+using System.Collections;
 
 public class LevelManager : MonoBehaviour
 {
@@ -17,6 +18,8 @@ public class LevelManager : MonoBehaviour
 
     public Action onLevelStarted;
 
+    private int amountOfWordsFinded;
+
     private void Awake()
     {
         gameManager = GameManager.Instance;
@@ -24,7 +27,7 @@ public class LevelManager : MonoBehaviour
         LoadNextLevel();
     }
 
-    public void LoadNextLevel()
+    private void LoadNextLevel()
     {
         nextLevelID = gameManager.DataManager.PlayerDataManager.CurrentGameLevel;
 
@@ -42,6 +45,7 @@ public class LevelManager : MonoBehaviour
         else
         {
             //No Level Canvas
+            Debug.Log("no level info");
         }
 
         ClearFileName();
@@ -50,13 +54,50 @@ public class LevelManager : MonoBehaviour
     private void AppendFileName()
     {
         levelFileName.Append(nextLevelID);
-        levelFileName.Append("pt");
+        levelFileName.Append(gameManager.DataManager.GameDataManager.CurrentGameLanguageCode);
     }
 
     private void ClearFileName()
     {
         levelFileName.Clear();
         levelFileName.Append("level");
+    }
+
+    public void StartLevel()
+    {
+        StartCoroutine(InvokeStartLevelEvent());
+    }
+
+    private IEnumerator InvokeStartLevelEvent()
+    {
+        yield return new WaitForSeconds(1f);
+        onLevelStarted?.Invoke();
+    }
+
+    public void FindedNewWord()
+    {
+        amountOfWordsFinded++;
+
+        CheckIfLevelIsCompleted();
+    }
+
+    private void CheckIfLevelIsCompleted()
+    {
+        if (amountOfWordsFinded == CurrentLevel.wordsToSearchInThisLevel.Count)
+        {
+            FinishedLevel();
+        }
+    }
+
+    private void FinishedLevel()
+    {
+        StartCoroutine(InvokeCompletedLevelEvent());
+    }
+
+    private IEnumerator InvokeCompletedLevelEvent()
+    {
+        yield return new WaitForSeconds(0.4f);
+        onLevelCompleted?.Invoke();
     }
 }
 
@@ -114,7 +155,6 @@ public class Level
         {
             wordsToSearchInThisLevel.Add(wordsToSearch[i]);
         }
-
 
         tipsFromThisLevel = tips.Split(";");
 

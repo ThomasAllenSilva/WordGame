@@ -34,6 +34,11 @@ MonoBehaviour:
     m_Localized: Play
     m_Metadata:
       m_Items: []
+  - m_Id: 2592751515557888
+    m_Localized: "If you change the language now the game will restart to download
+      new levels and apply the selected language. Do you wish to continue?\r"
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []
