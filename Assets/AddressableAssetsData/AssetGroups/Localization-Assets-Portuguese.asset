@@ -15,20 +15,20 @@ MonoBehaviour:
   m_GroupName: Localization-Assets-Portuguese
   m_Data:
     m_SerializedData: []
-  m_GUID: 6db6949cf4ff4d044906e112fa4d8272
+  m_GUID: 0e9dafbc50598a943bf8e75751fbde75
   m_SerializeEntries:
   - m_GUID: 38ca54d4127a80044960aa5ef4bbe059
     m_Address: TutorialImage1PT
     m_ReadOnly: 1
     m_SerializedLabels:
     - Locale-pt
-  - m_GUID: 7fdeb6facc205514988cac06fa709d71
-    m_Address: TutorialImage3PT
+  - m_GUID: 069fe4bbf4cf75340ac183f979a7c455
+    m_Address: TutorialImage2PT
     m_ReadOnly: 1
     m_SerializedLabels:
     - Locale-pt
-  - m_GUID: 069fe4bbf4cf75340ac183f979a7c455
-    m_Address: TutorialImage2PT
+  - m_GUID: 7fdeb6facc205514988cac06fa709d71
+    m_Address: TutorialImage3PT
     m_ReadOnly: 1
     m_SerializedLabels:
     - Locale-pt

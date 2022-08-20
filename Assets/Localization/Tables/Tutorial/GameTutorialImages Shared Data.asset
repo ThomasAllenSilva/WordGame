@@ -10,50 +10,50 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5b11a58205ec3474ca216360e9fa74a8, type: 3}
-  m_Name: TutorialImages Shared Data
+  m_Name: GameTutorialImages Shared Data
   m_EditorClassIdentifier: 
-  m_TableCollectionName: TutorialImages
-  m_TableCollectionNameGuidString: 2155424923d6fc2428839318844ccbb5
+  m_TableCollectionName: GameTutorialImages
+  m_TableCollectionNameGuidString: 201bff07c4853954595fb8528fc8a763
   m_Entries:
-  - m_Id: 16510050304
+  - m_Id: 618258456576
     m_Key: TutorialImage1
     m_Metadata:
       m_Items: []
-  - m_Id: 7735654600630272
+  - m_Id: 1713005355008
     m_Key: TutorialImage2
     m_Metadata:
       m_Items: []
-  - m_Id: 8173090640191488
+  - m_Id: 1802142703616
     m_Key: TutorialImage3
     m_Metadata:
       m_Items: []
   m_Metadata:
     m_Items:
-    - rid: 965597050478788627
+    - rid: 5079181200128475154
   m_KeyGenerator:
-    rid: 965597050478788626
+    rid: 5079181200128475150
   references:
     version: 2
     RefIds:
-    - rid: 965597050478788626
+    - rid: 5079181200128475150
       type: {class: DistributedUIDGenerator, ns: UnityEngine.Localization.Tables, asm: Unity.Localization}
       data:
-        m_CustomEpoch: 1658234474234
-    - rid: 965597050478788627
+        m_CustomEpoch: 1660869133439
+    - rid: 5079181200128475154
       type: {class: AssetTypeMetadata, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
       data:
         m_Entries:
-        - m_KeyId: 16510050304
+        - m_KeyId: 618258456576
           m_TableCodes:
           - en
           - pt
-        - m_KeyId: 7735654600630272
-          m_TableCodes:
-          - pt
-          - en
-        - m_KeyId: 8173090640191488
+        - m_KeyId: 1713005355008
           m_TableCodes:
           - en
           - pt
-        m_TypeString: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+        - m_KeyId: 1802142703616
+          m_TableCodes:
+          - en
+          - pt
+        m_TypeString: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null

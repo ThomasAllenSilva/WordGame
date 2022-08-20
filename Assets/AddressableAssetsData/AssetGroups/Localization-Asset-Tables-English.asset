@@ -17,8 +17,8 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: 4487df2ba0f09e54281a471d2a84cc21
   m_SerializeEntries:
-  - m_GUID: 30f4fa5d68ab02b4b894334f8b99931d
-    m_Address: TutorialImages_en
+  - m_GUID: 77c7c3d1f8b2f9643b913c008b3b3fa1
+    m_Address: GameTutorialImages_en
     m_ReadOnly: 1
     m_SerializedLabels:
     - Locale-en

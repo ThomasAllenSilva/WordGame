@@ -18,6 +18,8 @@ public class LevelManager : MonoBehaviour
 
     public Action onLevelStarted;
 
+    public Action onNoLevelInfo;
+
     private int amountOfWordsFinded;
 
     private void Awake()
@@ -29,7 +31,7 @@ public class LevelManager : MonoBehaviour
 
     private void LoadNextLevel()
     {
-        nextLevelID = gameManager.DataManager.PlayerDataManager.CurrentGameLevel;
+        nextLevelID = gameManager.DataManager.PlayerDataManager.PlayerData.currentGameLevel;
 
         AppendFileName();
 
@@ -44,8 +46,7 @@ public class LevelManager : MonoBehaviour
 
         else
         {
-            //No Level Canvas
-            Debug.Log("no level info");
+            onNoLevelInfo?.Invoke();
         }
 
         ClearFileName();
@@ -54,7 +55,7 @@ public class LevelManager : MonoBehaviour
     private void AppendFileName()
     {
         levelFileName.Append(nextLevelID);
-        levelFileName.Append(gameManager.DataManager.GameDataManager.CurrentGameLanguageCode);
+        levelFileName.Append(gameManager.DataManager.GameDataManager.GameData.currentGameLanguageCode);
     }
 
     private void ClearFileName()

@@ -1,5 +1,6 @@
 using UnityEngine;
 
+
 public class PlayGame : MonoBehaviour
 {
     [SerializeField] private FadeManager fadeManager;
@@ -19,7 +20,7 @@ public class PlayGame : MonoBehaviour
      
     private bool CheckIfIsNewGame()
     {
-        if (DataManager.Instance.PlayerDataManager.CurrentGameLevel > 1)
+        if (DataManager.Instance.PlayerDataManager.PlayerData.currentGameLevel > 1)
         {
             return false;
         }

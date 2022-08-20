@@ -9,12 +9,19 @@ public class ChangeLanguage : MonoBehaviour
 
     private int defaultLanguageDropdownValue;
 
-    private void Awake() => languageDropdown = GetComponent<TMP_Dropdown>();
+    private void Awake()
+    {
+        languageDropdown = GetComponent<TMP_Dropdown>();
+       
+    }
 
     private void Start()
     {
-        languageDropdown.value = DataManager.Instance.GameDataManager.CurrentGameLanguageIndex;
+        LocalizationSettings.SelectedLocale = LocalizationSettings.AvailableLocales.Locales[DataManager.Instance.GameDataManager.GameData.currentGameLanguageIndex];
+
+        languageDropdown.value = LocalizationSettings.AvailableLocales.Locales.IndexOf(LocalizationSettings.SelectedLocale);
         defaultLanguageDropdownValue = languageDropdown.value;
+        
         GameObject.Find("WarningLanguagePanel").SetActive(false);
     }
 

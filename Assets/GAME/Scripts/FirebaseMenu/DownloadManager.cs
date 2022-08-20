@@ -11,6 +11,7 @@ public class DownloadManager : MonoBehaviour
 
     private void Awake()
     {
+        CanDownloadNewContent = true;
         firebaseMenuManager = FirebaseMenuManager.Instance;
     }
 
@@ -33,6 +34,6 @@ public class DownloadManager : MonoBehaviour
     private IEnumerator InitializeFibaseAgain()
     {
         yield return new WaitForSeconds(0.5f);
-        firebaseMenuManager.DataBaseController.InitializeFirebaseRealTimeDataBase();
+        firebaseMenuManager.FireBaseManager.InitializeFirebaseRealTimeDataBase();
     }
 }

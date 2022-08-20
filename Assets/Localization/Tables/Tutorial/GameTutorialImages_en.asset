@@ -10,24 +10,24 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 97269afb30aa84742ae3f3342603618a, type: 3}
-  m_Name: TutorialImages_pt
+  m_Name: GameTutorialImages_en
   m_EditorClassIdentifier: 
   m_LocaleId:
-    m_Code: pt
-  m_SharedData: {fileID: 11400000, guid: 2155424923d6fc2428839318844ccbb5, type: 2}
+    m_Code: en
+  m_SharedData: {fileID: 11400000, guid: 201bff07c4853954595fb8528fc8a763, type: 2}
   m_Metadata:
     m_Items: []
   m_TableData:
-  - m_Id: 16510050304
-    m_Localized: 38ca54d4127a80044960aa5ef4bbe059
+  - m_Id: 618258456576
+    m_Localized: 05bed13d1814f764f94bb0df969afb49
     m_Metadata:
       m_Items: []
-  - m_Id: 7735654600630272
-    m_Localized: 069fe4bbf4cf75340ac183f979a7c455
+  - m_Id: 1713005355008
+    m_Localized: 5a3f75c0488538e4cb730d0e1d1bb261
     m_Metadata:
       m_Items: []
-  - m_Id: 8173090640191488
-    m_Localized: 7fdeb6facc205514988cac06fa709d71
+  - m_Id: 1802142703616
+    m_Localized: 2f606a3a7af63c74fa232c559ec22a59
     m_Metadata:
       m_Items: []
   references:

@@ -6,30 +6,31 @@ public class InternetChecker : MonoBehaviour
 {
     private DownloadManager downloadManager;
 
-    public bool InternetConnectionBool { get; private set; }
+    private UnityWebRequest webRequest;
 
-    private void Start()
+    private void Awake()
     {
         downloadManager = FirebaseMenuManager.Instance.DownloadManager;
+
         StartCoroutine(CheckInternetConnection());
     }
 
+    
     private IEnumerator CheckInternetConnection()
     {
+        webRequest = new UnityWebRequest("https://www.google.com");
 
-        UnityWebRequest webRequest = new UnityWebRequest("https://www.google.com");
         yield return webRequest.SendWebRequest();
 
-        if(webRequest.result == UnityWebRequest.Result.Success)
+        switch (webRequest.result) 
         {
-            InternetIsAvailable();
-            Debug.Log("Internet Available");
-        }
+            case UnityWebRequest.Result.Success:
+                InternetIsAvailable();
+                break;
 
-        else
-        {
-            InternetIsNotAvailable();
-            Debug.Log("Internet Not Available");
+            case UnityWebRequest.Result.ConnectionError:
+                InternetIsNotAvailable();
+                break;
         }
 
         StartCoroutine(CheckInternetConnection());
@@ -37,15 +38,11 @@ public class InternetChecker : MonoBehaviour
 
     private void InternetIsNotAvailable()
     {
-        InternetConnectionBool = false;
-
         downloadManager.CancelDownload();
     }
 
     private void InternetIsAvailable()
     {
-        InternetConnectionBool = true;
-
         downloadManager.ContinueDownload();
     }
 }

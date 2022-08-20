@@ -8,16 +8,12 @@ public class PlayerDataManager : MonoBehaviour
 
     private DataManager dataManager;
 
-    private PlayerData playerData = new PlayerData();
-
-    public int Coins { get; private set; }
-
-    public int CurrentGameLevel { get; private set; }
-
+    public PlayerData PlayerData { get; private set; }
 
     private void Start()
     {
         dataManager = DataManager.Instance;
+
 
         InitializePlayerData();
 
@@ -26,6 +22,8 @@ public class PlayerDataManager : MonoBehaviour
 
     private void InitializePlayerData()
     {
+        PlayerData = new PlayerData();
+
         if (CheckIfPlayerDataExists())
         {
             LoadPlayerData();
@@ -61,38 +59,42 @@ public class PlayerDataManager : MonoBehaviour
         playerDataFileName.Append("PlayerData");
 
 
-        JsonUtility.FromJsonOverwrite(dataToLoad, playerData);
-
-        this.Coins = playerData.coins;
-        this.CurrentGameLevel = playerData.currentGameLevel;
+        JsonUtility.FromJsonOverwrite(dataToLoad, PlayerData);
     }
 
     private void CreateNewPlayerData()
     {
-        dataManager.SaveDataManager.SaveNewData(playerDataFileName, playerData);
+        dataManager.SaveDataManager.SaveNewData(playerDataFileName, PlayerData);
     }
 
     public void IncreaseGameLevel()
     {
-        playerData.currentGameLevel++;
+        PlayerData.currentGameLevel++;
         SavePlayerData();
     }
 
     private void SavePlayerData()
     {
-        dataManager.SaveDataManager.SaveNewData(playerDataFileName, playerData);
+        dataManager.SaveDataManager.SaveNewData(playerDataFileName, PlayerData);
+    }
+
+    private void OnLevelWasLoaded(int level)
+    {
+        if(level == 2)
+        {
+            GameManager.Instance.LevelManager.onLevelCompleted -= IncreaseGameLevel;
+            GameManager.Instance.LevelManager.onLevelCompleted += IncreaseGameLevel;
+        }
     }
 }
 
 
 public class PlayerData
 {
-    public int coins;
     public int currentGameLevel;
 
     public PlayerData()
     {
-        coins = 0;
         currentGameLevel = 1;
     }
 }

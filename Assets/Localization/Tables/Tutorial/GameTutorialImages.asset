@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4db626ad063b13545924a9839ac5fa83, type: 3}
-  m_Name: TutorialImages
+  m_Name: GameTutorialImages
   m_EditorClassIdentifier: 
-  m_SharedTableData: {fileID: 11400000, guid: 2155424923d6fc2428839318844ccbb5, type: 2}
+  m_SharedTableData: {fileID: 11400000, guid: 201bff07c4853954595fb8528fc8a763, type: 2}
   m_Tables:
-  - {fileID: 11400000, guid: 30f4fa5d68ab02b4b894334f8b99931d, type: 2}
-  - {fileID: 11400000, guid: 1418ca2ef73af6c4c9a75c77dac1be18, type: 2}
+  - {fileID: 11400000, guid: 77c7c3d1f8b2f9643b913c008b3b3fa1, type: 2}
+  - {fileID: 11400000, guid: 435b22904fac6264488f06f1cda5a99b, type: 2}
   m_Extensions: []
   m_Group: Asset Table
   references:

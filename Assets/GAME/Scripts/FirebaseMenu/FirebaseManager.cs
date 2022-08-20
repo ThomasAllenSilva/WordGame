@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Text;
 
 using UnityEngine;
@@ -11,11 +12,9 @@ public class FirebaseManager : MonoBehaviour
 {
     private string levelInfo;
 
-    private int currentFireBaseLevelNumber;
-
     private DatabaseReference databaseReference;
 
-    private readonly Uri dataBaseUrl = new Uri("https://huntwordslevels-default-rtdb.firebaseio.com/");
+    private readonly Uri dataBaseUrl = new Uri("https://huntwordlevels-c623d-default-rtdb.firebaseio.com/");
 
     private StringBuilder fireBaseLocalFileName = new StringBuilder("FireBaseData");
 
@@ -23,12 +22,20 @@ public class FirebaseManager : MonoBehaviour
 
     private DataManager dataManager;
 
+    FireBaseLocalData fireBaseLocalData = new FireBaseLocalData()
+;
+
     [SerializeField] private Animator fadeAnimator;
 
-    [SerializeField] private FadeManager fadeManager;
     private void Awake() => dataManager = DataManager.Instance;
 
-    private void Start()
+    private IEnumerator Start()
+    {
+        yield return new WaitForSecondsRealtime(1.5f);
+        InitializeFirebase();
+    }
+
+    public void InitializeFirebase()
     {
         if (CheckIfFireBaseLocalDataExists())
         {
@@ -53,7 +60,7 @@ public class FirebaseManager : MonoBehaviour
 
                 databaseReference = FirebaseDatabase.DefaultInstance.RootReference;
 
-                ReadDataBaseLevelValues(currentFireBaseLevelNumber);
+                ReadDataBaseLevelValues(fireBaseLocalData.currentFireBaseLevelNumber);
             }
 
             else
@@ -67,6 +74,7 @@ public class FirebaseManager : MonoBehaviour
 
     private void ReadDataBaseLevelValues(int levelID)
     {
+
         if (!FirebaseMenuManager.Instance.DownloadManager.CanDownloadNewContent) return;
 
         databaseReference.Database.GetReference("Levels").GetValueAsync().ContinueWithOnMainThread(task =>
@@ -77,20 +85,20 @@ public class FirebaseManager : MonoBehaviour
 
                 if (levelInfo != null && levelInfo != "")
                 {
-                    SaveDownloadedLevelContentInDisk();
-                    ReadDataBaseLevelValues(currentFireBaseLevelNumber);
+                    SaveDownloadedLevelContentInDisk();   
+                    IncreaseCurrentFireBaseLevelNumber();
+                    ReadDataBaseLevelValues(fireBaseLocalData.currentFireBaseLevelNumber);
                 }
 
                 else
                 {
-                    fadeManager.SetSceneToLoadIndex(1);
                     fadeAnimator.Play("FadeIn");
                 }
             }
 
             else if (task.IsFaulted)
             {
-                ReadDataBaseLevelValues(levelID);
+                fadeAnimator.Play("FadeIn");
                 return;
             }
         });
@@ -98,26 +106,29 @@ public class FirebaseManager : MonoBehaviour
 
     private void SaveDownloadedLevelContentInDisk()
     {
-        downloadedContentFileName.Append(currentFireBaseLevelNumber);
+        downloadedContentFileName.Append(fireBaseLocalData.currentFireBaseLevelNumber);
 
         dataManager.SaveDataManager.SaveNewData(downloadedContentFileName, levelInfo);
 
-        downloadedContentFileName.Replace(currentFireBaseLevelNumber.ToString(), null);
+        downloadedContentFileName.Replace(fireBaseLocalData.currentFireBaseLevelNumber.ToString(), null);
         downloadedContentFileName.Replace(DataManager.Instance.GetCurrentGameLanguageIdentifierCode(), null);
-
-        currentFireBaseLevelNumber++;
     }
 
     public bool CheckIfFireBaseLocalDataExists()
     {
-        return dataManager.CheckIfFileExists(fireBaseLocalFileName.ToString());
+        fireBaseLocalFileName.Append(dataManager.GetCurrentGameLanguageIdentifierCode());
+
+        bool fileExist = dataManager.CheckIfFileExists(fireBaseLocalFileName.ToString());
+
+        fireBaseLocalFileName.Clear();
+        fireBaseLocalFileName.Append("FireBaseData");
+
+        return fileExist;
     }
 
     private void CreateNewFireBaseLocalData()
     {
-        FireBaseLocalData fireBaseData = new FireBaseLocalData();
-
-        dataManager.SaveDataManager.SaveNewData(fireBaseLocalFileName, fireBaseData);
+        dataManager.SaveDataManager.SaveNewData(fireBaseLocalFileName, fireBaseLocalData);
     }
 
     private void LoadFireBaseLocalData()
@@ -129,12 +140,20 @@ public class FirebaseManager : MonoBehaviour
         fireBaseLocalFileName.Clear();
         fireBaseLocalFileName.Append("FireBaseData");
 
-        FireBaseLocalData fireBase = new FireBaseLocalData();
-        JsonUtility.FromJsonOverwrite(fireBaseLocalDataInfo, fireBase);
-
-        this.currentFireBaseLevelNumber = fireBase.currentFireBaseLevelNumber;
+        JsonUtility.FromJsonOverwrite(fireBaseLocalDataInfo, fireBaseLocalData);
 
         InitializeFirebaseRealTimeDataBase();
+    }
+
+    private void IncreaseCurrentFireBaseLevelNumber()
+    {
+        fireBaseLocalData.currentFireBaseLevelNumber++;
+        UpdateFirebaseData();
+    }
+
+    private void UpdateFirebaseData()
+    {
+        dataManager.SaveDataManager.SaveNewData(fireBaseLocalFileName, fireBaseLocalData);
     }
 }
 

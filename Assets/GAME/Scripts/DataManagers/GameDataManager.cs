@@ -1,22 +1,17 @@
-using System.Text;
-
 using UnityEngine;
-
+using UnityEngine.Localization.Settings;
 
 public class GameDataManager : MonoBehaviour
 {
     private const string gameDataFileName = "GameData";
-    public string CurrentGameLanguageCode { get; private set; }
-    public int CurrentGameLanguageIndex { get; private set; }
 
-    private GameData gameData;
+    public GameData GameData {get; private set;}
 
     private DataManager dataManager;
 
-    private void Awake()
+    private void Start()
     {
-
-        gameData = new GameData();
+        GameData = new GameData();
         dataManager = DataManager.Instance;
 
         InitializeGameData();
@@ -36,7 +31,7 @@ public class GameDataManager : MonoBehaviour
         }
     }
 
-    private bool CheckIfGameDataExists()
+    public bool CheckIfGameDataExists()
     {
         return dataManager.CheckIfFileExists(gameDataFileName);
     }
@@ -45,27 +40,21 @@ public class GameDataManager : MonoBehaviour
     {
         string dataToLoad = dataManager.LoadDataManager.LoadFileData(gameDataFileName);
 
-        JsonUtility.FromJsonOverwrite(dataToLoad, gameData);
-
-        this.CurrentGameLanguageCode = gameData.currentGameLanguageCode;
-        this.CurrentGameLanguageIndex = gameData.CurrentGameLanguageIndex;
+        JsonUtility.FromJsonOverwrite(dataToLoad, GameData);
     }
 
 
     private void CreateNewGameData()
     {
-        dataManager.SaveDataManager.SaveNewData(gameDataFileName, gameData);
+        dataManager.SaveDataManager.SaveNewData(gameDataFileName, GameData);
     }
 
     public void UpdateGameData(int newLanguageIndex, string newLanguageCode)
     {
-        CurrentGameLanguageCode = newLanguageCode;
-        CurrentGameLanguageIndex = newLanguageIndex;
+        GameData.currentGameLanguageCode = newLanguageCode;
+        GameData.currentGameLanguageIndex = newLanguageIndex;
 
-        gameData.currentGameLanguageCode = newLanguageCode;
-        gameData.CurrentGameLanguageIndex = newLanguageIndex;
-
-        dataManager.SaveDataManager.SaveNewData(gameDataFileName, gameData);
+        dataManager.SaveDataManager.SaveNewData(gameDataFileName, GameData);
     }
 }
 
@@ -73,11 +62,12 @@ public class GameDataManager : MonoBehaviour
 public class GameData 
 {
     public string currentGameLanguageCode;
-    public int CurrentGameLanguageIndex;
+    public int currentGameLanguageIndex;
 
     public GameData()
     {
-        currentGameLanguageCode = FirebaseMenuManager.Instance.GetCurrentLocalSystemLanguageCode();
+        currentGameLanguageCode = LocalizationSettings.SelectedLocale.Identifier.Code;
+        currentGameLanguageIndex = LocalizationSettings.AvailableLocales.Locales.IndexOf(LocalizationSettings.SelectedLocale);
     }
 }
 

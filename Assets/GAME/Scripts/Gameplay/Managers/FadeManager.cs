@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class FadeManager : MonoBehaviour
 {
-    private int sceneIndex;
+    [SerializeField] private int sceneIndex;
 
     public void LoadScene()
     {
