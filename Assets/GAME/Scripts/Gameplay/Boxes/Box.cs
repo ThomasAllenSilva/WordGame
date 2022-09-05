@@ -38,7 +38,7 @@ public class Box : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler
 
     public static int amountOfBoxesThatAreCurrentChecked = 0;
 
-    private const int maxOfBoxesThatCanBeChecked = 9;
+    private const int maxOfBoxesThatCanBeChecked = 20;
 
     private static Color32 completedColor;
 
@@ -56,7 +56,7 @@ public class Box : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler
     {
         var newRandomColor = Random.ColorHSV();
 
-        if(completedColor != newRandomColor)
+        if (completedColor != newRandomColor)
         {
             completedColor = newRandomColor;
         }
@@ -79,7 +79,7 @@ public class Box : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler
     public void OnPointerEnter(PointerEventData eventData)
     {
         if (CanSelectThisBox())
-        { 
+        {
             if (IsNotChecked())
             {
                 gameManager.WordChecker.AddLetterToWordToFill(letterFromThisBox.text);
@@ -175,13 +175,11 @@ public class Box : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler
 
     private IEnumerator GetAllBoxesThatCanBeSelectedByThisBox()
     {
-        yield return new WaitForEndOfFrame();
-        yield return new WaitForEndOfFrame();
-        yield return new WaitForEndOfFrame();
+        yield return new WaitForSeconds(0.5f);
 
         List<RaycastHit2D> hit = new List<RaycastHit2D>();
-        float rayXDistance = 700f;
-        float rayYDistance = 700f;
+        float rayXDistance = 1000f;
+        float rayYDistance = 1000f;
 
 
         hit.Add(Physics2D.Raycast(transform.position, new Vector2(rayXDistance, 0f)));
@@ -192,6 +190,7 @@ public class Box : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler
 
         for (int i = 0; i < hit.Count; i++)
         {
+    
             if (hit[i].collider != null)
             {
                 if (this != currentPrincipalBoxChecked)
@@ -224,7 +223,7 @@ public class Box : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler
         currentBoxesThatAreChecked.Clear();
     }
 
-  
+
     private void ResetThisBoxValues()
     {
         if (!isThisBoxCompleted)
@@ -248,16 +247,11 @@ public class Box : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler
         boxesThatCanBeChecked.Clear();
         imageFromThisBox.color = Color.gray;
 
-        gameManager.PlayerTouchController.TouchUpEvent -= ResetAllBoxValues;
-        gameManager.PlayerTouchController.TouchUpEvent -= ResetThisBoxValues;
-        gameManager.PlayerTouchController.TouchUpEvent -= SetRandomColorToCompletedBoxImageColor;
+
     }
 
     private void OnEnable()
     {
-        gameManager.PlayerTouchController.TouchUpEvent -= SetRandomColorToCompletedBoxImageColor;
-        gameManager.PlayerTouchController.TouchUpEvent -= ResetAllBoxValues;
-
         gameManager.PlayerTouchController.TouchUpEvent += SetRandomColorToCompletedBoxImageColor;
         gameManager.PlayerTouchController.TouchUpEvent += ResetAllBoxValues;
 
@@ -272,12 +266,21 @@ public class Box : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler
         boxAnimator.Play("BoxDeselect");
     }
 
-    private void OnDisable() {
+    private void OnDisable()
+    {
+
+        gameManager.PlayerTouchController.TouchUpEvent -= ResetAllBoxValues;
+        gameManager.PlayerTouchController.TouchUpEvent -= ResetThisBoxValues;
+        gameManager.PlayerTouchController.TouchUpEvent -= SetRandomColorToCompletedBoxImageColor;
         ResetGame();
     }
 
     private void OnDestroy()
     {
         ResetGame();
+
+        gameManager.PlayerTouchController.TouchUpEvent -= ResetAllBoxValues;
+        gameManager.PlayerTouchController.TouchUpEvent -= ResetThisBoxValues;
+        gameManager.PlayerTouchController.TouchUpEvent -= SetRandomColorToCompletedBoxImageColor;
     }
 }

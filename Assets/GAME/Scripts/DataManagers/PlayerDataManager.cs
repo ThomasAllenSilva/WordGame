@@ -1,5 +1,5 @@
 using System.Text;
-
+using System.Collections;
 using UnityEngine;
 
 public class PlayerDataManager : MonoBehaviour
@@ -78,12 +78,24 @@ public class PlayerDataManager : MonoBehaviour
         dataManager.SaveDataManager.SaveNewData(playerDataFileName, PlayerData);
     }
 
+    private IEnumerator SubscribeToLevelCompletedEvent()
+    {
+        yield return new WaitForSecondsRealtime(1);
+        GameManager.Instance.LevelManager.onLevelCompleted -= IncreaseGameLevel;
+        GameManager.Instance.LevelManager.onLevelCompleted += IncreaseGameLevel;
+    }
+
+    public void OverWriteCurrentPlayerData(PlayerData newPlayerData)
+    {
+        PlayerData = newPlayerData;
+        SavePlayerData();
+    }
+
     private void OnLevelWasLoaded(int level)
     {
-        if(level == 2)
+        if(level == 2 || level == 3)
         {
-            GameManager.Instance.LevelManager.onLevelCompleted -= IncreaseGameLevel;
-            GameManager.Instance.LevelManager.onLevelCompleted += IncreaseGameLevel;
+           StartCoroutine(SubscribeToLevelCompletedEvent());
         }
     }
 }
@@ -92,6 +104,11 @@ public class PlayerDataManager : MonoBehaviour
 public class PlayerData
 {
     public int currentGameLevel;
+
+    public PlayerData(int currentLevel)
+    {
+        currentGameLevel = currentLevel;
+    }
 
     public PlayerData()
     {

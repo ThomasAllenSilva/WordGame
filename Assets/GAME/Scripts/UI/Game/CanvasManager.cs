@@ -2,38 +2,39 @@ using UnityEngine;
 
 public class CanvasManager : MonoBehaviour
 {
-    [SerializeField] private GameObject boxesCanvas;
     [SerializeField] private GameObject tipsScrollerCanvas;
     [SerializeField] private GameObject finishedLevelCanvas;
     [SerializeField] private GameObject noLevelInfoCanvas;
 
     private void Awake()
     {
-        GameManager.Instance.LevelManager.onLevelStarted += EnableGameCanvas;
-        GameManager.Instance.LevelManager.onLevelCompleted += EnableFinishedLevelCanvas;
-        GameManager.Instance.LevelManager.onNoLevelInfo += EnableNoLevelInfoCanvas;
+        GameManager.Instance.LevelManager.onLevelStarted += OnLevelStarted;
+        GameManager.Instance.LevelManager.onLevelCompleted += OnLevelFinished;
+        GameManager.Instance.LevelManager.onNoLevelInfo += OnNoLevelInfo;
     }
 
-    private void EnableGameCanvas()
+    private void OnLevelStarted()
     {
-        boxesCanvas.SetActive(true);
         tipsScrollerCanvas.SetActive(true);
+        finishedLevelCanvas.SetActive(false);
     }
 
-    private void EnableFinishedLevelCanvas()
+    private void OnLevelFinished()
     {
         finishedLevelCanvas.SetActive(true);
+        tipsScrollerCanvas.SetActive(false);
     }
 
-    private void EnableNoLevelInfoCanvas()
+    private void OnNoLevelInfo()
     {
         noLevelInfoCanvas.SetActive(true);
+        tipsScrollerCanvas.SetActive(false);
     }
 
     private void OnDestroy()
     {
-        GameManager.Instance.LevelManager.onLevelCompleted += EnableFinishedLevelCanvas;
-        GameManager.Instance.LevelManager.onLevelStarted += EnableGameCanvas;
-        GameManager.Instance.LevelManager.onNoLevelInfo -= EnableNoLevelInfoCanvas;
+        GameManager.Instance.LevelManager.onLevelCompleted -= OnLevelFinished;
+        GameManager.Instance.LevelManager.onLevelStarted -= OnLevelStarted;
+        GameManager.Instance.LevelManager.onNoLevelInfo -= OnNoLevelInfo;
     }
 }

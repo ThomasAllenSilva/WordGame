@@ -4,6 +4,7 @@ using UnityEngine;
 public class PlayGame : MonoBehaviour
 {
     [SerializeField] private FadeManager fadeManager;
+    [SerializeField] private GameObject selectGameLevel;
 
     private void Start()
     {
@@ -22,6 +23,7 @@ public class PlayGame : MonoBehaviour
     {
         if (DataManager.Instance.PlayerDataManager.PlayerData.currentGameLevel > 1)
         {
+            selectGameLevel.SetActive(true);
             return false;
         }
 

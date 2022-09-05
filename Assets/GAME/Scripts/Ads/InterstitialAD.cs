@@ -5,14 +5,37 @@ public class InterstitialAD : MonoBehaviour, IUnityAdsInitializationListener, IU
 {
     public const string gameID = "4893961";
 
+    private static InterstitialAD Instance;
+
     private void Awake()
     {
-        GameManager.Instance.LevelManager.onLevelCompleted += ShowInterstitialAD;    
+        if(Instance == null)
+        {
+            Instance = this;
+        }
+
+        else 
+        {
+            Destroy(Instance.gameObject);
+            Instance = this;
+        }
+
+        DontDestroyOnLoad(Instance.gameObject);
+    }
+
+    private void Start()
+    {
+        InitializeInterstitialAD();
+    }
+
+    public void InitializeInterstitialAD()
+    {
+        Advertisement.Initialize(gameID, true, this);  
     }
 
     private bool CheckIfCanShowInterstitialAD()
     {
-       if(DataManager.Instance.PlayerDataManager.PlayerData.currentGameLevel % DataManager.Instance.PlayerDataManager.PlayerData.currentGameLevel == 0)
+       if(DataManager.Instance.PlayerDataManager.PlayerData.currentGameLevel % 3 == 0)
        {
             return true;
        }
@@ -23,29 +46,23 @@ public class InterstitialAD : MonoBehaviour, IUnityAdsInitializationListener, IU
         }
     }
 
-    public void ShowInterstitialAD()
-    {
-        if (CheckIfCanShowInterstitialAD())
-        {
-            Advertisement.Initialize(gameID, true, this);
-        }
-
-        else
-        {
-            Debug.Log("Not level to show yet");
-            return;
-        }
-    }
 
     public void OnInitializationComplete()
     {
-        Advertisement.Show("Interstitial_Android", this);
-        Debug.Log("Showing Unity AD");
+
+    }
+
+    private void OnLevelCompleted()
+    {
+        if (CheckIfCanShowInterstitialAD())
+        {
+            Advertisement.Show("Interstitial_Android", this);
+        }
     }
 
     public void OnInitializationFailed(UnityAdsInitializationError error, string message)
     {
-        Application.Quit();
+        Debug.Log("Ads Initialization Failed: " + error);
     }
 
     public void OnUnityAdsShowClick(string placementId)
@@ -55,16 +72,34 @@ public class InterstitialAD : MonoBehaviour, IUnityAdsInitializationListener, IU
 
     public void OnUnityAdsShowComplete(string placementId, UnityAdsShowCompletionState showCompletionState)
     {
-        
+
     }
 
     public void OnUnityAdsShowFailure(string placementId, UnityAdsShowError error, string message)
     {
-        Application.Quit();
+        Debug.Log("Ads show failure: " + error);
     }
 
     public void OnUnityAdsShowStart(string placementId)
     {
+ 
+    }
 
+    private void OnDestroy()
+    {
+        if (this != null)
+        {
+            GameManager.Instance.LevelManager.onLevelCompleted -= InitializeInterstitialAD;
+            GameManager.Instance.LevelManager.onLevelCompleted -= OnLevelCompleted;
+        }
+    }
+
+    private void OnLevelWasLoaded(int level)
+    {
+        if(level == 2 || level == 3)
+        {
+            GameManager.Instance.LevelManager.onLevelCompleted -= OnLevelCompleted;
+            GameManager.Instance.LevelManager.onLevelCompleted += OnLevelCompleted;
+        }
     }
 }

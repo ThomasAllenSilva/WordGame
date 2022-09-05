@@ -12,7 +12,7 @@ public class BannerAD : MonoBehaviour, IUnityAdsInitializationListener, IUnityAd
 
     public void OnInitializationFailed(UnityAdsInitializationError error, string message)
     {
-        Application.Quit();
+
     }
 
     public void ShowBannerAD()

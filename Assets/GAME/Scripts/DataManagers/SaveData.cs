@@ -25,6 +25,7 @@ public class SaveData : MonoBehaviour
             using (StreamWriter writer = new StreamWriter(stream))
             {
                 writer.Write(dataToSave);
+                Debug.Log("saved");
             }
         }
     }

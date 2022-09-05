@@ -26,8 +26,6 @@ public class WordChecker : MonoBehaviour
 
     private void CheckIfTheWordToFillIsEqualsToAnyWordToSearchInThisLevel()
     {
-        if (wordToFill.Length > 1)
-        {
             string filledWord = wordToFill.ToString();
 
             string wordCompleted = BinarySearchString(gameManager.LevelManager.CurrentLevel.wordsToSearchInThisLevel, filledWord, out int wordIndex);
@@ -38,7 +36,6 @@ public class WordChecker : MonoBehaviour
                 tipsUIManager.SetTipUIFieldComplete(wordIndex);
                 gameManager.LevelManager.FindedNewWord();
             }
-        }
 
         SetToWordToFillAndWordFieldVariablesEmptyValues();
     }

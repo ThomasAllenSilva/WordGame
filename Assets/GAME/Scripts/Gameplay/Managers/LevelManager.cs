@@ -12,7 +12,7 @@ public class LevelManager : MonoBehaviour
 
     private GameManager gameManager;
 
-    private int nextLevelID;
+    private int levelID;
 
     public Action onLevelCompleted;
 
@@ -20,18 +20,21 @@ public class LevelManager : MonoBehaviour
 
     public Action onNoLevelInfo;
 
+    public Action onLoadingNextLevel;
+
     private int amountOfWordsFinded;
 
     private void Awake()
     {
+        onLevelCompleted += ResetLevelValues;
         gameManager = GameManager.Instance;
         CurrentLevel = new Level();
-        LoadNextLevel();
+        LoadLevel();
     }
 
-    private void LoadNextLevel()
+    private void LoadLevel()
     {
-        nextLevelID = gameManager.DataManager.PlayerDataManager.PlayerData.currentGameLevel;
+        levelID = gameManager.DataManager.PlayerDataManager.PlayerData.currentGameLevel;
 
         AppendFileName();
 
@@ -39,9 +42,9 @@ public class LevelManager : MonoBehaviour
 
         if (dataToLoad != null && dataToLoad != "")
         {
-            JsonUtility.FromJsonOverwrite(dataToLoad, CurrentLevel);
+             JsonUtility.FromJsonOverwrite(dataToLoad, CurrentLevel);
 
-            CurrentLevel.LoadNewLevelDataInfo();
+             CurrentLevel.LoadNewLevelDataInfo();
         }
 
         else
@@ -54,7 +57,7 @@ public class LevelManager : MonoBehaviour
 
     private void AppendFileName()
     {
-        levelFileName.Append(nextLevelID);
+        levelFileName.Append(levelID);
         levelFileName.Append(gameManager.DataManager.GameDataManager.GameData.currentGameLanguageCode);
     }
 
@@ -64,6 +67,10 @@ public class LevelManager : MonoBehaviour
         levelFileName.Append("level");
     }
 
+    private void ResetLevelValues()
+    {
+        amountOfWordsFinded = 0;
+    }
     public void StartLevel()
     {
         StartCoroutine(InvokeStartLevelEvent());
@@ -71,7 +78,8 @@ public class LevelManager : MonoBehaviour
 
     private IEnumerator InvokeStartLevelEvent()
     {
-        yield return new WaitForSeconds(1f);
+        LoadLevel();
+        yield return new WaitForSeconds(1.2f);
         onLevelStarted?.Invoke();
     }
 
@@ -86,11 +94,11 @@ public class LevelManager : MonoBehaviour
     {
         if (amountOfWordsFinded == CurrentLevel.wordsToSearchInThisLevel.Count)
         {
-            FinishedLevel();
+            FinishLevel();
         }
     }
 
-    private void FinishedLevel()
+    private void FinishLevel()
     {
         StartCoroutine(InvokeCompletedLevelEvent());
     }
@@ -99,6 +107,13 @@ public class LevelManager : MonoBehaviour
     {
         yield return new WaitForSeconds(0.4f);
         onLevelCompleted?.Invoke();
+    }
+
+    public void LoadNextLevel()
+    {
+        onLoadingNextLevel?.Invoke();
+
+        StartLevel();
     }
 }
 
@@ -113,6 +128,8 @@ public class Level
 
     public string cellSize, cellSpacing, paddingLeftBottom;
 
+    public Vector2 teste;
+
     public string[] lettersFromLines;
     public string letters;
 
@@ -121,6 +138,7 @@ public class Level
 
     public string[] tipsFromThisLevel;
     public string tips;
+
 
     private void CreateNewColum()
     {
