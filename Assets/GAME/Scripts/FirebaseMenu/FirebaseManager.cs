@@ -31,7 +31,7 @@ public class FirebaseManager : MonoBehaviour
 
     private IEnumerator Start()
     {
-        yield return new WaitForSecondsRealtime(1.5f);
+        yield return null;
         InitializeFirebase();
     }
 
@@ -148,12 +148,18 @@ public class FirebaseManager : MonoBehaviour
     private void IncreaseCurrentFireBaseLevelNumber()
     {
         fireBaseLocalData.currentFireBaseLevelNumber++;
-        UpdateFirebaseData();
+        SaveFirebaseLocalData();
     }
 
-    private void UpdateFirebaseData()
+    private void SaveFirebaseLocalData()
     {
         dataManager.SaveDataManager.SaveNewData(fireBaseLocalFileName, fireBaseLocalData);
+    }
+
+    public void ResetFirebaseLocalData()
+    {
+        fireBaseLocalData = new FireBaseLocalData();
+        SaveFirebaseLocalData();
     }
 }
 

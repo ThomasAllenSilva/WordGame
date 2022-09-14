@@ -13,6 +13,8 @@ public class GameManager : MonoBehaviour
 
     public LevelManager LevelManager { get; private set; }
 
+    public AudioManager AudioManager { get; private set; }
+
     private void Awake()
     {
         if (Instance == null) Instance = this;
@@ -28,5 +30,6 @@ public class GameManager : MonoBehaviour
         LevelManager = transform.GetComponentInChildren<LevelManager>();
 
         DataManager = DataManager.Instance;
+        AudioManager = AudioManager.Instance;
     }
 }

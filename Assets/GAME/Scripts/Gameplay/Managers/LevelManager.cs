@@ -20,8 +20,6 @@ public class LevelManager : MonoBehaviour
 
     public Action onNoLevelInfo;
 
-    public Action onLoadingNextLevel;
-
     private int amountOfWordsFinded;
 
     private void Awake()
@@ -39,7 +37,7 @@ public class LevelManager : MonoBehaviour
         AppendFileName();
 
         string dataToLoad = DataManager.Instance.LoadDataManager.LoadFileData(levelFileName.ToString());
-
+   
         if (dataToLoad != null && dataToLoad != "")
         {
              JsonUtility.FromJsonOverwrite(dataToLoad, CurrentLevel);
@@ -49,6 +47,7 @@ public class LevelManager : MonoBehaviour
 
         else
         {
+            Debug.Log("nolevel");
             onNoLevelInfo?.Invoke();
         }
 
@@ -111,8 +110,6 @@ public class LevelManager : MonoBehaviour
 
     public void LoadNextLevel()
     {
-        onLoadingNextLevel?.Invoke();
-
         StartLevel();
     }
 }
@@ -139,7 +136,7 @@ public class Level
     public string[] tipsFromThisLevel;
     public string tips;
 
-
+    public int coinsRewardFromThisLevel;
     private void CreateNewColum()
     {
         columns = new List<Colum>(amountOfColumns);

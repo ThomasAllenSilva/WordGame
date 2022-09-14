@@ -12,6 +12,7 @@ public class GameDataManager : MonoBehaviour
     private void Start()
     {
         GameData = new GameData();
+
         dataManager = DataManager.Instance;
 
         InitializeGameData();
@@ -31,30 +32,48 @@ public class GameDataManager : MonoBehaviour
         }
     }
 
-    public bool CheckIfGameDataExists()
+    private bool CheckIfGameDataExists()
     {
-        return dataManager.CheckIfFileExists(gameDataFileName);
+        return dataManager.CheckIfFileExists(gameDataFileName.ToString());
     }
-
-    private void LoadGameData()
-    {
-        string dataToLoad = dataManager.LoadDataManager.LoadFileData(gameDataFileName);
-
-        JsonUtility.FromJsonOverwrite(dataToLoad, GameData);
-    }
-
 
     private void CreateNewGameData()
     {
         dataManager.SaveDataManager.SaveNewData(gameDataFileName, GameData);
     }
 
-    public void UpdateGameData(int newLanguageIndex, string newLanguageCode)
+    private void LoadGameData()
     {
-        GameData.currentGameLanguageCode = newLanguageCode;
-        GameData.currentGameLanguageIndex = newLanguageIndex;
+        string dataToLoad = dataManager.LoadDataManager.LoadFileData(gameDataFileName.ToString());
+
+        JsonUtility.FromJsonOverwrite(dataToLoad, GameData);
+    }
+
+    public void OverwriteGameDataLanguageInfo(string languageCode, int languageIndex)
+    {
+        GameData.currentGameLanguageCode = languageCode;
+        GameData.currentGameLanguageIndex = languageIndex;
 
         dataManager.SaveDataManager.SaveNewData(gameDataFileName, GameData);
+    }
+
+    public void OverWriteGameDataAudioInfo(bool playerHasMutedGameMusic, bool playerHasMutedGameSounds)
+    {
+        GameData.isGameMusicMuted = playerHasMutedGameMusic;
+        GameData.isGameAudioMuted = playerHasMutedGameSounds;
+
+        dataManager.SaveDataManager.SaveNewData(gameDataFileName, GameData);
+    }
+
+    public void ResetGameData()
+    {
+        bool hasBuyedNoAds = GameData.hasBuyedNoAds;
+
+        GameData = new GameData();
+
+        GameData.hasBuyedNoAds = hasBuyedNoAds;
+
+        CreateNewGameData();
     }
 }
 
@@ -63,6 +82,12 @@ public class GameData
 {
     public string currentGameLanguageCode;
     public int currentGameLanguageIndex;
+
+    public bool isGameMusicMuted;
+    public bool isGameAudioMuted;
+
+    public bool hasBuyedNoAds;
+
 
     public GameData()
     {

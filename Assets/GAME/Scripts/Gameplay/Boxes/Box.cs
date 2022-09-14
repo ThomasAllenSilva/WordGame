@@ -20,7 +20,7 @@ public class Box : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler
 
     private Animator boxAnimator;
 
-    private GameManager gameManager;
+    private static GameManager gameManager;
 
     private LinkedList<Box> boxesThatCanBeChecked = new LinkedList<Box>();
 
@@ -72,7 +72,8 @@ public class Box : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler
             ChangeTheImageColorFromThisBox(new Color32(7, 204, 195, 255));
             SetThisBoxAsChecked();
             AddThisBoxToAllCurrentBoxThatAreCheckedList();
-            gameObject.GetComponent<Animator>().Play("BoxSelected");
+            boxAnimator.Play("BoxSelected");
+            PlaySelectedBoxSound();
         }
     }
 
@@ -88,6 +89,7 @@ public class Box : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler
                 AddThisBoxToAllCurrentBoxThatAreCheckedList();
                 OverrideCurrentPrincipalBoxChecked();
                 boxAnimator.Play("BoxSelected");
+                PlaySelectedBoxSound();
             }
 
             else if (IsChecked())
@@ -96,8 +98,14 @@ public class Box : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler
                 gameManager.WordChecker.RemoveTheLastLetterAddedToWordToFill();
                 RemoveTheLastBoxAddedToAllCurrentBoxThatAreCheckedList();
                 OverrideCurrentPrincipalBoxChecked();
+                gameManager.AudioManager.PlayUnCheckButtonSfx();
             }
         }
+    }
+
+    private void PlaySelectedBoxSound()
+    {
+        gameManager.AudioManager.PlaySelectedButtonSfx();
     }
 
     private bool IsNotChecked()

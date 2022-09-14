@@ -9,6 +9,8 @@ public class InterstitialAD : MonoBehaviour, IUnityAdsInitializationListener, IU
 
     private void Awake()
     {
+
+
         if(Instance == null)
         {
             Instance = this;
@@ -25,6 +27,11 @@ public class InterstitialAD : MonoBehaviour, IUnityAdsInitializationListener, IU
 
     private void Start()
     {
+        if (DataManager.Instance.GameDataManager.GameData.hasBuyedNoAds)
+        {
+            Destroy(this.gameObject);
+        }
+
         InitializeInterstitialAD();
     }
 
@@ -87,7 +94,7 @@ public class InterstitialAD : MonoBehaviour, IUnityAdsInitializationListener, IU
 
     private void OnDestroy()
     {
-        if (this != null)
+        if (GameManager.Instance != null)
         {
             GameManager.Instance.LevelManager.onLevelCompleted -= InitializeInterstitialAD;
             GameManager.Instance.LevelManager.onLevelCompleted -= OnLevelCompleted;

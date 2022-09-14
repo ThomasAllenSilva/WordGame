@@ -1,8 +1,7 @@
 using System.IO;
-using System.Collections;
 
 using UnityEngine;
-using UnityEngine.Localization.Settings;
+
 
 public class DataManager : MonoBehaviour
 {

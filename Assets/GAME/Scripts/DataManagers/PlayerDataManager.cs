@@ -39,12 +39,9 @@ public class PlayerDataManager : MonoBehaviour
     private bool CheckIfPlayerDataExists()
     {
         playerDataFileName.Append(dataManager.GetCurrentGameLanguageIdentifierCode());
-
         bool fileExist = dataManager.CheckIfFileExists(playerDataFileName.ToString());
-
         playerDataFileName.Clear();
         playerDataFileName.Append("PlayerData");
-
         return fileExist;
     }
 
@@ -69,7 +66,10 @@ public class PlayerDataManager : MonoBehaviour
 
     public void IncreaseGameLevel()
     {
+        PlayerData.maxGameLevelPlayed = PlayerData.currentGameLevel == PlayerData.maxGameLevelPlayed ? ++PlayerData.maxGameLevelPlayed : PlayerData.maxGameLevelPlayed;
+
         PlayerData.currentGameLevel++;
+
         SavePlayerData();
     }
 
@@ -91,6 +91,45 @@ public class PlayerDataManager : MonoBehaviour
         SavePlayerData();
     }
 
+    public void ResetPlayerData()
+    {
+        PlayerData = new PlayerData();
+        SavePlayerData();
+    }
+
+
+    public void SavePurchasedBackground(int backgroundIndex)
+    {
+        PlayerData.purchasedBackgrounds[backgroundIndex] = true;
+        SavePlayerData();
+    }
+
+    public void SaveSelectedBackground(int selectedBackgroundIndex)
+    {
+        PlayerData.selectedBackground = selectedBackgroundIndex;
+        SavePlayerData();
+    }
+
+    public void SpendPlayerCoins(int amountToSpend)
+    {
+        Debug.Log(PlayerData.playerCoins);
+        PlayerData.playerCoins -= amountToSpend;
+        Debug.Log(PlayerData.playerCoins);
+        SavePlayerData();
+    }
+
+    public void IncreasePlayerCoins(int amountToIncrease)
+    {
+        PlayerData.playerCoins += amountToIncrease;
+        SavePlayerData();
+    }
+
+    public void ChangeCurrentPlayerLevel(int levelToPlay)
+    {
+        PlayerData.currentGameLevel = levelToPlay;
+        SavePlayerData();
+    }
+
     private void OnLevelWasLoaded(int level)
     {
         if(level == 2 || level == 3)
@@ -104,14 +143,15 @@ public class PlayerDataManager : MonoBehaviour
 public class PlayerData
 {
     public int currentGameLevel;
-
-    public PlayerData(int currentLevel)
-    {
-        currentGameLevel = currentLevel;
-    }
+    public int maxGameLevelPlayed;
+    public int playerCoins;
+    public bool[] purchasedBackgrounds = new bool[100];
+    public int selectedBackground = 0;
 
     public PlayerData()
     {
+        purchasedBackgrounds[0] = true;
         currentGameLevel = 1;
+        maxGameLevelPlayed = 1;
     }
 }

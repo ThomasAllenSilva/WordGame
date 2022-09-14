@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 using System;
+
 public class ScenesManager : MonoBehaviour
 {
     public static ScenesManager Instance;
@@ -23,6 +24,7 @@ public class ScenesManager : MonoBehaviour
         SceneManager.sceneLoaded += OnSceneLoaded;
         DontDestroyOnLoad(Instance.gameObject);
     }
+
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         if(scene.buildIndex == 0)
@@ -37,7 +39,7 @@ public class ScenesManager : MonoBehaviour
     }
 
     public void LoadMainMenuScene()
-    { 
+    {
         SceneManager.LoadScene(1);
     }
 

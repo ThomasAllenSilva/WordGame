@@ -1,0 +1,56 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b11a58205ec3474ca216360e9fa74a8, type: 3}
+  m_Name: FirebaseMenu Shared Data
+  m_EditorClassIdentifier: 
+  m_TableCollectionName: FirebaseMenu
+  m_TableCollectionNameGuidString: 047e3563634052c4d95a8597368eb093
+  m_Entries:
+  - m_Id: 95081947136
+    m_Key: NoInternetText
+    m_Metadata:
+      m_Items: []
+  - m_Id: 401257750528
+    m_Key: PlayOff-LineText
+    m_Metadata:
+      m_Items: []
+  - m_Id: 643537526784
+    m_Key: Off-LineWarningText
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1878021857280
+    m_Key: TryDownloadAgainText
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2002173255680
+    m_Key: KeepOff-LineText
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6808266825728
+    m_Key: YesText
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6827401240576
+    m_Key: NoText
+    m_Metadata:
+      m_Items: []
+  m_Metadata:
+    m_Items: []
+  m_KeyGenerator:
+    rid: 6345346621973725184
+  references:
+    version: 2
+    RefIds:
+    - rid: 6345346621973725184
+      type: {class: DistributedUIDGenerator, ns: UnityEngine.Localization.Tables, asm: Unity.Localization}
+      data:
+        m_CustomEpoch: 1662464350187

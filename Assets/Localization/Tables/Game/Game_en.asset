@@ -16,7 +16,8 @@ MonoBehaviour:
     m_Code: en
   m_SharedData: {fileID: 11400000, guid: 9720b0d89630a3a4b8d275e035c8425d, type: 2}
   m_Metadata:
-    m_Items: []
+    m_Items:
+    - rid: 6345346715748401171
   m_TableData:
   - m_Id: 7156752384
     m_Localized: "Could not find the next level. Please check for available updates
@@ -26,9 +27,24 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 1598240808960
-    m_Localized: "\rLevel finished.\r\nCongratulations!"
+    m_Localized: "\rLevel finished.\r\n\nResults:"
     m_Metadata:
       m_Items: []
+  - m_Id: 6386026424786944
+    m_Localized: 'Your Time: {playerResults.TotalLevelConclusionTime}'
+    m_Metadata:
+      m_Items:
+      - rid: 6345346715748401171
+  - m_Id: 6423959584333824
+    m_Localized: 'Your Reward: {playerResults.PlayerRewardedCoinsFromCurrentLevel}
+      Coins'
+    m_Metadata:
+      m_Items:
+      - rid: 6345346715748401171
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 6345346715748401171
+      type: {class: SmartFormatTag, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
+      data:
+        m_Entries: 006093a40eb01600006013a58ed21600

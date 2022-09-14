@@ -1,6 +1,6 @@
 using UnityEngine;
 using UnityEngine.Localization.Settings;
-
+using UnityEngine.UI;
 using TMPro;
 
 public class ChangeLanguage : MonoBehaviour
@@ -11,8 +11,7 @@ public class ChangeLanguage : MonoBehaviour
 
     private void Awake()
     {
-        languageDropdown = GetComponent<TMP_Dropdown>();
-       
+        languageDropdown = GetComponent<TMP_Dropdown>();   
     }
 
     private void Start()
@@ -23,13 +22,14 @@ public class ChangeLanguage : MonoBehaviour
         defaultLanguageDropdownValue = languageDropdown.value;
         
         GameObject.Find("WarningLanguagePanel").SetActive(false);
+        GameObject.Find("Config-Button").GetComponent<Button>().interactable = true;
     }
 
     public void ChangeGameLanguage()
     {
         LocalizationSettings.SelectedLocale = LocalizationSettings.AvailableLocales.Locales[languageDropdown.value];
 
-        DataManager.Instance.GameDataManager.UpdateGameData(languageDropdown.value, LocalizationSettings.SelectedLocale.Identifier.Code);
+        DataManager.Instance.GameDataManager.OverwriteGameDataLanguageInfo(LocalizationSettings.SelectedLocale.Identifier.Code, languageDropdown.value);
     }
 
     public void ReturnToDefaultValue()

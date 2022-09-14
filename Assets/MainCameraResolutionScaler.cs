@@ -4,10 +4,15 @@ using UnityEngine;
 public class MainCameraResolutionScaler : MonoBehaviour
 {
     [SerializeField] private float orthoSize;
+
     [SerializeField] private float aspect;
 
-    private void Awake()
+    private Camera mainCamera;
+
+    private void Awake() => mainCamera = GetComponent<Camera>();
+
+    private void Start()
     {
-        Camera.main.projectionMatrix = Matrix4x4.Ortho(-orthoSize * aspect, orthoSize * aspect, -orthoSize, orthoSize, Camera.main.nearClipPlane, Camera.main.farClipPlane);
+        mainCamera.projectionMatrix = Matrix4x4.Ortho(-orthoSize * aspect, orthoSize * aspect, -orthoSize, orthoSize, mainCamera.nearClipPlane, mainCamera.farClipPlane);
     }
 }

@@ -29,6 +29,19 @@ public class IAPManager : MonoBehaviour, IStoreListener
     }
     public void OnInitialized(IStoreController controller, IExtensionProvider extensions)
     {
+        extensions.GetExtension<IGooglePlayStoreExtensions>().RestoreTransactions(result => {
+            if (result)
+            {
+                Debug.Log("restore purchase");
+                // This does not mean anything was restored,
+                // merely that the restoration process succeeded.
+            }
+            else
+            {
+                Debug.Log("nothing to restore");
+                // Restoration failed.
+            }
+        });
 
     }
 

@@ -16,7 +16,8 @@ MonoBehaviour:
     m_Code: pt
   m_SharedData: {fileID: 11400000, guid: 9720b0d89630a3a4b8d275e035c8425d, type: 2}
   m_Metadata:
-    m_Items: []
+    m_Items:
+    - rid: 6345346715748401172
   m_TableData:
   - m_Id: 7156752384
     m_Localized: "N\xE3o foi poss\xEDvel encontrar o pr\xF3ximo level. Por favor,
@@ -26,9 +27,24 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 1598240808960
-    m_Localized: "Level terminado. \r\nParab\xE9ns!"
+    m_Localized: "Level terminado. \r\n\nResultados:"
     m_Metadata:
       m_Items: []
+  - m_Id: 6386026424786944
+    m_Localized: 'Seu Tempo: {playerResults.TotalLevelConclusionTime}'
+    m_Metadata:
+      m_Items:
+      - rid: 6345346715748401172
+  - m_Id: 6423959584333824
+    m_Localized: 'Sua Recompensa: {playerResults.PlayerRewardedCoinsFromCurrentLevel}
+      Moedas'
+    m_Metadata:
+      m_Items:
+      - rid: 6345346715748401172
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 6345346715748401172
+      type: {class: SmartFormatTag, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
+      data:
+        m_Entries: 006093a40eb01600006013a58ed21600

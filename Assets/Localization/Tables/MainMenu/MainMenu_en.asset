@@ -35,8 +35,33 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 2592751515557888
-    m_Localized: "If you change the language now the game will restart to download
-      new levels and apply the selected language. Do you wish to continue?\r"
+    m_Localized: "Your game progress is different for each language. \nDo you wish
+      to continue?\r"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10025787886624768
+    m_Localized: Select Level
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10026101486346240
+    m_Localized: Select a level to play
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10036494120214528
+    m_Localized: Reset Progress
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10036633345941504
+    m_Localized: "Do you want to reset progress? the game will restart and you will
+      start from scratch again. Do you wish to continue?\r"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 11569297907474432
+    m_Localized: Free
+    m_Metadata:
+      m_Items: []
+  - m_Id: 12585194537312256
+    m_Localized: 'Coins:'
     m_Metadata:
       m_Items: []
   references:

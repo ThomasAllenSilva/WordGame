@@ -32,7 +32,31 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 2592751515557888
-    m_Key: WarningText
+    m_Key: ChangeLanguageWarningText
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10025787886624768
+    m_Key: SelectLevelButtonText
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10026101486346240
+    m_Key: SelectLevelPanelText
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10036494120214528
+    m_Key: ResetProgressButtonText
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10036633345941504
+    m_Key: ResetProgressWarningText
+    m_Metadata:
+      m_Items: []
+  - m_Id: 11569297907474432
+    m_Key: FreeBackgroundText
+    m_Metadata:
+      m_Items: []
+  - m_Id: 12585194537312256
+    m_Key: AmountOfCoinsText
     m_Metadata:
       m_Items: []
   m_Metadata:

@@ -6,7 +6,7 @@ public class CanvasManager : MonoBehaviour
     [SerializeField] private GameObject finishedLevelCanvas;
     [SerializeField] private GameObject noLevelInfoCanvas;
 
-    private void Awake()
+    private void Start()
     {
         GameManager.Instance.LevelManager.onLevelStarted += OnLevelStarted;
         GameManager.Instance.LevelManager.onLevelCompleted += OnLevelFinished;
@@ -27,6 +27,7 @@ public class CanvasManager : MonoBehaviour
 
     private void OnNoLevelInfo()
     {
+        Debug.Log("nocanvasinfo");
         noLevelInfoCanvas.SetActive(true);
         tipsScrollerCanvas.SetActive(false);
     }

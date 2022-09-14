@@ -6,11 +6,10 @@ public class SelectLevel : MonoBehaviour
     [SerializeField] private TextMeshProUGUI levelText;
     [SerializeField] private FadeManager fadeManager;
 
-    private int selectedLevel = 2;
+    private int selectedLevel;
 
     private void Start()
     {
-        selectedLevel = DataManager.Instance.PlayerDataManager.PlayerData.currentGameLevel;
         ChangeUILevelNumberValue();
     }
 
@@ -18,13 +17,12 @@ public class SelectLevel : MonoBehaviour
     {
         selectedLevel = int.Parse(levelText.text);
 
-        PlayerData playerData = new PlayerData(selectedLevel);
-        DataManager.Instance.PlayerDataManager.OverWriteCurrentPlayerData(playerData);
+        DataManager.Instance.PlayerDataManager.ChangeCurrentPlayerLevel(selectedLevel);
     }
 
     public void IncreaseLevelToPlay()
     {
-        if (selectedLevel + 1 <= DataManager.Instance.PlayerDataManager.PlayerData.currentGameLevel)
+        if (selectedLevel + 1 <= DataManager.Instance.PlayerDataManager.PlayerData.maxGameLevelPlayed)
         {
             selectedLevel += 1;
             ChangeUILevelNumberValue();
@@ -47,6 +45,7 @@ public class SelectLevel : MonoBehaviour
 
     private void OnEnable()
     {
-        if (selectedLevel == 1) this.gameObject.SetActive(false);
+        selectedLevel = DataManager.Instance.PlayerDataManager.PlayerData.maxGameLevelPlayed;
+        if (selectedLevel < 3) this.gameObject.SetActive(false);
     }
 }

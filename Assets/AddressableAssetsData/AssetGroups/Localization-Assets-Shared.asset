@@ -33,6 +33,10 @@ MonoBehaviour:
     m_Address: Assets/Localization/Tables/Game/Game Shared Data.asset
     m_ReadOnly: 1
     m_SerializedLabels: []
+  - m_GUID: 047e3563634052c4d95a8597368eb093
+    m_Address: Assets/Localization/Tables/FirebaseMenu/FirebaseMenu Shared Data.asset
+    m_ReadOnly: 1
+    m_SerializedLabels: []
   m_ReadOnly: 1
   m_Settings: {fileID: 11400000, guid: 7105f1924cd8c064e922684352687153, type: 2}
   m_SchemaSet:
