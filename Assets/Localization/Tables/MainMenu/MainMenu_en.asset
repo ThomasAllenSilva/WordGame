@@ -64,6 +64,22 @@ MonoBehaviour:
     m_Localized: 'Coins:'
     m_Metadata:
       m_Items: []
+  - m_Id: 13687831303249920
+    m_Localized: You don't have enough coins to buy this background
+    m_Metadata:
+      m_Items: []
+  - m_Id: 13690268260982784
+    m_Localized: Buy Backgrounds
+    m_Metadata:
+      m_Items: []
+  - m_Id: 13693175706378240
+    m_Localized: Buy
+    m_Metadata:
+      m_Items: []
+  - m_Id: 13693246686584832
+    m_Localized: Select
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

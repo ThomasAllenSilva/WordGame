@@ -9,6 +9,12 @@ public class ChangeLanguage : MonoBehaviour
 
     private int defaultLanguageDropdownValue;
 
+    [SerializeField] private GameObject warningChangeLanguagePanel;
+
+    [SerializeField] private Button exitConfigPanelButton;
+
+    [SerializeField] private Button resetProgressPanelButton;
+
     private void Awake()
     {
         languageDropdown = GetComponent<TMP_Dropdown>();   
@@ -16,13 +22,16 @@ public class ChangeLanguage : MonoBehaviour
 
     private void Start()
     {
-        LocalizationSettings.SelectedLocale = LocalizationSettings.AvailableLocales.Locales[DataManager.Instance.GameDataManager.GameData.currentGameLanguageIndex];
+        LocalizationSettings.SelectedLocale = LocalizationSettings.AvailableLocales.Locales[DataManager.Instance.GameDataManager.CurrentGameLanguageLocalizationIndex];
 
         languageDropdown.value = LocalizationSettings.AvailableLocales.Locales.IndexOf(LocalizationSettings.SelectedLocale);
         defaultLanguageDropdownValue = languageDropdown.value;
         
-        GameObject.Find("WarningLanguagePanel").SetActive(false);
-        GameObject.Find("Config-Button").GetComponent<Button>().interactable = true;
+        warningChangeLanguagePanel.SetActive(false);
+        exitConfigPanelButton.interactable = true;
+        resetProgressPanelButton.interactable = true;
+
+        transform.parent.GetComponent<ScaleTween>().ScaleToZeroAndDisableThisGameObject();
     }
 
     public void ChangeGameLanguage()

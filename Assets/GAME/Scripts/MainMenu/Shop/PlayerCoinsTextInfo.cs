@@ -9,11 +9,11 @@ public class PlayerCoinsTextInfo : MonoBehaviour
 
     private void Start()
     {
-       coinsText.text = DataManager.Instance.PlayerDataManager.PlayerData.playerCoins.ToString();
+       coinsText.text = DataManager.Instance.PlayerDataManager.CurrentPlayerCoins.ToString();
     }
 
     public void UpdatePlayerCoinsTextInfo()
     {
-        coinsText.text = DataManager.Instance.PlayerDataManager.PlayerData.playerCoins.ToString();
+        coinsText.text = DataManager.Instance.PlayerDataManager.CurrentPlayerCoins.ToString();
     }
 }

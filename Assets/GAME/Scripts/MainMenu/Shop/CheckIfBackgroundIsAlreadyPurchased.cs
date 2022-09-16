@@ -12,6 +12,8 @@ public class CheckIfBackgroundIsAlreadyPurchased : MonoBehaviour
 
     private static UnityAction buyBackgroundAction;
 
+    private static DataManager dataManager = DataManager.Instance;
+
     private BackgroundBuyHandler backgroundBuyHandler;
 
     private BackgroundImageInfo backgroundImageInfo;
@@ -27,12 +29,12 @@ public class CheckIfBackgroundIsAlreadyPurchased : MonoBehaviour
 
     private void Start()
     {
-        if (DataManager.Instance.PlayerDataManager.PlayerData.purchasedBackgrounds[transform.parent.GetSiblingIndex()])
+        if (dataManager.PlayerDataManager.PurchasedBackgrounds[transform.parent.GetSiblingIndex()])
         {
             ChangeButtonActionToSelectBackground();
        
 
-            if (DataManager.Instance.PlayerDataManager.PlayerData.selectedBackground == transform.parent.GetSiblingIndex())
+            if (dataManager.PlayerDataManager.CurrentSelectedBackground == transform.parent.GetSiblingIndex())
             {
                 thisBackgroundButton.interactable = false;
             }
@@ -40,6 +42,7 @@ public class CheckIfBackgroundIsAlreadyPurchased : MonoBehaviour
 
         else
         {
+       
             ChangeButtonActionToBuyBackground();
         }
     }
@@ -57,19 +60,19 @@ public class CheckIfBackgroundIsAlreadyPurchased : MonoBehaviour
         backgroundBuyHandler.BuyBackground();
     }
 
-    public void ChangeButtonActionToSelectBackground()
+    private void ChangeButtonActionToSelectBackground()
     {
         RemoveAllListenersFromButton();
         selectBackgroundAction = new UnityAction(ChangeSelectedButton);
         selectBackgroundAction += ChangeBackgroundTheme;
 
         thisBackgroundButton.onClick.AddListener(selectBackgroundAction);
-        transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "Selecionar";
+        ChangeThisButtonTextToSelectText();
     }
 
     private void ChangeSelectedButton()
     {
-        transform.parent.parent.GetChild(DataManager.Instance.PlayerDataManager.PlayerData.selectedBackground).GetComponentInChildren<Button>().interactable  = true;
+        transform.parent.parent.GetChild(dataManager.PlayerDataManager.CurrentSelectedBackground).GetComponentInChildren<Button>().interactable  = true;
 
         thisBackgroundButton.interactable = false;
     }
@@ -82,7 +85,7 @@ public class CheckIfBackgroundIsAlreadyPurchased : MonoBehaviour
 
     private void SaveSelectedBackground()
     {
-        DataManager.Instance.PlayerDataManager.SaveSelectedBackground(transform.parent.GetSiblingIndex());
+        dataManager.PlayerDataManager.SaveSelectedBackground(transform.parent.GetSiblingIndex());
     }
 
     private void RemoveAllListenersFromButton()
@@ -93,5 +96,11 @@ public class CheckIfBackgroundIsAlreadyPurchased : MonoBehaviour
     private void OnDestroy()
     {
         backgroundBuyHandler.onThisPurchasedBackground -= ChangeButtonActionToSelectBackground;
+    }
+
+    private void ChangeThisButtonTextToSelectText()
+    {
+        transform.GetChild(0).gameObject.SetActive(false);
+        transform.GetChild(1).gameObject.SetActive(true);
     }
 }

@@ -9,9 +9,12 @@ public class InterstitialAD : MonoBehaviour, IUnityAdsInitializationListener, IU
 
     private void Awake()
     {
+        if (DataManager.Instance.GameDataManager.HasBuyedNoAds)
+        {
+            Destroy(this.gameObject);
+        }
 
-
-        if(Instance == null)
+        if (Instance == null)
         {
             Instance = this;
         }
@@ -23,17 +26,9 @@ public class InterstitialAD : MonoBehaviour, IUnityAdsInitializationListener, IU
         }
 
         DontDestroyOnLoad(Instance.gameObject);
-    }
-
-    private void Start()
-    {
-        if (DataManager.Instance.GameDataManager.GameData.hasBuyedNoAds)
-        {
-            Destroy(this.gameObject);
-        }
-
         InitializeInterstitialAD();
     }
+    private void Start() => ScenesManager.Instance.onSceneLoaded += OnSceneWasLoaded;
 
     public void InitializeInterstitialAD()
     {
@@ -42,7 +37,7 @@ public class InterstitialAD : MonoBehaviour, IUnityAdsInitializationListener, IU
 
     private bool CheckIfCanShowInterstitialAD()
     {
-       if(DataManager.Instance.PlayerDataManager.PlayerData.currentGameLevel % 3 == 0)
+       if(DataManager.Instance.PlayerDataManager.CurrentGameLevel % 3 == 0)
        {
             return true;
        }
@@ -92,6 +87,17 @@ public class InterstitialAD : MonoBehaviour, IUnityAdsInitializationListener, IU
  
     }
 
+    private void OnSceneWasLoaded()
+    {
+        int sceneIndex = ScenesManager.Instance.CurrentSceneIndex;
+
+        if (sceneIndex == 2 || sceneIndex == 3)
+        {
+            GameManager.Instance.LevelManager.onLevelCompleted -= OnLevelCompleted;
+            GameManager.Instance.LevelManager.onLevelCompleted += OnLevelCompleted;
+        }
+    }
+
     private void OnDestroy()
     {
         if (GameManager.Instance != null)
@@ -99,14 +105,7 @@ public class InterstitialAD : MonoBehaviour, IUnityAdsInitializationListener, IU
             GameManager.Instance.LevelManager.onLevelCompleted -= InitializeInterstitialAD;
             GameManager.Instance.LevelManager.onLevelCompleted -= OnLevelCompleted;
         }
-    }
 
-    private void OnLevelWasLoaded(int level)
-    {
-        if(level == 2 || level == 3)
-        {
-            GameManager.Instance.LevelManager.onLevelCompleted -= OnLevelCompleted;
-            GameManager.Instance.LevelManager.onLevelCompleted += OnLevelCompleted;
-        }
+        ScenesManager.Instance.onSceneLoaded -= OnSceneWasLoaded;
     }
 }

@@ -44,6 +44,6 @@ public class DataManager : MonoBehaviour
 
     public string GetCurrentGameLanguageIdentifierCode()
     {
-        return GameDataManager.GameData.currentGameLanguageCode;
+        return GameDataManager.CurrentGameLanguageCode;
     }
 }

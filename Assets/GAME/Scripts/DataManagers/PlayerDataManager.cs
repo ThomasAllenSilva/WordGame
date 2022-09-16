@@ -1,5 +1,6 @@
 using System.Text;
 using System.Collections;
+
 using UnityEngine;
 
 public class PlayerDataManager : MonoBehaviour
@@ -8,21 +9,36 @@ public class PlayerDataManager : MonoBehaviour
 
     private DataManager dataManager;
 
-    public PlayerData PlayerData { get; private set; }
+    private PlayerLocalData PlayerData;
+
+    #region PlayerData Properties
+
+    public int CurrentGameLevel { get { return PlayerData.currentGameLevel; } private set { PlayerData.currentGameLevel = value; } }
+
+    public int CurrentSelectedBackground { get { return PlayerData.selectedBackground; } private set { PlayerData.selectedBackground = value; } }
+
+    public int CurrentPlayerCoins { get { return PlayerData.playerCoins; } private set { PlayerData.playerCoins = value; } }
+
+    public bool[] PurchasedBackgrounds { get { return PlayerData.purchasedBackgrounds; } private set { PlayerData.purchasedBackgrounds = value; } }
+
+    public int MaxGameLevelPlayed { get { return PlayerData.maxGameLevelPlayed; } private set { PlayerData.maxGameLevelPlayed = value; } }
+
+    #endregion
 
     private void Start()
     {
         dataManager = DataManager.Instance;
 
-
+      
         InitializePlayerData();
 
-        ScenesManager.Instance.onFirebaseSceneLoaded += InitializePlayerData;
+
+        ScenesManager.Instance.onSceneLoaded += OnSceneWasLoaded;
     }
 
     private void InitializePlayerData()
     {
-        PlayerData = new PlayerData();
+        PlayerData = new PlayerLocalData();
 
         if (CheckIfPlayerDataExists())
         {
@@ -51,7 +67,6 @@ public class PlayerDataManager : MonoBehaviour
         playerDataFileName.Append(dataManager.GetCurrentGameLanguageIdentifierCode());
         string dataToLoad = dataManager.LoadDataManager.LoadFileData(playerDataFileName.ToString());
 
-
         playerDataFileName.Clear();
         playerDataFileName.Append("PlayerData");
 
@@ -66,9 +81,9 @@ public class PlayerDataManager : MonoBehaviour
 
     public void IncreaseGameLevel()
     {
-        PlayerData.maxGameLevelPlayed = PlayerData.currentGameLevel == PlayerData.maxGameLevelPlayed ? ++PlayerData.maxGameLevelPlayed : PlayerData.maxGameLevelPlayed;
+        MaxGameLevelPlayed = CurrentGameLevel == MaxGameLevelPlayed ? ++MaxGameLevelPlayed : MaxGameLevelPlayed;
 
-        PlayerData.currentGameLevel++;
+        CurrentGameLevel++;
 
         SavePlayerData();
     }
@@ -85,73 +100,77 @@ public class PlayerDataManager : MonoBehaviour
         GameManager.Instance.LevelManager.onLevelCompleted += IncreaseGameLevel;
     }
 
-    public void OverWriteCurrentPlayerData(PlayerData newPlayerData)
-    {
-        PlayerData = newPlayerData;
-        SavePlayerData();
-    }
-
     public void ResetPlayerData()
     {
-        PlayerData = new PlayerData();
+        PlayerData = new PlayerLocalData();
         SavePlayerData();
     }
 
 
     public void SavePurchasedBackground(int backgroundIndex)
     {
-        PlayerData.purchasedBackgrounds[backgroundIndex] = true;
+        PurchasedBackgrounds[backgroundIndex] = true;
         SavePlayerData();
     }
 
     public void SaveSelectedBackground(int selectedBackgroundIndex)
     {
-        PlayerData.selectedBackground = selectedBackgroundIndex;
+        CurrentSelectedBackground = selectedBackgroundIndex;
         SavePlayerData();
     }
 
     public void SpendPlayerCoins(int amountToSpend)
     {
-        Debug.Log(PlayerData.playerCoins);
-        PlayerData.playerCoins -= amountToSpend;
-        Debug.Log(PlayerData.playerCoins);
+        CurrentPlayerCoins -= amountToSpend;
+
         SavePlayerData();
     }
 
     public void IncreasePlayerCoins(int amountToIncrease)
     {
-        PlayerData.playerCoins += amountToIncrease;
+        CurrentPlayerCoins += amountToIncrease;
         SavePlayerData();
     }
 
-    public void ChangeCurrentPlayerLevel(int levelToPlay)
+    public void ChangeCurrentPlayerLevel(int newCurrentLevel)
     {
-        PlayerData.currentGameLevel = levelToPlay;
+        CurrentGameLevel = newCurrentLevel;
         SavePlayerData();
     }
 
-    private void OnLevelWasLoaded(int level)
+    private void OnSceneWasLoaded()
     {
-        if(level == 2 || level == 3)
+        int sceneIndex = ScenesManager.Instance.CurrentSceneIndex;
+
+        if(sceneIndex == 0)
         {
-           StartCoroutine(SubscribeToLevelCompletedEvent());
+            InitializePlayerData();
+        }
+
+        else if (sceneIndex == 2 || sceneIndex == 3)
+        {
+            StartCoroutine(SubscribeToLevelCompletedEvent());
         }
     }
-}
 
-
-public class PlayerData
-{
-    public int currentGameLevel;
-    public int maxGameLevelPlayed;
-    public int playerCoins;
-    public bool[] purchasedBackgrounds = new bool[100];
-    public int selectedBackground = 0;
-
-    public PlayerData()
+    private void OnDestroy()
     {
-        purchasedBackgrounds[0] = true;
-        currentGameLevel = 1;
-        maxGameLevelPlayed = 1;
+        ScenesManager.Instance.onSceneLoaded -= OnSceneWasLoaded;
+    }
+
+    private class PlayerLocalData
+    {
+        public int currentGameLevel;
+        public int maxGameLevelPlayed;
+        public int playerCoins;
+        public bool[] purchasedBackgrounds = new bool[100];
+        public int selectedBackground = 0;
+
+        public PlayerLocalData()
+        {
+            purchasedBackgrounds[0] = true;
+            currentGameLevel = 1;
+            maxGameLevelPlayed = 1;
+        }
     }
 }

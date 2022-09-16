@@ -28,7 +28,7 @@ public class WordChecker : MonoBehaviour
     {
             string filledWord = wordToFill.ToString();
 
-            string wordCompleted = BinarySearchString(gameManager.LevelManager.CurrentLevel.wordsToSearchInThisLevel, filledWord, out int wordIndex);
+            string wordCompleted = BinarySearchString(gameManager.LevelManager.WordsToSearchInThisLevel, filledWord, out int wordIndex);
 
             if (filledWord == wordCompleted)
             {

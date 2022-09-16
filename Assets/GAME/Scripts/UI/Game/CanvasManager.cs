@@ -2,9 +2,9 @@ using UnityEngine;
 
 public class CanvasManager : MonoBehaviour
 {
-    [SerializeField] private GameObject tipsScrollerCanvas;
     [SerializeField] private GameObject finishedLevelCanvas;
     [SerializeField] private GameObject noLevelInfoCanvas;
+    [SerializeField] private GameObject mainGameCanvas;
 
     private void Start()
     {
@@ -15,21 +15,20 @@ public class CanvasManager : MonoBehaviour
 
     private void OnLevelStarted()
     {
-        tipsScrollerCanvas.SetActive(true);
+        mainGameCanvas.SetActive(true);
         finishedLevelCanvas.SetActive(false);
     }
 
     private void OnLevelFinished()
     {
         finishedLevelCanvas.SetActive(true);
-        tipsScrollerCanvas.SetActive(false);
+        mainGameCanvas.SetActive(false);
     }
 
     private void OnNoLevelInfo()
     {
-        Debug.Log("nocanvasinfo");
         noLevelInfoCanvas.SetActive(true);
-        tipsScrollerCanvas.SetActive(false);
+        mainGameCanvas.SetActive(false);
     }
 
     private void OnDestroy()

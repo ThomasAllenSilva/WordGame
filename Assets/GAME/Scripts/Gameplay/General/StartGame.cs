@@ -2,14 +2,9 @@ using UnityEngine;
 
 public class StartGame : MonoBehaviour
 {
-
-    private void Awake()
+    private void Start()
     {
-        GameManager.Instance.LevelManager.StartLevel();
-    }
-
-    void Start()
-    {
-        Destroy(this.gameObject); 
+        GameManager.Instance.LevelManager.LoadNextLevel();
+        Destroy(this.gameObject);
     }
 }

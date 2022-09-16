@@ -15,7 +15,7 @@ public class BackgroundBuyHandler : MonoBehaviour
 
     private void Awake()
     {
-        thisBackgroundPrice = int.Parse(transform.GetComponentInChildren<TextMeshProUGUI>().text);
+        thisBackgroundPrice = int.Parse(transform.GetChild(2).GetComponent<TextMeshProUGUI>().text);
     }
 
     public void BuyBackground()
@@ -23,7 +23,6 @@ public class BackgroundBuyHandler : MonoBehaviour
         if (CheckIfCanBuyThisBackground())
         {
             SpendPlayerCoins();
-            ChangeThisBackgroundButtonEvent();
             onThisPurchasedBackground?.Invoke();
             onPurchasedAnyBackground?.Invoke();
         }
@@ -36,7 +35,7 @@ public class BackgroundBuyHandler : MonoBehaviour
 
     private bool CheckIfCanBuyThisBackground()
     {
-        if (DataManager.Instance.PlayerDataManager.PlayerData.playerCoins >= thisBackgroundPrice)
+        if (DataManager.Instance.PlayerDataManager.CurrentPlayerCoins >= thisBackgroundPrice)
         {
             return true;
         }
@@ -45,11 +44,6 @@ public class BackgroundBuyHandler : MonoBehaviour
         {
             return false;
         }
-    }
-
-    private void ChangeThisBackgroundButtonEvent()
-    {
-       // GetComponent<CheckIfBackgroundIsAlreadyPurchased>().ChangeButtonActionToSelectBackground();
     }
 
     private void SpendPlayerCoins()

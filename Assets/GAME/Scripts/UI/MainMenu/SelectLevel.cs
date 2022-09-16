@@ -4,7 +4,6 @@ using TMPro;
 public class SelectLevel : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI levelText;
-    [SerializeField] private FadeManager fadeManager;
 
     private int selectedLevel;
 
@@ -22,7 +21,7 @@ public class SelectLevel : MonoBehaviour
 
     public void IncreaseLevelToPlay()
     {
-        if (selectedLevel + 1 <= DataManager.Instance.PlayerDataManager.PlayerData.maxGameLevelPlayed)
+        if (selectedLevel + 1 <= DataManager.Instance.PlayerDataManager.MaxGameLevelPlayed)
         {
             selectedLevel += 1;
             ChangeUILevelNumberValue();
@@ -45,7 +44,7 @@ public class SelectLevel : MonoBehaviour
 
     private void OnEnable()
     {
-        selectedLevel = DataManager.Instance.PlayerDataManager.PlayerData.maxGameLevelPlayed;
+        selectedLevel = DataManager.Instance.PlayerDataManager.MaxGameLevelPlayed;
         if (selectedLevel < 3) this.gameObject.SetActive(false);
     }
 }

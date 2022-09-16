@@ -13,6 +13,7 @@ public class DownloadManager : MonoBehaviour
     {
         CanDownloadNewContent = true;
         firebaseMenuManager = FirebaseMenuManager.Instance;
+        FirebaseRealTimeDataBaseReader.onFailedToReadDataBaseValues += CancelDownload;
     }
 
     public void CancelDownload()
@@ -28,12 +29,17 @@ public class DownloadManager : MonoBehaviour
 
     public void TryToDownloadLevelsAgain()
     {
-        StartCoroutine(InitializeFibaseAgain());
+        StartCoroutine(InitializeFirebaseAgain());
     }
 
-    private IEnumerator InitializeFibaseAgain()
+    private IEnumerator InitializeFirebaseAgain()
     {
         yield return new WaitForSeconds(0.5f);
-        firebaseMenuManager.FireBaseManager.InitializeFirebaseRealTimeDataBase();
+        firebaseMenuManager.FirebaseRealTimeDataBaseReader.InitializeFirebaseRealTimeDataBase();
+    }
+
+    private void OnDestroy()
+    {
+        FirebaseRealTimeDataBaseReader.onFailedToReadDataBaseValues -= CancelDownload;
     }
 }

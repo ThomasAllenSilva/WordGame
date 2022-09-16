@@ -17,15 +17,18 @@ public class PlayerEndLevelResultsManager : MonoBehaviour
     {
         GameManager.Instance.LevelManager.onLevelStarted += StartIncreasingLevelTimerCount;
 
-        GameManager.Instance.LevelManager.onLevelCompleted += GivePlayerCoins;
         GameManager.Instance.LevelManager.onLevelCompleted += StopLevelTimerCount;
+        GameManager.Instance.LevelManager.onLevelCompleted += GivePlayerCoins;
+
     }
 
     private void StartIncreasingLevelTimerCount()
     {
         currentLevelTimerCount = 0f;
 
-        PlayerRewardedCoinsFromCurrentLevel = GameManager.Instance.LevelManager.CurrentLevel.coinsRewardFromThisLevel;
+        PlayerRewardedCoinsFromCurrentLevel = GameManager.Instance.LevelManager.CoinsRewardFromCurrentLevel;
+
+        canIncreaseLevelTimerCount = true;
 
         StartCoroutine(IncreaseLevelTimerCount());
     }
@@ -41,9 +44,9 @@ public class PlayerEndLevelResultsManager : MonoBehaviour
 
     private void StopLevelTimerCount()
     {
-        TotalLevelConclusionTime = GetTotalConclusionTime();
-
         canIncreaseLevelTimerCount = false;
+
+        TotalLevelConclusionTime = GetTotalConclusionTime();
     }
 
     private string GetTotalConclusionTime()

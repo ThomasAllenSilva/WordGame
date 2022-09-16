@@ -5,14 +5,28 @@ public class GameDataManager : MonoBehaviour
 {
     private const string gameDataFileName = "GameData";
 
-    public GameData GameData {get; private set;}
+    private GameLocalData GameData;
 
     private DataManager dataManager;
 
+    #region GameData Properties
+
+    public string CurrentGameLanguageCode { get { return GameData.currentGameLanguageCode; } private set { GameData.currentGameLanguageCode = value; } }
+
+    public int CurrentGameLanguageLocalizationIndex { get { return GameData.currentGameLanguageIndex; } private set { GameData.currentGameLanguageIndex = value; } }
+
+    public bool IsGameMusicMuted { get { return GameData.isGameMusicMuted; } private set { GameData.isGameMusicMuted = value; } }
+
+    public bool IsGameSoundsMuted { get { return GameData.isGameSoundsMuted; } private set { GameData.isGameSoundsMuted = value; } }
+
+    public bool HasBuyedNoAds { get { return GameData.hasBuyedNoAds; } private set { GameData.hasBuyedNoAds = value; } }
+
+    #endregion
+
+    private void Awake() => GameData = new GameLocalData();
+
     private void Start()
     {
-        GameData = new GameData();
-
         dataManager = DataManager.Instance;
 
         InitializeGameData();
@@ -51,48 +65,48 @@ public class GameDataManager : MonoBehaviour
 
     public void OverwriteGameDataLanguageInfo(string languageCode, int languageIndex)
     {
-        GameData.currentGameLanguageCode = languageCode;
-        GameData.currentGameLanguageIndex = languageIndex;
+        CurrentGameLanguageCode = languageCode;
+        CurrentGameLanguageLocalizationIndex = languageIndex;
 
         dataManager.SaveDataManager.SaveNewData(gameDataFileName, GameData);
     }
 
     public void OverWriteGameDataAudioInfo(bool playerHasMutedGameMusic, bool playerHasMutedGameSounds)
     {
-        GameData.isGameMusicMuted = playerHasMutedGameMusic;
-        GameData.isGameAudioMuted = playerHasMutedGameSounds;
+        IsGameMusicMuted = playerHasMutedGameMusic;
+        IsGameSoundsMuted = playerHasMutedGameSounds;
 
         dataManager.SaveDataManager.SaveNewData(gameDataFileName, GameData);
     }
 
     public void ResetGameData()
     {
-        bool hasBuyedNoAds = GameData.hasBuyedNoAds;
+        bool hasBuyedNoAds = HasBuyedNoAds;
 
-        GameData = new GameData();
+        GameData = new GameLocalData();
 
-        GameData.hasBuyedNoAds = hasBuyedNoAds;
+        HasBuyedNoAds = hasBuyedNoAds;
 
         CreateNewGameData();
     }
-}
 
-
-public class GameData 
-{
-    public string currentGameLanguageCode;
-    public int currentGameLanguageIndex;
-
-    public bool isGameMusicMuted;
-    public bool isGameAudioMuted;
-
-    public bool hasBuyedNoAds;
-
-
-    public GameData()
+    private class GameLocalData
     {
-        currentGameLanguageCode = LocalizationSettings.SelectedLocale.Identifier.Code;
-        currentGameLanguageIndex = LocalizationSettings.AvailableLocales.Locales.IndexOf(LocalizationSettings.SelectedLocale);
+        public string currentGameLanguageCode;
+        public int currentGameLanguageIndex;
+
+        public bool isGameMusicMuted;
+        public bool isGameSoundsMuted;
+
+        public bool hasBuyedNoAds;
+
+
+        public GameLocalData()
+        {
+            currentGameLanguageCode = LocalizationSettings.SelectedLocale.Identifier.Code;
+            currentGameLanguageIndex = LocalizationSettings.AvailableLocales.Locales.IndexOf(LocalizationSettings.SelectedLocale);
+        }
     }
 }
+
 

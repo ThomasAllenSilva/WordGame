@@ -3,12 +3,14 @@ using UnityEngine.UI;
 
 public class FreeBackgroundHandler : MonoBehaviour
 {
-    [SerializeField] private Color backgroundColor;
-    [SerializeField] private Sprite backgroundSprite;
+    private BackgroundImageInfo thisBackgroundImageInfo;
+    private DataManager dataManager = DataManager.Instance;
 
     private void Start()
     {
-        if (DataManager.Instance.PlayerDataManager.PlayerData.selectedBackground == transform.parent.GetSiblingIndex())
+        thisBackgroundImageInfo = GetComponentInChildren<BackgroundImageInfo>();
+
+        if (dataManager.PlayerDataManager.CurrentSelectedBackground == transform.parent.GetSiblingIndex())
         {
             transform.GetComponentInChildren<Button>().interactable = false;
         }
@@ -16,29 +18,20 @@ public class FreeBackgroundHandler : MonoBehaviour
 
     public void ChangeBackgroundTheme()
     {
-        Background.Instance.ChangeBackgroundTheme(backgroundColor, backgroundSprite);
+        Background.Instance.ChangeBackgroundTheme(thisBackgroundImageInfo.GetThisBackgroundColor(), thisBackgroundImageInfo.GetThisBackgroundTheme());
         ChangeSelectedButton();
         SaveSelectedBackground();
     }
 
     private void ChangeSelectedButton()
     {
-        transform.parent.GetChild(DataManager.Instance.PlayerDataManager.PlayerData.selectedBackground).GetComponentInChildren<Button>().interactable = true;
+        transform.parent.GetChild(dataManager.PlayerDataManager.CurrentSelectedBackground).GetComponentInChildren<Button>().interactable = true;
         transform.GetComponentInChildren<Button>().interactable = false;   
     }
 
 
     private void SaveSelectedBackground()
     {
-        DataManager.Instance.PlayerDataManager.SaveSelectedBackground(transform.GetSiblingIndex());
-    }
-
-    public Sprite GetThisBackgroundTheme()
-    {
-        return backgroundSprite;
-    }
-    public Color GetThisBackgroundColor()
-    {
-        return backgroundColor;
+        dataManager.PlayerDataManager.SaveSelectedBackground(transform.GetSiblingIndex());
     }
 }

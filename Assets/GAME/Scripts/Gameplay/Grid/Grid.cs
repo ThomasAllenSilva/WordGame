@@ -12,5 +12,19 @@ public class Grid : MonoBehaviour
         gameManager = GameManager.Instance;
 
         gridLayoutGroup = GetComponent<GridLayoutGroup>();
+
+        gameManager.LevelManager.onLevelCompleted += OnLevelCompleted;
+
+        gameManager.LevelManager.onLevelStarted += OnLevelStarted;
+    }
+
+    protected virtual void OnLevelCompleted()
+    {
+
+    }
+
+    protected virtual void OnLevelStarted()
+    {
+
     }
 }

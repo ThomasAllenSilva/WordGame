@@ -9,6 +9,10 @@ public class ScenesManager : MonoBehaviour
 
     public Action onFirebaseSceneLoaded;
 
+    public Action onSceneLoaded;
+
+    public int CurrentSceneIndex { get; private set; }
+
     private void Awake()
     {
         if(Instance == null)
@@ -21,16 +25,25 @@ public class ScenesManager : MonoBehaviour
             Destroy(gameObject);
         }
 
+        SceneManager.sceneLoaded += OnFirebaseSceneLoaded;
         SceneManager.sceneLoaded += OnSceneLoaded;
+
         DontDestroyOnLoad(Instance.gameObject);
     }
 
-    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    private void OnFirebaseSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         if(scene.buildIndex == 0)
         {
             onFirebaseSceneLoaded?.Invoke();
         }
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        CurrentSceneIndex = scene.buildIndex;
+
+        onSceneLoaded?.Invoke();
     }
 
     public void LoadFirebaseMenu()

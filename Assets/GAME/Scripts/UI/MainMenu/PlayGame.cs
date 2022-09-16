@@ -21,7 +21,7 @@ public class PlayGame : MonoBehaviour
      
     private bool CheckIfIsNewGame()
     {
-        if (DataManager.Instance.PlayerDataManager.PlayerData.currentGameLevel > 1)
+        if (DataManager.Instance.PlayerDataManager.CurrentGameLevel > 1)
         {
             selectGameLevel.SetActive(true);
             return false;

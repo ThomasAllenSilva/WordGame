@@ -132,9 +132,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 18911885}
+  - component: {fileID: 18911886}
   - component: {fileID: 18911884}
   m_Layer: 0
-  m_Name: LoadDataBase
+  m_Name: FirebaseManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -149,10 +150,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 18911882}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe019692fb978e741a82860c9a7f9ee5, type: 3}
+  m_Script: {fileID: 11500000, guid: 483c3b30a01777944aba1e51aed44da8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fadeAnimator: {fileID: 1927576956}
+  fadeSceneLoaderAnimator: {fileID: 1927576956}
 --- !u!4 &18911885
 Transform:
   m_ObjectHideFlags: 0
@@ -168,6 +169,18 @@ Transform:
   m_Father: {fileID: 1071567871}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &18911886
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 18911882}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70d7408c812317d4faf9ee305d33aa94, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &58599314
 GameObject:
   m_ObjectHideFlags: 0
@@ -488,10 +501,10 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 386215847}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
+      - m_Target: {fileID: 977835130}
+        m_TargetAssemblyTypeName: ScaleTween, Assembly-CSharp
+        m_MethodName: ScaleToZeroAndDisableThisGameObjectParent
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -834,7 +847,7 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
-  m_AdditionalShaderChannelsFlag: 25
+  m_AdditionalShaderChannelsFlag: -1
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
@@ -902,7 +915,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &419789982
 GameObject:
@@ -1406,7 +1419,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 799910311}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1003.6646, y: 759.8636, z: 1.1725951}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1565,6 +1578,7 @@ GameObject:
   - component: {fileID: 977835127}
   - component: {fileID: 977835129}
   - component: {fileID: 977835128}
+  - component: {fileID: 977835130}
   m_Layer: 5
   m_Name: InternetPanel
   m_TagString: Untagged
@@ -1581,7 +1595,7 @@ RectTransform:
   m_GameObject: {fileID: 977835126}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2125221125}
@@ -1633,6 +1647,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 977835126}
   m_CullTransparentMesh: 1
+--- !u!114 &977835130
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 977835126}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8dd40c89f2d3dd746bee31e870cf83c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uiScaleSize: {x: 1, y: 1}
 --- !u!1 &1071567869
 GameObject:
   m_ObjectHideFlags: 0
@@ -1644,7 +1671,7 @@ GameObject:
   - component: {fileID: 1071567871}
   - component: {fileID: 1071567872}
   m_Layer: 0
-  m_Name: LoaderMenuManager
+  m_Name: FirebaseMenuManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1658,7 +1685,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1071567869}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 775.74866, y: 444.24036, z: -149.63167}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1775,7 +1802,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1370475803
 GameObject:
@@ -2008,6 +2035,7 @@ GameObject:
   - component: {fileID: 1547838960}
   - component: {fileID: 1547838962}
   - component: {fileID: 1547838961}
+  - component: {fileID: 1547838963}
   m_Layer: 5
   m_Name: WarningPanel
   m_TagString: Untagged
@@ -2024,7 +2052,7 @@ RectTransform:
   m_GameObject: {fileID: 1547838959}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
+  m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2078804241}
@@ -2076,6 +2104,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1547838959}
   m_CullTransparentMesh: 1
+--- !u!114 &1547838963
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1547838959}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8dd40c89f2d3dd746bee31e870cf83c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uiScaleSize: {x: 0.8, y: 0.8}
 --- !u!1 &1702383276
 GameObject:
   m_ObjectHideFlags: 0
@@ -2160,10 +2201,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1547838959}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
+      - m_Target: {fileID: 1547838963}
+        m_TargetAssemblyTypeName: ScaleTween, Assembly-CSharp
+        m_MethodName: ScaleToZeroAndDisableThisGameObject
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -2368,7 +2409,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1909673081}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 704.4572, y: 1838.4073, z: -7.947631}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

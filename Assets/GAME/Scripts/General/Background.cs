@@ -33,6 +33,8 @@ public class Background : MonoBehaviour
         backgroundSpriteRenderer = GetComponent<SpriteRenderer>();
     }
 
+    private void Start() => ScenesManager.Instance.onSceneLoaded += OnSceneLoaded;
+
     public void ChangeBackgroundTheme(Color backgroundColor, Sprite background)
     {
         backgroundSpriteRenderer.sprite = background;
@@ -45,22 +47,24 @@ public class Background : MonoBehaviour
         mainCamera.backgroundColor = currentBackgroundColor;
     }
 
-    private void OnLevelWasLoaded(int level)
+    private void OnSceneLoaded()
     {
-        if (level != 0)
+        int sceneIndex = ScenesManager.Instance.CurrentSceneIndex;
+
+        if (sceneIndex != 0)
         {
+            mainCamera = Camera.main;
 
             backgroundSpriteRenderer.color = defaultBackgroundColor;
-            mainCamera = Camera.main;
+         
             UpdateMainCameraBackgroundColor();
-            if (level == 1)
+
+            if (sceneIndex == 1)
             {
                 shopContent = GameObject.Find("Content");
-
-                BackgroundImageInfo selectedBackgroundTheme = shopContent.transform.GetChild(DataManager.Instance.PlayerDataManager.PlayerData.selectedBackground).GetComponentInChildren<BackgroundImageInfo>();
+                BackgroundImageInfo selectedBackgroundTheme = FindObjectOfType<BackgroundsShopCanvasManager>(true).gameObject.transform.GetChild(DataManager.Instance.PlayerDataManager.CurrentSelectedBackground).GetComponentInChildren<BackgroundImageInfo>();
                 ChangeBackgroundTheme(selectedBackgroundTheme.GetThisBackgroundColor(), selectedBackgroundTheme.GetThisBackgroundTheme());
             }
-
         }
 
         else

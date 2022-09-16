@@ -60,7 +60,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -148,7 +148,7 @@ GameObject:
   - component: {fileID: 245275684217341470}
   - component: {fileID: 4510632485519925611}
   - component: {fileID: 6609280806172175551}
-  - component: {fileID: 2994424487020262369}
+  - component: {fileID: 3802470846254253743}
   m_Layer: 0
   m_Name: Box
   m_TagString: Untagged
@@ -165,7 +165,7 @@ RectTransform:
   m_GameObject: {fileID: 8751458705829799935}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.77, y: 1.77, z: 1.77}
+  m_LocalScale: {x: 1.77, y: 1.77, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3726188400245018758}
@@ -253,23 +253,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aee2b20a94977594c83b95f2bc94d09e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!95 &2994424487020262369
-Animator:
-  serializedVersion: 4
+--- !u!114 &3802470846254253743
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8751458705829799935}
   m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: e3ffbecce0b6a564ba70d717318eb9d7, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e2c0403490068a438ad07057678f80f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  defaultBoxScaleSize: {x: 1.77, y: 1.77}
+  selectedBoxScaleSize: {x: 1.6, y: 1.6}

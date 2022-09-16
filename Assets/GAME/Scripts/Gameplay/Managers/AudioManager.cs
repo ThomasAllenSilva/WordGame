@@ -23,7 +23,7 @@ public class AudioManager : MonoBehaviour
 
     private void Start()
     {
-        if (DataManager.Instance.GameDataManager.GameData.isGameMusicMuted)
+        if (DataManager.Instance.GameDataManager.IsGameMusicMuted)
         {
             StopPlayingBackgroundGameMusic();
         }

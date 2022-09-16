@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class FirebaseMenuManager : MonoBehaviour
 {
-    public FirebaseManager FireBaseManager { get; private set; }
+    public FirebaseRealTimeDataBaseReader FirebaseRealTimeDataBaseReader { get; private set; }
 
     public DownloadManager DownloadManager { get; private set; }
 
@@ -22,7 +22,7 @@ public class FirebaseMenuManager : MonoBehaviour
 
         Application.targetFrameRate = 60;
 
-        FireBaseManager = GetComponentInChildren<FirebaseManager>(true);
+        FirebaseRealTimeDataBaseReader = GetComponentInChildren<FirebaseRealTimeDataBaseReader>(true);
         DownloadManager = GetComponentInChildren<DownloadManager>();
     }
 }

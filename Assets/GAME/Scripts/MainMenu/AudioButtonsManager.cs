@@ -10,13 +10,13 @@ public class AudioButtonsManager : MonoBehaviour
 
     void Start()
     {
-        if (DataManager.Instance.GameDataManager.GameData.isGameMusicMuted)
+        if (DataManager.Instance.GameDataManager.IsGameMusicMuted)
         {
             gameMusicOnButton.SetActive(false);
             gameMusicOffButton.SetActive(true);
         }
 
-        if (DataManager.Instance.GameDataManager.GameData.isGameAudioMuted)
+        if (DataManager.Instance.GameDataManager.IsGameSoundsMuted)
         {
             gameSoundsOnButton.SetActive(false);
             gameSoundsOffButton.SetActive(true);

@@ -8,7 +8,7 @@ using UnityEngine.EventSystems;
 
 using UnityEngine.InputSystem.EnhancedTouch;
 using Touch = UnityEngine.InputSystem.EnhancedTouch.Touch;
-
+using System;
 
 [RequireComponent(typeof(BoxCollider2D))]
 [RequireComponent(typeof(Image))]
@@ -17,10 +17,8 @@ public class Box : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler
     private TextMeshProUGUI letterFromThisBox;
 
     private Image imageFromThisBox;
-
-    private Animator boxAnimator;
-
-    private static GameManager gameManager;
+    
+    private BoxScaleTween boxScaleTween;
 
     private LinkedList<Box> boxesThatCanBeChecked = new LinkedList<Box>();
 
@@ -36,11 +34,15 @@ public class Box : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler
 
     public static Box theFirstBoxChecked;
 
+    private static GameManager gameManager;
+
     public static int amountOfBoxesThatAreCurrentChecked = 0;
 
-    private const int maxOfBoxesThatCanBeChecked = 20;
+    private static readonly int maxOfBoxesThatCanBeChecked = 20;
 
-    private static Color32 completedColor;
+    private static Color32 completedColor = new Color32(178, 178, 178, 255);
+
+    private static Action onResetedGame;
 
     private void Awake()
     {
@@ -48,15 +50,18 @@ public class Box : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler
 
         letterFromThisBox = GetComponentInChildren<TextMeshProUGUI>();
         imageFromThisBox = GetComponent<Image>();
-        boxAnimator = GetComponent<Animator>();
+        boxScaleTween = GetComponent<BoxScaleTween>();
         gameManager = GameManager.Instance;
+
+        onResetedGame += ResetCompletelyThisBoxValues;
     }
 
-    public void SetRandomColorToCompletedBoxImageColor()
+   
+    public static void SetRandomColorToCompletedBoxImageColor()
     {
-        var newRandomColor = Random.ColorHSV();
+        Color32 newRandomColor = UnityEngine.Random.ColorHSV();
 
-        if (completedColor != newRandomColor)
+        if (!completedColor.Compare(newRandomColor))
         {
             completedColor = newRandomColor;
         }
@@ -72,7 +77,7 @@ public class Box : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler
             ChangeTheImageColorFromThisBox(new Color32(7, 204, 195, 255));
             SetThisBoxAsChecked();
             AddThisBoxToAllCurrentBoxThatAreCheckedList();
-            boxAnimator.Play("BoxSelected");
+            ChangeThisBoxScaleToSelectedSize();
             PlaySelectedBoxSound();
         }
     }
@@ -88,13 +93,13 @@ public class Box : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler
                 SetThisBoxAsChecked();
                 AddThisBoxToAllCurrentBoxThatAreCheckedList();
                 OverrideCurrentPrincipalBoxChecked();
-                boxAnimator.Play("BoxSelected");
+                ChangeThisBoxScaleToSelectedSize();
                 PlaySelectedBoxSound();
             }
 
             else if (IsChecked())
             {
-                currentPrincipalBoxChecked.ResetThisBoxValues();
+                currentPrincipalBoxChecked.SetThisBoxValuesToDefault();
                 gameManager.WordChecker.RemoveTheLastLetterAddedToWordToFill();
                 RemoveTheLastBoxAddedToAllCurrentBoxThatAreCheckedList();
                 OverrideCurrentPrincipalBoxChecked();
@@ -156,19 +161,29 @@ public class Box : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler
     private void RemoveTheLastBoxAddedToAllCurrentBoxThatAreCheckedList()
     {
         currentBoxesThatAreChecked.Remove(currentPrincipalBoxChecked);
-        currentPrincipalBoxChecked.boxAnimator.Play("BoxDeselect");
+        currentPrincipalBoxChecked.ChangeThisBoxScaleSizeToDefaultValue();
         if (amountOfBoxesThatAreCurrentChecked > 0) amountOfBoxesThatAreCurrentChecked -= 1;
     }
 
     public void SetThisBoxAsCompleted()
     {
         isThisBoxCompleted = true;
-        SetRandomColorToThisBox();
+        SetThisBoxColorToCompletedColor();
     }
 
-    private void SetRandomColorToThisBox() => imageFromThisBox.color = completedColor;
+    private void ChangeThisBoxScaleToSelectedSize()
+    {
+        boxScaleTween.SetThisBoxSizeAsSelectedSize();
+    }
 
-    private void ChangeTheImageColorFromThisBox(Color32 newColor) => imageFromThisBox.color = newColor;
+    private void ChangeThisBoxScaleSizeToDefaultValue()
+    {
+        boxScaleTween.SetThisBoxSizeToDefaultValue();
+    }
+
+    private void SetThisBoxColorToCompletedColor() => imageFromThisBox.color = completedColor;
+
+    private void ChangeTheImageColorFromThisBox(Color newColor) => imageFromThisBox.color = newColor;
 
     public static void SetAllCurrentBoxesCheckedAsComplete()
     {
@@ -223,72 +238,54 @@ public class Box : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler
         }
     }
 
-    public static void ResetAllBoxValues()
-    {
-        currentPrincipalBoxChecked = null;
-        theFirstBoxChecked = null;
-        amountOfBoxesThatAreCurrentChecked = 0;
-        currentBoxesThatAreChecked.Clear();
-    }
-
-
-    private void ResetThisBoxValues()
+    private void SetThisBoxValuesToDefault()
     {
         if (!isThisBoxCompleted)
         {
             thisBoxIsChecked = false;
             imageFromThisBox.color = Color.gray;
             canThisBoxBeSelected = false;
-            boxAnimator.Play("BoxDeselect");
+            ChangeThisBoxScaleSizeToDefaultValue();
         }
     }
 
-    private void ResetGame()
+    private void ResetCompletelyThisBoxValues()
     {
         thisBoxIsChecked = false;
         isThisBoxCompleted = false;
         canThisBoxBeSelected = false;
+        boxesThatCanBeChecked.Clear();
+        imageFromThisBox.color = Color.gray;
+    }
+
+    public static void ResetGame()
+    {
+        onResetedGame?.Invoke();
+    }
+
+    public static void ResetTouchUp()
+    {
         currentPrincipalBoxChecked = null;
         theFirstBoxChecked = null;
         amountOfBoxesThatAreCurrentChecked = 0;
         currentBoxesThatAreChecked.Clear();
-        boxesThatCanBeChecked.Clear();
-        imageFromThisBox.color = Color.gray;
-
-
     }
 
     private void OnEnable()
     {
-        gameManager.PlayerTouchController.TouchUpEvent += SetRandomColorToCompletedBoxImageColor;
-        gameManager.PlayerTouchController.TouchUpEvent += ResetAllBoxValues;
-
-        gameManager.PlayerTouchController.TouchUpEvent += ResetThisBoxValues;
+        gameManager.PlayerTouchController.TouchUpEvent += SetThisBoxValuesToDefault;
 
         StartCoroutine(GetAllBoxesThatCanBeSelectedByThisBox());
-        boxAnimator.Play("BoxFadeIn");
-    }
-
-    public void PlayDeselectedAnimation()
-    {
-        boxAnimator.Play("BoxDeselect");
     }
 
     private void OnDisable()
     {
-
-        gameManager.PlayerTouchController.TouchUpEvent -= ResetAllBoxValues;
-        gameManager.PlayerTouchController.TouchUpEvent -= ResetThisBoxValues;
-        gameManager.PlayerTouchController.TouchUpEvent -= SetRandomColorToCompletedBoxImageColor;
-        ResetGame();
+        gameManager.PlayerTouchController.TouchUpEvent -= SetThisBoxValuesToDefault;
     }
 
     private void OnDestroy()
     {
-        ResetGame();
-
-        gameManager.PlayerTouchController.TouchUpEvent -= ResetAllBoxValues;
-        gameManager.PlayerTouchController.TouchUpEvent -= ResetThisBoxValues;
-        gameManager.PlayerTouchController.TouchUpEvent -= SetRandomColorToCompletedBoxImageColor;
+        gameManager.PlayerTouchController.TouchUpEvent -= SetThisBoxValuesToDefault;
+        onResetedGame -= ResetCompletelyThisBoxValues;
     }
 }

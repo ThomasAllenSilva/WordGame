@@ -13,12 +13,12 @@ public class AudioSettings : MonoBehaviour
 
     private void Start()
     {
-        if (DataManager.Instance.GameDataManager.GameData.isGameMusicMuted)
+        if (DataManager.Instance.GameDataManager.IsGameMusicMuted)
         {
             MuteGameMusic();
         }
 
-        if (DataManager.Instance.GameDataManager.GameData.isGameAudioMuted)
+        if (DataManager.Instance.GameDataManager.IsGameSoundsMuted)
         {
             MuteGameSounds();
         }
