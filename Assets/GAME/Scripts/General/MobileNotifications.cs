@@ -18,8 +18,20 @@ public class MobileNotifications : MonoBehaviour
         AndroidNotificationCenter.RegisterNotificationChannel(channel);
 
         var notification = new AndroidNotification();
-        notification.Title = "Teste de titulo";
-        notification.Text = "Ola, isso e um teste";
+
+        switch (DataManager.Instance.GetCurrentGameLanguageIdentifierCode())
+        {
+            case "en":
+                notification.Title = "Rested mind?";
+                notification.Text = "There are new challenges waiting for you!";
+                break;
+
+            case "pt":
+                notification.Title = "Mente descansada?";
+                notification.Text = "Há novos desafios lhe esperando!";
+                break;
+        }
+    
         notification.FireTime = System.DateTime.Now.AddHours(30);
 
         int id = AndroidNotificationCenter.SendNotification(notification, "channel_id");

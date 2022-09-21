@@ -1,85 +1,31 @@
+using System;
 using UnityEngine;
-using UnityEngine.Advertisements;
+using GoogleMobileAds.Api;
 
-public class BannerAD : MonoBehaviour, IUnityAdsInitializationListener, IUnityAdsShowListener
+public class BannerAD : MonoBehaviour
 {
-    public const string gameID = "4893961";
-
-    private static BannerAD Instance;
-
-    private void Awake()
+    private BannerView bannerView;
+    
+    public void Start()
     {
-        if (DataManager.Instance.GameDataManager.HasBuyedNoAds)
-        {
-            Destroy(this.gameObject);
-        }
+        // Initialize the Google Mobile Ads SDK.
+        MobileAds.Initialize(initStatus => { });
 
-        if (Instance == null)
-        {
-            Instance = this;
-        }
-
-        else
-        {
-            Destroy(Instance.gameObject);
-            Instance = this;
-        }
-
-        DontDestroyOnLoad(Instance.gameObject);
+        RequestBanner();
     }
 
-    private void Start() => ScenesManager.Instance.onSceneLoaded += OnSceneWasLoaded;
-
-    private void OnSceneWasLoaded()
+    private void RequestBanner()
     {
-        int sceneIndex = ScenesManager.Instance.CurrentSceneIndex;
 
-        if (sceneIndex == 2 || sceneIndex == 3)
-        {
-            ShowBannerAD();
-        }
+        string adUnitId = "ca-app-pub-3940256099942544/6300978111";
 
-        else Advertisement.Banner.Hide();
-    }
 
-    public void ShowBannerAD()
-    {
-        Advertisement.Banner.SetPosition(BannerPosition.BOTTOM_CENTER);
-        Advertisement.Banner.Show("Banner_Android");
-    }
+        // Create a 320x50 banner at the top of the screen.
+        bannerView = new BannerView(adUnitId, AdSize.Banner, AdPosition.Bottom);
 
-    public void OnInitializationComplete()
-    {
+
+        AdRequest adRequest = new AdRequest.Builder().Build();
         
-    }
-
-    public void OnInitializationFailed(UnityAdsInitializationError error, string message)
-    {
-
-    }
-
-    public void OnUnityAdsShowFailure(string placementId, UnityAdsShowError error, string message)
-    {
-       
-    }
-
-    public void OnUnityAdsShowStart(string placementId)
-    {
-
-    }
-
-    public void OnUnityAdsShowClick(string placementId)
-    {
-
-    }
-
-    public void OnUnityAdsShowComplete(string placementId, UnityAdsShowCompletionState showCompletionState)
-    {
-
-    }
-
-    private void OnDestroy()
-    {
-        ScenesManager.Instance.onSceneLoaded -= OnSceneWasLoaded;
+        bannerView.LoadAd(adRequest);
     }
 }

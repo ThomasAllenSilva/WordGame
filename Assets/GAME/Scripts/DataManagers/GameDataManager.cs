@@ -79,6 +79,15 @@ public class GameDataManager : MonoBehaviour
         dataManager.SaveDataManager.SaveNewData(gameDataFileName, GameData);
     }
 
+    public void SetAdsAsBuyed()
+    {
+        HasBuyedNoAds = true;
+
+        dataManager.SaveDataManager.SaveNewData(gameDataFileName, GameData);
+
+        Debug.Log("save game data");
+        Debug.Log(HasBuyedNoAds);
+    }
     public void ResetGameData()
     {
         bool hasBuyedNoAds = HasBuyedNoAds;
