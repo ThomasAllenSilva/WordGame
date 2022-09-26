@@ -17,11 +17,11 @@ public class LevelManager : MonoBehaviour
 
     private int amountOfWordsFinded;
 
-    public Action onLevelCompleted;
+    public event Action onLevelCompleted;
 
-    public Action onLevelStarted;
+    public event Action onLevelStarted;
 
-    public Action onNoLevelInfo;
+    public event Action onNoLevelInfo;
 
     public int BoxGridPaddingLeft { get { return CurrentLevel.boxGridConfiguration.paddingLeft; } }
 
@@ -42,6 +42,7 @@ public class LevelManager : MonoBehaviour
     public int CoinsRewardFromCurrentLevel { get { return CurrentLevel.coinsRewardFromThisLevel; } }
 
     public List<Colum> Columns { get { return CurrentLevel.columns; } }
+
 
     private void Awake()
     {

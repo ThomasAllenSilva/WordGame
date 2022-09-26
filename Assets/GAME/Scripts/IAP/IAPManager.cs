@@ -6,6 +6,7 @@ public class IAPManager : MonoBehaviour, IStoreListener
 
     private const string RemoveAdsID = "0.5removeads";
 
+
     public void OnInitialized(IStoreController controller, IExtensionProvider extensions)
     {
         throw new System.NotImplementedException();
@@ -35,7 +36,7 @@ public class IAPManager : MonoBehaviour, IStoreListener
 
         else
         {
-            
+            Debug.Log("not restored");
         }
 
         return PurchaseProcessingResult.Complete;

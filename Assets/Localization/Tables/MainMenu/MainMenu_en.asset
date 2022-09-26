@@ -80,6 +80,16 @@ MonoBehaviour:
     m_Localized: Select
     m_Metadata:
       m_Items: []
+  - m_Id: 16609434043375616
+    m_Localized: Reset Levels
+    m_Metadata:
+      m_Items: []
+  - m_Id: 16609688721514496
+    m_Localized: Are you sure you want to reset the levels? Only use this option
+      when you find an error in a level and there are new updates available to replace
+      the level
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

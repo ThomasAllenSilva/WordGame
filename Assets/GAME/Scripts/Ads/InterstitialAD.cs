@@ -6,16 +6,32 @@ public class InterstitialAD : MonoBehaviour
 {
     private RewardedAd interstitialAD;
 
-    private void Start()
+    private void Awake()
     {
-        MobileAds.Initialize(initStatus => { });
+        if (DataManager.Instance.GameDataManager.HasBuyedNoAds)
+        {
+            Destroy(this.gameObject);
+        }
 
-        StartCoroutine(RequestInterstitialAD());
+        else
+        {
+            MobileAds.Initialize(initStatus => { });
+
+            GameManager.Instance.LevelManager.onLevelCompleted += CheckIfCanShowAd;
+        }
     }
 
-    public IEnumerator RequestInterstitialAD()
+    private void CheckIfCanShowAd()
     {
-        string AdId = "ca-app-pub-3940256099942544/1033173712";
+        if(GameManager.Instance.DataManager.PlayerDataManager.CurrentGameLevel % 3 == 0)
+        {
+            StartCoroutine(RequestInterstitialAD());
+        }
+    }
+
+    private IEnumerator RequestInterstitialAD()
+    {
+        string AdId = "ca-app-pub-8786657835012152/3022239537";
 
         interstitialAD = new RewardedAd(AdId);
 
@@ -23,9 +39,10 @@ public class InterstitialAD : MonoBehaviour
 
         while (!interstitialAD.IsLoaded())
         {
-            yield return new WaitForSeconds(0.2f);
-          
+            yield return new WaitForSeconds(0.1f);       
         }
+
+        yield return new WaitForSeconds(0.3f);
         interstitialAD.Show();
     }
 
@@ -34,4 +51,8 @@ public class InterstitialAD : MonoBehaviour
         return new AdRequest.Builder().Build();
     }
 
+    private void OnDestroy()
+    {
+        GameManager.Instance.LevelManager.onLevelCompleted -= CheckIfCanShowAd;
+    }
 }

@@ -13,6 +13,8 @@ public class DataManager : MonoBehaviour
 
     public PlayerDataManager PlayerDataManager { get; private set; }
 
+    public FirebaseDataManager FirebaseDataManager { get; private set; }
+
     public static DataManager Instance;
 
     private void Awake()
@@ -31,6 +33,7 @@ public class DataManager : MonoBehaviour
         LoadDataManager = GetComponentInChildren<LoadData>();
         GameDataManager = GetComponentInChildren<GameDataManager>();
         PlayerDataManager = GetComponentInChildren<PlayerDataManager>();
+        FirebaseDataManager = GetComponentInChildren<FirebaseDataManager>();
 
         DontDestroyOnLoad(Instance.gameObject);
     }

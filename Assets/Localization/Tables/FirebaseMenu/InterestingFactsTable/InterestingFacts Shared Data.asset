@@ -10,59 +10,51 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5b11a58205ec3474ca216360e9fa74a8, type: 3}
-  m_Name: FirebaseMenu Shared Data
+  m_Name: InterestingFacts Shared Data
   m_EditorClassIdentifier: 
-  m_TableCollectionName: FirebaseMenu
-  m_TableCollectionNameGuidString: 047e3563634052c4d95a8597368eb093
+  m_TableCollectionName: InterestingFacts
+  m_TableCollectionNameGuidString: 72b5b3ed3c14e464dad621fc3602f021
   m_Entries:
-  - m_Id: 95081947136
-    m_Key: NoInternetText
+  - m_Id: 6871539712
+    m_Key: InterestingFactText
     m_Metadata:
       m_Items: []
-  - m_Id: 401257750528
-    m_Key: PlayOff-LineText
+  - m_Id: 648100929536
+    m_Key: InterestingFact1Text
     m_Metadata:
       m_Items: []
-  - m_Id: 643537526784
-    m_Key: Off-LineWarningText
+  - m_Id: 672792797184
+    m_Key: InterestingFact2Text
     m_Metadata:
       m_Items: []
-  - m_Id: 1878021857280
-    m_Key: TryDownloadAgainText
+  - m_Id: 689335132160
+    m_Key: InterestingFact3Text
     m_Metadata:
       m_Items: []
-  - m_Id: 2002173255680
-    m_Key: KeepOff-LineText
+  - m_Id: 703973253120
+    m_Key: InterestingFact4Text
     m_Metadata:
       m_Items: []
-  - m_Id: 6808266825728
-    m_Key: YesText
+  - m_Id: 733673119744
+    m_Key: InterestingFact5Text
     m_Metadata:
       m_Items: []
-  - m_Id: 6827401240576
-    m_Key: NoText
+  - m_Id: 745631080448
+    m_Key: InterestingFact6Text
     m_Metadata:
       m_Items: []
-  - m_Id: 7006272420536320
-    m_Key: MadeByText
-    m_Metadata:
-      m_Items: []
-  - m_Id: 7256516043431936
-    m_Key: CreditsStaffText
-    m_Metadata:
-      m_Items: []
-  - m_Id: 7258013519011840
-    m_Key: CreditsText
+  - m_Id: 777348407296
+    m_Key: InterestingFact7Text
     m_Metadata:
       m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:
-    rid: 6345346621973725184
+    rid: 6345347061892513800
   references:
     version: 2
     RefIds:
-    - rid: 6345346621973725184
+    - rid: 6345347061892513800
       type: {class: DistributedUIDGenerator, ns: UnityEngine.Localization.Tables, asm: Unity.Localization}
       data:
-        m_CustomEpoch: 1662464350187
+        m_CustomEpoch: 1664147020180

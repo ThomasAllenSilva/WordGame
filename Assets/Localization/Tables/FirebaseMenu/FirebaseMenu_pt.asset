@@ -48,6 +48,25 @@ MonoBehaviour:
     m_Localized: "N\xE3o"
     m_Metadata:
       m_Items: []
+  - m_Id: 7006272420536320
+    m_Localized: 'Esse jogo foi feito por Thomas Allen
+
+      Obrigado por jogar'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7256516043431936
+    m_Localized: "Ethereal Relaxation MacLeod (incompetech.com)\r\nLicensed under
+      Creative Commons: By Attribution 3.0\r\nhttp://creativecommons.org/licenses/by/3.0/\n\nGUIPack_
+      Por JanaChumi\n\nBackgrounds por craftpix.net\n\n\xCDcones do jogo foram pegos
+      do Kenney site:(www.kenney.nl)\n\nEfeitos sonoros do jogo foram feitos por
+      Dustyroom site:(dustyroom.com)\n\nObrigado a todos os artistas por seu trabalho\nque
+      me ajudou a criar esse jogo <3"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7258013519011840
+    m_Localized: "Cr\xE9ditos"
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

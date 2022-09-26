@@ -37,6 +37,7 @@ public class ScaleTween : MonoBehaviour
     private void EnableGameObject(GameObject gameObjectToEnable)
     {
         gameObjectToEnable.SetActive(true);
+        DisableThisGameObject();
     }
 
     private void DestroyThisGameObjectParent()

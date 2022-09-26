@@ -1,21 +1,19 @@
+using System;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 public class Background : MonoBehaviour
 {
     private Camera mainCamera;
 
-    [SerializeField] private Color currentBackgroundColor;
+    private Color currentBackgroundColor;
 
     private Color transparentColor = new Color(0f,0f,0f, 0f);
 
     private Color defaultBackgroundColor = new Color(255, 255, 255, 255);
 
-    public static Background Instance;
-
     private SpriteRenderer backgroundSpriteRenderer;
 
-    private GameObject shopContent;
+    public static Background Instance;
 
     private void Awake()
     {
@@ -31,9 +29,14 @@ public class Background : MonoBehaviour
 
         DontDestroyOnLoad(Instance.gameObject);
         backgroundSpriteRenderer = GetComponent<SpriteRenderer>();
+
     }
 
-    private void Start() => ScenesManager.Instance.onSceneLoaded += OnSceneLoaded;
+    private void Start()
+    {
+        ScenesManager.Instance.onMainMenuSceneLoaded += GetCurrentSelectedBackgroundTheme;
+        ScenesManager.Instance.onAnySceneLoaded += UpdateMainCameraBackgroundColor;
+    }
 
     public void ChangeBackgroundTheme(Color backgroundColor, Sprite background)
     {
@@ -44,32 +47,14 @@ public class Background : MonoBehaviour
 
     private void UpdateMainCameraBackgroundColor()
     {
+        mainCamera = Camera.main;
+        backgroundSpriteRenderer.color = defaultBackgroundColor;
         mainCamera.backgroundColor = currentBackgroundColor;
     }
 
-    private void OnSceneLoaded()
+    private void GetCurrentSelectedBackgroundTheme()
     {
-        int sceneIndex = ScenesManager.Instance.CurrentSceneIndex;
-
-        if (sceneIndex != 0)
-        {
-            mainCamera = Camera.main;
-
-            backgroundSpriteRenderer.color = defaultBackgroundColor;
-         
-            UpdateMainCameraBackgroundColor();
-
-            if (sceneIndex == 1)
-            {
-                shopContent = GameObject.Find("Content");
-                BackgroundImageInfo selectedBackgroundTheme = FindObjectOfType<BackgroundsShopCanvasManager>(true).gameObject.transform.GetChild(DataManager.Instance.PlayerDataManager.CurrentSelectedBackground).GetComponentInChildren<BackgroundImageInfo>();
-                ChangeBackgroundTheme(selectedBackgroundTheme.GetThisBackgroundColor(), selectedBackgroundTheme.GetThisBackgroundTheme());
-            }
-        }
-
-        else
-        {
-            backgroundSpriteRenderer.color = transparentColor;
-        }
+        BackgroundImageInfo selectedBackgroundTheme = FindObjectOfType<BackgroundsShopCanvasManager>(true).gameObject.transform.GetChild(DataManager.Instance.PlayerDataManager.CurrentSelectedBackground).GetComponentInChildren<BackgroundImageInfo>();
+        ChangeBackgroundTheme(selectedBackgroundTheme.GetThisBackgroundColor(), selectedBackgroundTheme.GetThisBackgroundTheme());
     }
 }

@@ -75,6 +75,14 @@ MonoBehaviour:
     m_Key: SelectText
     m_Metadata:
       m_Items: []
+  - m_Id: 16609434043375616
+    m_Key: ResetLevelsText
+    m_Metadata:
+      m_Items: []
+  - m_Id: 16609688721514496
+    m_Key: WarningResetLevelsText
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

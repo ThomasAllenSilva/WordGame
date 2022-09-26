@@ -1,0 +1,59 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: InterestingFacts_pt
+  m_EditorClassIdentifier: 
+  m_LocaleId:
+    m_Code: pt
+  m_SharedData: {fileID: 11400000, guid: 72b5b3ed3c14e464dad621fc3602f021, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 6871539712
+    m_Localized: Fato Interessante
+    m_Metadata:
+      m_Items: []
+  - m_Id: 648100929536
+    m_Localized: "Cirurgi\xF5es que jogam videogames pelo menos 3 horas por semana
+      t\xEAm desempenho 27% mais r\xE1pido e cometem 37% menos erros"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 672792797184
+    m_Localized: "Sapos n\xE3o podem vomitar, o que eles fazem ent\xE3o? Eles ejetam
+      todo o est\xF4mago da boca e o esvaziam usando as m\xE3os"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 689335132160
+    m_Localized: "Vacas mugem com sotaques diferentes dependendo da regi\xE3o"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 703973253120
+    m_Localized: "Uma nuvem m\xE9dia pesa cerca de 500.000 kg "
+    m_Metadata:
+      m_Items: []
+  - m_Id: 745631080448
+    m_Localized: "\xC9 imposs\xEDvel para a maioria das pessoas lamber o pr\xF3prio
+      cotovelo.\r"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 733673119744
+    m_Localized: Estamos mais perto de 2051 do que de 1991
+    m_Metadata:
+      m_Items: []
+  - m_Id: 777348407296
+    m_Localized: "5!= 120 \xE9 verdade na matem\xE1tica e na programa\xE7\xE3o, por\xE9m
+      5! = 120 s\xF3 \xE9 verdade na matem\xE1tica"
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds: []

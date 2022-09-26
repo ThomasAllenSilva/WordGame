@@ -1,14 +1,15 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 using UnityEngine.EventSystems;
 
 using UnityEngine.InputSystem.EnhancedTouch;
 using Touch = UnityEngine.InputSystem.EnhancedTouch.Touch;
-using System;
+
+using TMPro;
 
 [RequireComponent(typeof(BoxCollider2D))]
 [RequireComponent(typeof(Image))]
@@ -28,15 +29,15 @@ public class Box : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler
 
     private bool isThisBoxCompleted;
 
-    public static Box currentPrincipalBoxChecked;
+    private static Box currentPrincipalBoxChecked;
 
-    public static List<Box> currentBoxesThatAreChecked = new List<Box>(10);
+    private static List<Box> currentBoxesThatAreChecked = new List<Box>(10);
 
-    public static Box theFirstBoxChecked;
+    private static Box theFirstBoxChecked;
 
     private static GameManager gameManager;
 
-    public static int amountOfBoxesThatAreCurrentChecked = 0;
+    private static int amountOfBoxesThatAreCurrentChecked = 0;
 
     private static readonly int maxOfBoxesThatCanBeChecked = 20;
 
@@ -48,15 +49,17 @@ public class Box : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler
     {
         EnhancedTouchSupport.Enable();
 
+        gameManager = GameManager.Instance;
+    }
+
+    private void Start()
+    {
         letterFromThisBox = GetComponentInChildren<TextMeshProUGUI>();
         imageFromThisBox = GetComponent<Image>();
         boxScaleTween = GetComponent<BoxScaleTween>();
-        gameManager = GameManager.Instance;
-
-        onResetedGame += ResetCompletelyThisBoxValues;
     }
 
-   
+
     public static void SetRandomColorToCompletedBoxImageColor()
     {
         Color32 newRandomColor = UnityEngine.Random.ColorHSV();
@@ -213,7 +216,6 @@ public class Box : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler
 
         for (int i = 0; i < hit.Count; i++)
         {
-    
             if (hit[i].collider != null)
             {
                 if (this != currentPrincipalBoxChecked)
@@ -274,18 +276,20 @@ public class Box : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler
     private void OnEnable()
     {
         gameManager.PlayerTouchController.TouchUpEvent += SetThisBoxValuesToDefault;
-
+        onResetedGame += ResetCompletelyThisBoxValues;
         StartCoroutine(GetAllBoxesThatCanBeSelectedByThisBox());
     }
 
     private void OnDisable()
     {
         gameManager.PlayerTouchController.TouchUpEvent -= SetThisBoxValuesToDefault;
+        onResetedGame -= ResetCompletelyThisBoxValues;
     }
 
     private void OnDestroy()
     {
         gameManager.PlayerTouchController.TouchUpEvent -= SetThisBoxValuesToDefault;
         onResetedGame -= ResetCompletelyThisBoxValues;
+        Destroy(this );
     }
 }

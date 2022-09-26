@@ -6,7 +6,7 @@ using UnityEngine;
 using Firebase;
 using Firebase.Database;
 using Firebase.Extensions;
-
+using System.Collections;
 
 public class FirebaseRealTimeDataBaseReader : MonoBehaviour
 {
@@ -14,7 +14,7 @@ public class FirebaseRealTimeDataBaseReader : MonoBehaviour
 
     private readonly Uri dataBaseUrl = new Uri("https://huntwordlevels-c623d-default-rtdb.firebaseio.com/");
 
-    private FirebaseLocalData firebaseLocalData;
+    private FirebaseDataManager firebaseLocalData;
 
     private DataManager dataManager;
 
@@ -22,16 +22,19 @@ public class FirebaseRealTimeDataBaseReader : MonoBehaviour
 
     private string levelInfo;
 
-    [SerializeField] private Animator fadeSceneLoaderAnimator;
+    [SerializeField] private GameObject continueButton;
 
-    public static Action onFailedToReadDataBaseValues;
-
-    private void Awake() => firebaseLocalData = GetComponent<FirebaseLocalData>();
+    public event Action onFailedToReadDataBaseValues;
+    public event Action onFinishedToReadDataBaseValues;
 
     private void Start()
     {
         dataManager = DataManager.Instance;
+        firebaseLocalData = dataManager.FirebaseDataManager;
+
+        InitializeFirebaseRealTimeDataBase();
     }
+
     public void InitializeFirebaseRealTimeDataBase()
     {
         FirebaseApp.CheckAndFixDependenciesAsync().ContinueWithOnMainThread(task =>
@@ -73,7 +76,8 @@ public class FirebaseRealTimeDataBaseReader : MonoBehaviour
 
                 else
                 {
-                    PlayFadeInAnimationToLoadMainMenuScene();
+                    onFinishedToReadDataBaseValues?.Invoke();
+                    StartCoroutine(EnableContinueButton());
                 }
             }
 
@@ -95,8 +99,9 @@ public class FirebaseRealTimeDataBaseReader : MonoBehaviour
         downloadedContentFileName.Replace(DataManager.Instance.GetCurrentGameLanguageIdentifierCode(), null);
     }
 
-    private void PlayFadeInAnimationToLoadMainMenuScene()
+    private IEnumerator EnableContinueButton()
     {
-        fadeSceneLoaderAnimator.Play("FadeIn");
+        yield return new WaitForSecondsRealtime(1.25f);
+        continueButton.SetActive(true);
     }
 }

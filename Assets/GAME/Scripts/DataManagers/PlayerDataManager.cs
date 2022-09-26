@@ -23,17 +23,17 @@ public class PlayerDataManager : MonoBehaviour
 
     public int MaxGameLevelPlayed { get { return PlayerData.maxGameLevelPlayed; } private set { PlayerData.maxGameLevelPlayed = value; } }
 
+    public bool HasResetGameData { get; private set; }
     #endregion
 
     private void Start()
     {
         dataManager = DataManager.Instance;
 
-      
         InitializePlayerData();
 
-
-        ScenesManager.Instance.onSceneLoaded += OnSceneWasLoaded;
+        ScenesManager.Instance.onFirebaseSceneLoaded += InitializePlayerData;
+        ScenesManager.Instance.onAnySceneLoaded += CheckIfCanSubscribeToEvent;
     }
 
     private void InitializePlayerData()
@@ -65,6 +65,7 @@ public class PlayerDataManager : MonoBehaviour
     {
 
         playerDataFileName.Append(dataManager.GetCurrentGameLanguageIdentifierCode());
+      
         string dataToLoad = dataManager.LoadDataManager.LoadFileData(playerDataFileName.ToString());
 
         playerDataFileName.Clear();
@@ -93,19 +94,12 @@ public class PlayerDataManager : MonoBehaviour
         dataManager.SaveDataManager.SaveNewData(playerDataFileName, PlayerData);
     }
 
-    private IEnumerator SubscribeToLevelCompletedEvent()
-    {
-        yield return new WaitForSecondsRealtime(1);
-        GameManager.Instance.LevelManager.onLevelCompleted -= IncreaseGameLevel;
-        GameManager.Instance.LevelManager.onLevelCompleted += IncreaseGameLevel;
-    }
 
     public void ResetPlayerData()
     {
         PlayerData = new PlayerLocalData();
         SavePlayerData();
     }
-
 
     public void SavePurchasedBackground(int backgroundIndex)
     {
@@ -138,24 +132,22 @@ public class PlayerDataManager : MonoBehaviour
         SavePlayerData();
     }
 
-    private void OnSceneWasLoaded()
+    private void CheckIfCanSubscribeToEvent()
     {
-        int sceneIndex = ScenesManager.Instance.CurrentSceneIndex;
-
-        if(sceneIndex == 0)
+        if(ScenesManager.Instance.LoadedSceneIndex == 2 || ScenesManager.Instance.LoadedSceneIndex == 3)
         {
-            InitializePlayerData();
+            SubscribeToLevelCompletedEvent();
         }
-
-        else if (sceneIndex == 2 || sceneIndex == 3)
-        {
-            StartCoroutine(SubscribeToLevelCompletedEvent());
-        }
+    }
+    private void SubscribeToLevelCompletedEvent()
+    {
+        GameManager.Instance.LevelManager.onLevelCompleted -= IncreaseGameLevel;
+        GameManager.Instance.LevelManager.onLevelCompleted += IncreaseGameLevel;
     }
 
     private void OnDestroy()
     {
-        ScenesManager.Instance.onSceneLoaded -= OnSceneWasLoaded;
+        ScenesManager.Instance.onAnySceneLoaded -= CheckIfCanSubscribeToEvent;
     }
 
     private class PlayerLocalData

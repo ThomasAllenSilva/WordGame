@@ -4,3 +4,4 @@
 -keepnames class com.unity.androidnotifications.** { *;}
 -keepclassmembernames class com.unity.androidnotifications.** { *;}
 -keep class com.unity3d.services.** { *;}
+-keep class com.unity3d.ads.** { *;}

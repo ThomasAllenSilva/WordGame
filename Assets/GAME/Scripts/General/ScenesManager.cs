@@ -2,16 +2,19 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 using System;
+using System.Threading.Tasks;
 
 public class ScenesManager : MonoBehaviour
 {
-    public static ScenesManager Instance;
+    public static ScenesManager Instance { get; private set; } 
 
-    public Action onFirebaseSceneLoaded;
+    public event Action onGameSceneLoaded;
+    public event Action onFirebaseSceneLoaded;
+    public event Action onMainMenuSceneLoaded;
+    public event Action onTutorialSceneLoaded;
+    public event Action onAnySceneLoaded;
 
-    public Action onSceneLoaded;
-
-    public int CurrentSceneIndex { get; private set; }
+    public int LoadedSceneIndex { get; private set; }
 
     private void Awake()
     {
@@ -25,45 +28,35 @@ public class ScenesManager : MonoBehaviour
             Destroy(gameObject);
         }
 
-        SceneManager.sceneLoaded += OnFirebaseSceneLoaded;
-        SceneManager.sceneLoaded += OnSceneLoaded;
+        SceneManager.sceneLoaded += OnAnySceneLoaded;
 
         DontDestroyOnLoad(Instance.gameObject);
     }
 
-    private void OnFirebaseSceneLoaded(Scene scene, LoadSceneMode mode)
+    private void OnAnySceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        if(scene.buildIndex == 0)
+        LoadedSceneIndex = scene.buildIndex;
+
+        onAnySceneLoaded?.Invoke();
+
+        switch (LoadedSceneIndex)
         {
-            onFirebaseSceneLoaded?.Invoke();
+            case 0:
+                onFirebaseSceneLoaded?.Invoke();
+                break;
+
+            case 1:
+                onMainMenuSceneLoaded?.Invoke();
+                break;
+
+            case 2:
+                onTutorialSceneLoaded?.Invoke();
+                break;
+
+            case 3:
+                onGameSceneLoaded?.Invoke();
+                break;
         }
-    }
-
-    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-    {
-        CurrentSceneIndex = scene.buildIndex;
-
-        onSceneLoaded?.Invoke();
-    }
-
-    public void LoadFirebaseMenu()
-    {
-        SceneManager.LoadScene(0);
-    }
-
-    public void LoadMainMenuScene()
-    {
-        SceneManager.LoadScene(1);
-    }
-
-    public void LoadTutorialScene()
-    {
-        SceneManager.LoadScene(2);
-    }
-
-    public void LoadGameScene()
-    {
-        SceneManager.LoadScene(3);
     }
 
     public void LoadSceneByIndex(int index)

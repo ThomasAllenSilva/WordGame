@@ -80,6 +80,16 @@ MonoBehaviour:
     m_Localized: Selecionar
     m_Metadata:
       m_Items: []
+  - m_Id: 16609434043375616
+    m_Localized: Resetar Levels
+    m_Metadata:
+      m_Items: []
+  - m_Id: 16609688721514496
+    m_Localized: "Tem certeza que deseja resetar os levels? Use essa op\xE7\xE3o
+      apenas quando encontrar um erro em um level e haver novas atualiza\xE7\xF5es
+      dispon\xEDvels para substituir o level"
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

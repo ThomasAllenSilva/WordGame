@@ -1,23 +1,29 @@
-using System;
 using UnityEngine;
 using GoogleMobileAds.Api;
 
 public class BannerAD : MonoBehaviour
 {
     private BannerView bannerView;
-    
+
     public void Start()
     {
-        // Initialize the Google Mobile Ads SDK.
-        MobileAds.Initialize(initStatus => { });
+        if (DataManager.Instance.GameDataManager.HasBuyedNoAds)
+        {
+            Destroy(this.gameObject);
+        }
 
-        RequestBanner();
+        else
+        {
+            MobileAds.Initialize(initStatus => { });
+
+            RequestBanner();
+        }
     }
 
     private void RequestBanner()
     {
 
-        string adUnitId = "ca-app-pub-3940256099942544/6300978111";
+        string adUnitId = "ca-app-pub-8786657835012152/8807266294";
 
 
         // Create a 320x50 banner at the top of the screen.
@@ -25,7 +31,7 @@ public class BannerAD : MonoBehaviour
 
 
         AdRequest adRequest = new AdRequest.Builder().Build();
-        
+
         bannerView.LoadAd(adRequest);
     }
 }
