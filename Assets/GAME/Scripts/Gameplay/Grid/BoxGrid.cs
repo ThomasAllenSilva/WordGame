@@ -5,7 +5,11 @@ public class BoxGrid : Grid
     private int currentLineIndex = 0;
     private int currentChildBoxIndex;
 
-    private bool firstTimeEnablingGameObject = true;
+    private void Start()
+    {
+        InitializeGridValues();
+        InitializeBoxes();
+    }
 
     protected override void OnLevelCompleted()
     {
@@ -65,16 +69,6 @@ public class BoxGrid : Grid
         {
             currentLineIndex++;
             DisableBoxes();
-        }
-    }
-
-    private void OnEnable()
-    {
-        if (firstTimeEnablingGameObject)
-        {
-            InitializeGridValues();
-            InitializeBoxes();
-            firstTimeEnablingGameObject = false;
         }
     }
 

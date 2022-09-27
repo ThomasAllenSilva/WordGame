@@ -36,7 +36,9 @@ MonoBehaviour:
       m_Items:
       - rid: 6345346715748401172
   - m_Id: 6423959584333824
-    m_Localized: 'Sua Recompensa: {playerResults.PlayerRewardedCoinsFromCurrentLevel}
+    m_Localized: 'Sua Recompensa:
+
+      {playerResults.PlayerRewardedCoinsFromCurrentLevel}
       Moedas'
     m_Metadata:
       m_Items:
