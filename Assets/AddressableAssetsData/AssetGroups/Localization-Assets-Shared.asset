@@ -25,10 +25,6 @@ MonoBehaviour:
     m_Address: Assets/Localization/Tables/MainMenu/MainMenu Shared Data.asset
     m_ReadOnly: 1
     m_SerializedLabels: []
-  - m_GUID: 201bff07c4853954595fb8528fc8a763
-    m_Address: Assets/Localization/Tables/Tutorial/GameTutorialImages Shared Data.asset
-    m_ReadOnly: 1
-    m_SerializedLabels: []
   - m_GUID: 9720b0d89630a3a4b8d275e035c8425d
     m_Address: Assets/Localization/Tables/Game/Game Shared Data.asset
     m_ReadOnly: 1

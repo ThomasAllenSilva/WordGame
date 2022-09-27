@@ -36,8 +36,6 @@ public class ChangeLanguage : MonoBehaviour
 
     public void ChangeGameLanguage()
     {
-        Debug.Log(languageDropdown.value);
-        Debug.Log(LocalizationSettings.AvailableLocales.Locales[languageDropdown.value]);
         LocalizationSettings.SelectedLocale = LocalizationSettings.AvailableLocales.Locales[languageDropdown.value];
         DataManager.Instance.GameDataManager.OverwriteGameDataLanguageInfo(LocalizationSettings.SelectedLocale.Identifier.Code, languageDropdown.value);
     }

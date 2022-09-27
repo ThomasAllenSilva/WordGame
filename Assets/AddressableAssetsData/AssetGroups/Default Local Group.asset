@@ -17,11 +17,6 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: d91958dd51f4ed84a8378446fd7c372b
   m_SerializeEntries:
-  - m_GUID: 5a3f75c0488538e4cb730d0e1d1bb261
-    m_Address: TutorialImage2EN
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - Locale-en
   - m_GUID: 36335c8c32a9c904c9247340bdcc031d
     m_Address: Assets/GAME/Art/UI/Tutorial/TutorialImage2PT.PNG
     m_ReadOnly: 0

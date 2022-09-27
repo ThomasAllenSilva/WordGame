@@ -1,6 +1,6 @@
 using UnityEngine;
 using UnityEngine.Localization.Settings;
-
+using System;
 public class GameDataManager : MonoBehaviour
 {
     private const string gameDataFileName = "GameData";
@@ -8,6 +8,8 @@ public class GameDataManager : MonoBehaviour
     private GameLocalData GameData;
 
     private DataManager dataManager;
+
+    public event Action onFinishedLoadingGameData;
 
     #region GameData Properties
 
@@ -61,6 +63,8 @@ public class GameDataManager : MonoBehaviour
         string dataToLoad = dataManager.LoadDataManager.LoadFileData(gameDataFileName.ToString());
 
         JsonUtility.FromJsonOverwrite(dataToLoad, GameData);
+
+        onFinishedLoadingGameData?.Invoke();
     }
 
     public void OverwriteGameDataLanguageInfo(string languageCode, int languageIndex)

@@ -16,13 +16,7 @@ MonoBehaviour:
   m_Data:
     m_SerializedData: []
   m_GUID: b2279c2fa8d3dfc42ac763e589bf6a59
-  m_SerializeEntries:
-  - m_GUID: 435b22904fac6264488f06f1cda5a99b
-    m_Address: GameTutorialImages_pt
-    m_ReadOnly: 1
-    m_SerializedLabels:
-    - Locale-pt
-    - Preload
+  m_SerializeEntries: []
   m_ReadOnly: 1
   m_Settings: {fileID: 11400000, guid: 7105f1924cd8c064e922684352687153, type: 2}
   m_SchemaSet:
