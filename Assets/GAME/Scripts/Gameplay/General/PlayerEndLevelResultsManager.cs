@@ -37,8 +37,8 @@ public class PlayerEndLevelResultsManager : MonoBehaviour
     {
         while (canIncreaseLevelTimerCount)
         {
-            currentLevelTimerCount += Time.deltaTime;
-            yield return new WaitForEndOfFrame();
+            currentLevelTimerCount += 1;
+            yield return new WaitForSecondsRealtime(1);
         }
     }
 
