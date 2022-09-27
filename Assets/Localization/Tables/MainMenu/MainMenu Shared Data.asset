@@ -83,6 +83,22 @@ MonoBehaviour:
     m_Key: WarningResetLevelsText
     m_Metadata:
       m_Items: []
+  - m_Id: 17655699577462784
+    m_Key: Buy500CoinsText
+    m_Metadata:
+      m_Items: []
+  - m_Id: 17655776387751936
+    m_Key: Buy1000CoinsText
+    m_Metadata:
+      m_Items: []
+  - m_Id: 17655850262028288
+    m_Key: Buy10000CoinsText
+    m_Metadata:
+      m_Items: []
+  - m_Id: 17655988476928000
+    m_Key: RemoveAdsText
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

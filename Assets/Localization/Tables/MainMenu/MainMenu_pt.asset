@@ -90,6 +90,22 @@ MonoBehaviour:
       dispon\xEDvels para substituir o level"
     m_Metadata:
       m_Items: []
+  - m_Id: 17655699577462784
+    m_Localized: Comprar 500 Moedas
+    m_Metadata:
+      m_Items: []
+  - m_Id: 17655776387751936
+    m_Localized: Comprar 1000 Moedas
+    m_Metadata:
+      m_Items: []
+  - m_Id: 17655850262028288
+    m_Localized: Comprar 10000 Moedas
+    m_Metadata:
+      m_Items: []
+  - m_Id: 17655988476928000
+    m_Localized: "Remover An\xFAncios"
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

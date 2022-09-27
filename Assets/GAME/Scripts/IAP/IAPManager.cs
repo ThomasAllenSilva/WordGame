@@ -27,6 +27,21 @@ public class IAPManager : MonoBehaviour, IStoreListener
         DataManager.Instance.GameDataManager.SetAdsAsBuyed();
     }
 
+    public void On500CoinsPurchased()
+    {
+        DataManager.Instance.PlayerDataManager.IncreasePlayerCoins(500);
+    }
+
+    public void On1000CoinsPurchased()
+    {
+        DataManager.Instance.PlayerDataManager.IncreasePlayerCoins(1000);
+    }
+
+    public void On10000CoinsPurchased()
+    {
+        DataManager.Instance.PlayerDataManager.IncreasePlayerCoins(10000);
+    }
+
     public PurchaseProcessingResult ProcessPurchase(PurchaseEventArgs purchaseEvent)
     {
         if(purchaseEvent.purchasedProduct.definition.id == RemoveAdsID)

@@ -90,6 +90,22 @@ MonoBehaviour:
       the level
     m_Metadata:
       m_Items: []
+  - m_Id: 17655699577462784
+    m_Localized: Buy 500 Coins
+    m_Metadata:
+      m_Items: []
+  - m_Id: 17655776387751936
+    m_Localized: Buy 1000 Coins
+    m_Metadata:
+      m_Items: []
+  - m_Id: 17655850262028288
+    m_Localized: Buy 10000 Coins
+    m_Metadata:
+      m_Items: []
+  - m_Id: 17655988476928000
+    m_Localized: Remove Ads
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

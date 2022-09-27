@@ -7,12 +7,12 @@ public class PlayerCoinsTextInfo : MonoBehaviour
 
     void Awake() => coinsText = GetComponent<TextMeshProUGUI>();
 
-    private void Start()
+    public void UpdatePlayerCoinsTextInfo()
     {
-       coinsText.text = DataManager.Instance.PlayerDataManager.CurrentPlayerCoins.ToString();
+        coinsText.text = DataManager.Instance.PlayerDataManager.CurrentPlayerCoins.ToString();
     }
 
-    public void UpdatePlayerCoinsTextInfo()
+    private void OnEnable()
     {
         coinsText.text = DataManager.Instance.PlayerDataManager.CurrentPlayerCoins.ToString();
     }
