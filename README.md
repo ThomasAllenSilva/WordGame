@@ -28,14 +28,14 @@ When moving your finger, the letters are added to a string builder variable that
 
 ![2022-09-27 22-42-22](https://user-images.githubusercontent.com/104914533/192670730-d194423c-09e3-4b00-9327-0d45753d8b44.gif)
 
-I used Unity CodeLess IAP to connect to my in game purchases items in play store console panel. The game has 500, 1000, 10000 and Remove Ads IAP. With the downloaded coins the player can buy other's backgrounds and select which one he wants to play.
+I used Unity CodeLess IAP to connect to my in game purchases items in play store console panel. The game has 500, 1000, 10000 and Remove Ads IAP. With the downloaded coins the player can buy other's backgrounds and select which one he wants to use.
 
 
 # Game Localization
 
 ![gif](https://user-images.githubusercontent.com/104914533/192674335-3f813bdf-32d7-476b-8af8-36566ec54bb9.gif)
 
-The has support for multiple languages, each language have a different game progress but only the Non-Consumable IAP ( Remove Ads ) keeps between any language 
+The game has support for multiple languages, each language have a different game progress but only the Non-Consumable IAP ( Remove Ads ) keeps between any language. 
 
 # Game Levels
 
