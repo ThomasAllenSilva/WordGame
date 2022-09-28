@@ -40,3 +40,9 @@ The game has support for multiple languages, each language have a different game
 # Game Levels
 
 Each level I make I send to my Firebase RealTimeDataBase project that is connected to my game, then when the game launch, the game start a download if there are new levels available since the last one the player's have. The player must be connected to the internet to download the levels, but the game have the option to play off-line, but maybe the player progress be affected since he didn't downloaded any new levels to play.
+
+# Game Ads
+
+![2022-09-27 23-41-27](https://user-images.githubusercontent.com/104914533/192675854-182697fc-6fed-4332-8958-90607d4156b3.gif)
+
+I put the banner AD to keep showing all time when player it's playing, but the interstitial Ad only shows up every 3 levels (level 3, level 6, level  9 etc). This way I can make the gameplay more interesting to play.
