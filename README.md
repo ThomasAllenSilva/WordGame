@@ -22,7 +22,7 @@ Save Files Using Json - That I used to store levels, player settings and progres
 
 ![2022-09-27 22-42-22](https://user-images.githubusercontent.com/104914533/192668920-9fff026f-5417-45b8-9386-7bc3a5b28aa8.gif)
 
-When moving your finger, the letters are added to a string builder variable that when you release your finger, the variable is send to a BinarySearch String method that loop through the list of words to search of current level, and if the string is on the list, return the string, else return empty value. So with this method, we can compare if the player has checked boxes combining a full correctly word or it's wrong letters. That's how we check the player input and return his results.
+When moving your finger, the letters are stored to a string builder variable that when the player release his finger, the game can compare if the player has checked boxes combining a full correctly word or it's wrong letters. That's how the game check the player input and return his results.
 
 # Game Shop
 
