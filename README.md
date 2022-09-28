@@ -45,4 +45,4 @@ Each level I make I send to my Firebase RealTimeDataBase project that is connect
 
 ![2022-09-27 23-41-27](https://user-images.githubusercontent.com/104914533/192675854-182697fc-6fed-4332-8958-90607d4156b3.gif)
 
-I put the banner AD to keep showing all time when player it's playing, but the interstitial Ad only shows up every 3 levels (level 3, level 6, level  9 etc). This way I can make the gameplay more interesting to play.
+I put the banner AD to keep showing all time when player it's playing, but the interstitial Ad only shows up every 3 levels (level 3, level 6, level  9 etc). This way I can make the gameplay more interesting to play. Unfortunately the game ads are still not working property because I'm waiting the Google approves my Google AdMob app, when they approve it will start showing real ads.
