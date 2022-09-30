@@ -31,6 +31,10 @@ MonoBehaviour:
     m_Key: LevelRewardText
     m_Metadata:
       m_Items: []
+  - m_Id: 12718691503529984
+    m_Key: LeaveGameText
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:
