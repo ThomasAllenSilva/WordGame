@@ -1,6 +1,8 @@
 # WordGame
-A hunt words game made to mobile, this is my first published game. It's on Play Store: ( 2024 Update - Google Play Deleted My Account :/ )
+A hunt words game made to mobile, this is my first published game. It's on Play Store: 
 https://play.google.com/store/apps/details?id=com.ThomasAllen.HuntWordsLevels
+
+2024 Update - Google Play Deleted My Account :(
 
 In this project I used:
 
